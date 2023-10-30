@@ -1,5 +1,7 @@
 # The file name of the testbed 
 testbed: cloudlab.json
+# These are implementations to be run both at the server and client
+implementations: quiche, mp-quiche
 # The number of times the run must be made
 repetitions: 4
 # The file size in MB to transfer between the two hosts. 
