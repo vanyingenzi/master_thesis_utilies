@@ -1,34 +1,52 @@
 #!/bin/bash
 
-# Code inspired by https://github.com/tumi8/quic-10g-paper
+# Code partlty inspired by https://github.com/tumi8/quic-10g-paper
 
 # Variables
-QUICHE_REPO="https://github.com/qdeconinck/quiche.git"
-QUICHE_COMMIT="d87332018d84fb7c429ad2ed34cbfdc6ee9477c8"
+
+#Initially "https://github.com/qdeconinck/quiche.git"
+#Vany's "https://github.com/vanyingenzi/quiche.git"
+QUICHE_REPO="https://github.com/cloudflare/quiche.git"
+#Initially "d87332018d84fb7c429ad2ed34cbfdc6ee9477c8"
+#Vany's "739ed2d8bafe963815134bce4ffffe8258c51e83"
+QUICHE_COMMIT="4dfe0b906d08460882c9b29cd660015c571f024e"
 RUST_PLATFORM="x86_64-unknown-linux-gnu"
-NB_RUNS=
+FILE_SIZE=1G
+NB_RUNS=1
 
 RED='\033[0;31m'
 RESET='\033[0m'
 
+ROOT_DIR="$(pwd)/www"
+LOGS_DIR="$(pwd)/correctness_test_logs"
+RESPONSES_DIR="$(pwd)/correctness_test_responses"
+
+FILENAME="${FILE_SIZE}B_file"
 echo_red() {
     echo -e "${RED}$1${RESET}"
 }
 
+get_unused_port(){
+    local port
+    port=$(shuf -i 2000-65000 -n 1)
+    while netstat -atn | grep -q ":$port "; do
+        port=$(shuf -i 2000-65000 -n 1)
+    done
+    echo "$port"
+}
+
 clone_mp_quiche() {
-    if [ ! -d "quiche" ]; then
+    if [ ! -d "$(pwd)/quiche" ]; then
         git clone --recursive "$QUICHE_REPO"
-        cd quiche || exit
+        cd quiche || exit 1
         git checkout "$QUICHE_COMMIT"
-        RUSTFLAGS='-C target-cpu=native' cargo build --release
         cd ..
     fi
-    if [ ! -f "./quiche-client" ]; then
-        cp "quiche/target/release/quiche-client" .
-    fi
-    if [ ! -f "./quiche-server" ]; then
-        cp "quiche/target/release/quiche-server" .
-    fi
+    cd quiche || exit 1
+    RUSTFLAGS='-C target-cpu=native' cargo build --release || exit 1
+    cd ..
+    cp "quiche/target/release/quiche-client" $(pwd) || exit 1
+    cp "quiche/target/release/quiche-server" $(pwd) || exit 1
 }
 
 setup_rust() {
@@ -44,54 +62,61 @@ setup_rust() {
 }
 
 setup_environment() {
-    mkdir -p "$(pwd)/www" "$(pwd)/responses" "$(pwd)/logs"
-    fallocate -l 8G "$(pwd)/www/8gb_file"
+    mkdir -p "${ROOT_DIR}" "${RESPONSES_DIR}" "${LOGS_DIR}"
+    fallocate -l ${FILE_SIZE} "${ROOT_DIR}/${FILENAME}"
 }
 
 iteration_loop() {
-    local server_pid server_port
+    local server_pid server_port client_port_1 client_port_2 tcpdump_pid error_code
     for iter in $(seq 1 ${NB_RUNS}); do
         echo "Testing Multi-Path QUIC correctness - Iteration $iter"
+        server_port=$(get_unused_port)
+        client_port_1=$(get_unused_port)
+        client_port_2=$(get_unused_port)
+
+        # tcpdump -i any -s 96 -U "udp and host 127.0.0.1 and (port ${server_port} or port ${client_port_1} or port ${client_port_2}) and ip" -w "${LOGS_DIR}/${iter}.pcap" 2>/dev/null &
+        # tcpdump_pid=$!
+        # [ $? -ne 0 ] && { echo_red "Error tcpdump"; exit 1; }
+
+        # sleep 10 # Give tcpdump some time
+        
         # Run server
-        env RUST_LOG=debug ./quiche-server \
-            --listen 127.0.0.1:6969 \
-            --root "$(pwd)/www/" \
+        sudo perf lock record -a -g -F 1997 -o ${LOGS_DIR}/quiche_server_lock.data -D 2000 -- ./quiche-server \
+            --listen 127.0.0.1:${server_port} \
+            --root "${ROOT_DIR}" \
             --key "$(pwd)/quiche/apps/src/bin/cert.key" \
-            --cert "$(pwd)/quiche/apps/src/bin/cert.crt" \
-            --multipath \
-            1>"$(pwd)/logs/server_${iter}.log" 2>&1 &
+            --cert "$(pwd)/quiche/apps/src/bin/cert.crt" &
         server_pid=$!
 
         # Run client
-        env RUST_LOG=debug ./quiche-client \
-            --no-verify https://127.0.0.1:6969/8gb_file \
-            --dump-responses "$(pwd)/responses/" \
-            -A 127.0.0.1:7934 \
-            -A 127.0.0.2:8123 \
-            --multipath \
-            1>"$(pwd)/logs/client_${iter}.log" 2>&1
+        sudo perf lock record -a -g -F 1997 -o ${LOGS_DIR}/quiche_client_lockex.data -- ./quiche-client \
+            --no-verify "https://127.0.0.1:${server_port}/${FILENAME}" \
+            --dump-responses "${RESPONSES_DIR}"
         error_code=$?
 
-        sleep 1
+        # sleep 10 # Give tcpdump some time
         
-        kill -9 "$server_pid" 1>/dev/null 2>&1
+        sudo kill -9 ${server_pid} 1>/dev/null 2>&1
         if [ $error_code -ne 0 ]; then
             echo_red "Error Client: $error_code"
             exit 1
         fi
 
+        # kill -9 ${tcpdump_pid} 1>/dev/null 2>&1
+
         # Check if files are the same
-        diff -q "$(pwd)/www/8gb_file" "$(pwd)/responses/8gb_file"
+        diff -q "${ROOT_DIR}/${FILENAME}" "${RESPONSES_DIR}/${FILENAME}"
         if [ $? -ne 0 ]; then
             echo_red "Error: files are not the same"
             exit 1
         fi
     done
+
+    sudo chmod 777 ${LOGS_DIR}/*
 }
 
 main() {
     # Version
-    git rev-parse HEAD > VERSION
     setup_rust
     [ $? -ne 0 ] && { echo_red "Error setting up rust"; exit 1; }
     clone_mp_quiche
