@@ -844,13 +844,13 @@ class PerfomanceRunner:
         # Copy implementations to hosts
         self._copy_implementations()
         self._setup_hosts()
-        self._build_impl_executable(self._testbed.server, "quiche")
         total_tests = len(self._config.implementations) * self._config.repetitions
         finished_tests = 0
         nr_failed = 0
 
         # run the measurements
         for implementation_name in self._config.implementations:
+            self._build_impl_executable(self._testbed.server, implementation_name)
             for measurement in self._measurements:
                 finished_tests += 1
 

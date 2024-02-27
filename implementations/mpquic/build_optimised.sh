@@ -23,10 +23,10 @@ RUSTFLAGS='-C target-cpu=native' cargo build --release
 cd ..
 
 # Export as archive
-cp quiche/target/release/quiche-client .
-cp quiche/target/release/quiche-server .
+cp quiche/target/release/quiche-client ./mpquic-client
+cp quiche/target/release/quiche-server ./mpquic-server
 zip artifact.zip \
     VERSION \
     setup-env.sh run-client.sh run-server.sh \
-    quiche-client \
-    quiche-server
+    mpquic-server \
+    mpquic-client
