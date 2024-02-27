@@ -1,5 +1,5 @@
 # These are implementations to be run both at the server and client
-implementations: [quiche]
+implementations: [quic, mpquic]
 # The number of times the run must be made
 measurement_metrics: [goodput]
 repetitions: 2
