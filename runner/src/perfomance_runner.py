@@ -15,6 +15,7 @@ from collections import defaultdict
 import glob
 import os
 import prettytable
+from pprint import pprint
 
 current_script_directory = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.normpath(os.path.join(os.path.join(current_script_directory, os.pardir), os.pardir))
@@ -692,7 +693,6 @@ class PerfomanceRunner:
                 return
 
             venv_command = self._get_venv(host)
-            print(venv_command)
             cmd = venv_command + "; ./setup-env.sh"
 
             cmd = f'ssh {host.hostname} "cd {path}; {cmd}"'
@@ -716,7 +716,7 @@ class PerfomanceRunner:
     def _run_measurement(self, implementation_name: str, server: Host, client: Host, test: Callable[[], TestCase]) -> MeasurementResult:
         values = []
         for i in range(0, test.repetitions()):
-            self.logger.info(f"Run measurement {i + 1}/{test.repetitions()}")
+            self.logger.info(f"Running repetition {i + 1}/{test.repetitions()}")
             result, value = self._run_testcase(implementation_name, server, client, test, "%d" % (i + 1))
             if result != TestResult.SUCCEEDED:
                 if self._continue_on_error:
@@ -794,12 +794,11 @@ class PerfomanceRunner:
         }
 
         measurements = []
-        for measurement, result in self.measurement_results.items():
-            for implementation in self._config.implementations: 
-                result = result[implementation]
+        for measurement, implementation_result in self.measurement_results.items():
+            for implementation, result in implementation_result.items():
                 measurements.append(
                     {
-                        "name": measurement.name(),  # TODO: remove
+                        "name": measurement.name(),
                         "implementation": implementation,
                         "abbr": measurement.abbreviation(),
                         "filesize": measurement.FILESIZE,
@@ -842,15 +841,15 @@ class PerfomanceRunner:
     def run(self): 
         self.logger.info(colored(f"Testbed: {self._testbed.basename}", 'white', attrs=['bold']))
         # Copy implementations to hosts
-        self._copy_implementations()
-        self._setup_hosts()
+        # self._copy_implementations()
+        # self._setup_hosts()
         total_tests = len(self._config.implementations) * self._config.repetitions
         finished_tests = 0
         nr_failed = 0
 
         # run the measurements
         for implementation_name in self._config.implementations:
-            self._build_impl_executable(self._testbed.server, implementation_name)
+            # self._build_impl_executable(self._testbed.server, implementation_name)
             for measurement in self._measurements:
                 finished_tests += 1
 

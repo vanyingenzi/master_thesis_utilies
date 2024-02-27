@@ -15,12 +15,11 @@ class Host:
     interface: str
     role: str
 
-
+@dataclass
 class MeasurementResult:
     result = TestResult
     details = str
-    all_infos: [float] = []
-
+    all_infos: List[float] = field(default_factory=list)
 
 @dataclass
 class TestbedConfig:
@@ -40,7 +39,6 @@ class TestbedConfig:
             basename=os.path.basename(testbed_json)
         )        
     
-
 @dataclass
 class YamlConfig:
     implementations: List[str]

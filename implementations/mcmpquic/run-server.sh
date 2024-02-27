@@ -30,7 +30,7 @@ fi
 WWW=${WWW::-1}
 
 if [[ $TESTCASE == "goodput" ]]; then
-    ./mpquic-server \
+    ./mcmpquic-server \
         --cc-algorithm cubic \
         --name "quiche-interop" \
         --listen "${IP}:${PORT}" \

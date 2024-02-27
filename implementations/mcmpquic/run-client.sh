@@ -43,7 +43,7 @@ if [[ $TESTCASE == "goodput" ]]; then
         client_port_1=$(get_unused_port)
         client_port_2=$(get_unused_port)
         start=$(date +%s%N)
-        ./mpquic-client \
+        ./mcmpquic-client \
             --no-verify \
             --cc-algorithm cubic \
             --wire-version 00000001 \

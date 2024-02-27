@@ -5,8 +5,9 @@ from src.models import TestbedConfig, YamlConfig
 def main():
     args = Arguments.parse_argument()
     runner = PerfomanceRunner(
-        TestbedConfig.parse_json(args.testbed_json),
-        YamlConfig.parse_yaml(args.config_yaml)
+        testbed=TestbedConfig.parse_json(args.testbed_json),
+        config=YamlConfig.parse_yaml(args.config_yaml), 
+        debug=args.debug
     )
     runner.run()
     

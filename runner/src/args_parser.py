@@ -8,6 +8,7 @@ class Arguments:
     config_yaml: str
     results_dir: str
     testbed_json: str = None
+    debug: bool = False
 
     @classmethod
     def parse_argument(cls) :
@@ -18,13 +19,14 @@ class Arguments:
         parser.add_argument("-c", "--config", type=str, required=True, help="The YAML filename of the config to run. The config file must be in the project root directory (configs/).")
         parser.add_argument("-t", "--testbed_json", type=str, required=False, help="The JSON filename of the testbed to run. The testbed file must be in the current directory (testbeds/).", default=os.path.join(project_root, "testbeds/testbed_cloudlab.json"))
         parser.add_argument("-r", "--results_dir", type=str, required=False, help="The directory to which save the results from the expirement. Default is project root directory (results/).", default=os.path.join(project_root, "results/"))
-        
+        parser.add_argument("-d", "--debug", action="store_true", help="Print debug information.", default=False)
         args = parser.parse_args()
 
         return Arguments(
             config_yaml = os.path.join( os.path.join(project_root, "configs"), args.config), 
             results_dir = os.path.abspath( os.path.join( os.path.join(project_root, "results"), args.results_dir) ), 
-            testbed_json = os.path.abspath( os.path.join( os.path.join(project_root, "testbeds"), args.testbed_json) )
+            testbed_json = os.path.abspath( os.path.join( os.path.join(project_root, "testbeds"), args.testbed_json) ), 
+            debug = args.debug
         )
     
 def parse_json_file(file_path):
