@@ -841,8 +841,8 @@ class PerfomanceRunner:
     def run(self): 
         self.logger.info(colored(f"Testbed: {self._testbed.basename}", 'white', attrs=['bold']))
         # Copy implementations to hosts
-        # self._copy_implementations()
-        # self._setup_hosts()
+        self._copy_implementations()
+        self._setup_hosts()
         total_tests = len(self._config.implementations) * self._config.repetitions
         finished_tests = 0
         nr_failed = 0
