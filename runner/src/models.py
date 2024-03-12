@@ -8,12 +8,15 @@ import re
 from enum import Enum
 from .testcases import TestResult, MB
 
+current_script_directory = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.normpath(os.path.join(os.path.join(current_script_directory, os.pardir), os.pardir))
+
 @dataclass
 class Host:
     hostname: str
     ip: str
-    interface: str
     role: str
+    interfaces: List[str] = field(default_factory=list)
 
 @dataclass
 class MeasurementResult:
@@ -49,6 +52,8 @@ class YamlConfig:
     server_prerunscript: List[str] = field(default_factory=list)
     client_postrunscript: List[str] = field(default_factory=list)
     server_postrunscript: List[str] = field(default_factory=list)
+    client_implementation_params: dict = field(default_factory=lambda: {})
+    server_implementation_params: dict = field(default_factory=lambda: {})
     build_script: str = None
 
     @classmethod
@@ -63,10 +68,12 @@ class YamlConfig:
             repetitions=yaml_data['repetitions'],
             measurement_metrics=yaml_data['measurement_metrics'],
             filesize=yaml_data['filesize'] * MB,
-            client_prerunscript=yaml_data['client_prerunscript'],
-            server_prerunscript=yaml_data['server_prerunscript'],
-            client_postrunscript=yaml_data['client_postrunscript'],
-            server_postrunscript=yaml_data['server_postrunscript'], 
+            client_prerunscript=[os.path.join(project_root, path) for path in yaml_data['client_prerunscript']],
+            server_prerunscript=[os.path.join(project_root, path) for path in yaml_data['server_prerunscript']],
+            client_postrunscript=[os.path.join(project_root, path) for path in yaml_data['client_postrunscript']],
+            server_postrunscript=[os.path.join(project_root, path) for path in yaml_data['server_postrunscript']], 
+            client_implementation_params=yaml_data.get('client_implementaion_params', {}),
+            server_implementation_params=yaml_data.get('server_implementaion_params', {}),
             build_script=yaml_data['build_script']
         )
     

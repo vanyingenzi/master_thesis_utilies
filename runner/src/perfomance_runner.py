@@ -317,7 +317,7 @@ class PerfomanceRunner:
         self.logger.debug(colored(f"\nstdout: {stdout.decode('utf-8')}", "yellow"))
         self.logger.debug(colored(f"\nstderr: {stderr.decode('utf-8')}", "yellow"))
     
-    def _run_script_on_machine(self, host: Host, script_path: str):
+    def _run_script_on_machine(self, host: Host, script_path: str, timeout=None):
         self.logger.debug(f'Running {script_path} on {host.hostname}')
         proc = subprocess.Popen(
             f'ssh {host.hostname} "sudo bash -s" -- < {script_path}',
@@ -325,10 +325,14 @@ class PerfomanceRunner:
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
-        stdout, stderr = proc.communicate()
-        self._log_process(stdout, stderr, f'host: {script_path}')
-        return
-    
+        try: 
+            stdout, stderr = proc.communicate(timeout=timeout)
+            self._log_process(stdout, stderr, f'host: {host.hostname}')
+        except subprocess.TimeoutExpired:
+            self.logger.debug(
+                colored(f'Timeout when running {script_path} on host {host.hostname}', 'yellow')
+            )
+            return
     def _setup_hosts(self):
         self._run_script_on_machine(self._testbed.server, os.path.join(current_script_directory, "setup.sh"))
         self._run_script_on_machine(self._testbed.client, os.path.join(current_script_directory, "setup.sh"))
@@ -360,7 +364,10 @@ class PerfomanceRunner:
             stderr=subprocess.PIPE
         )
         try:
-            p.wait(10)
+            if p.wait(10) != 0:
+                self.logger.error(colored(f"Failed to copy {src} to {host.hostname}:{dst}", "red"))
+                self.logger.error(colored(f"{p.stdout.read().decode('utf-8')}", "red"))
+                self.logger.error(colored(f"{p.stderr.read().decode('utf-8')}", "red")) 
         except subprocess.TimeoutExpired:
             self.logger.debug(
                 f'Timeout when moving variable file to host {host.hostname}')
@@ -493,9 +500,6 @@ class PerfomanceRunner:
         client_run_script = "./run-client.sh"
         client_venv_script = self._get_venv(client)
 
-        interface = 'lo' if not sys.platform == "darwin" else 'lo0'
-        interface = client.interface
-
         server_cmd = f"{server_venv_script}; {server_params} {server_run_script}"
         client_cmd = f"{client_venv_script}; {client_params} {client_run_script}"
 
@@ -512,22 +516,24 @@ class PerfomanceRunner:
             # TODO add adding delays with tc
             server_variables: dict = {
                 "implementation": implementation_name,
-                "interface": server.interface,
+                "interfaces": server.interfaces,
                 "hostname": server.hostname,
                 "log_dir": server_log_dir.name,
                 "www_dir": testcase.www_dir(),
                 "certs_dir": testcase.certs_dir(),
                 "role": server.role,
             }
+            server_variables = {**server_variables, **self._config.server_implementation_params}
             client_variables: dict = {
                 "implementation": implementation_name,
-                "interface": client.interface,
+                "interfaces": client.interfaces,
                 "hostname": client.hostname,
                 "log_dir": client_log_dir.name,
                 "sim_log_dir": sim_log_dir.name,
                 "download_dir": testcase.download_dir(),
                 "role": client.role,
             }
+            client_variables = {**client_variables, **self._config.client_implementation_params}
 
             # TODO add server_implementation_params and client_implementation_params
             self._set_variables_on_machine(
@@ -544,7 +550,8 @@ class PerfomanceRunner:
                 for server_script in self._config.server_prerunscript:
                     self._run_script_on_machine(
                         host = server,
-                        script_path = server_script
+                        script_path = server_script,
+                        timeout=10
                     )
 
             # Execute List of Client Pre Run Scripts if given
@@ -552,11 +559,12 @@ class PerfomanceRunner:
                 for client_script in self._config.client_prerunscript:
                     self._run_script_on_machine(
                         host = client,
-                        script_path = client_script
+                        script_path = client_script,
+                        timeout=10
                     )
             
             # Run Server
-            self.logger.debug(f'Starting server:\n {server_cmd}\n')
+            self.logger.info(f'Starting server:\n {server_cmd}\n')
             s = subprocess.Popen(
                 server_cmd,
                 shell=True,
@@ -566,7 +574,7 @@ class PerfomanceRunner:
 
             time.sleep(2)
             # Run Client
-            self.logger.debug(f'Starting client:\n {client_cmd}\n')
+            self.logger.info(f'Starting client:\n {client_cmd}\n')
             testcase._start_time = datetime.now()
             c = subprocess.Popen(
                 client_cmd,
@@ -587,7 +595,8 @@ class PerfomanceRunner:
                 for server_script in self._config.server_postrunscript:
                     self._run_script_on_machine(
                         host = server,
-                        script_path = server_script
+                        script_path = server_script, 
+                        timeout=10
                     )
             
             # Execute List of Client Post Run Scripts if given
@@ -595,7 +604,8 @@ class PerfomanceRunner:
                 for client_script in self._config.client_postrunscript:
                     self._run_script_on_machine(
                         host = client,
-                        script_path = client_script
+                        script_path = client_script, 
+                        timeout=10
                     )
             time.sleep(1)
             subprocess.Popen(f'ssh {self._testbed.server.hostname} pkill -f server', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -608,9 +618,9 @@ class PerfomanceRunner:
             )
             if not expired and ('c_stdout' in locals() and 'c_stderr' in locals()): 
                 self._log_process(c_stdout, c_stderr, 'Client')
-
-            s_output = s.communicate()
-            self._log_process(*s_output, 'Server')
+            if 's' in locals():
+                s_output = s.communicate()
+                self._log_process(*s_output, 'Server')
 
             for dir in [server_log_dir.name, testcase.certs_dir()]:
                 self._pull_directory_from_remote(server, dir)
@@ -618,25 +628,26 @@ class PerfomanceRunner:
                 self._pull_directory_from_remote(client, dir)
 
             # TODO calculate timestamps from logs
-            if s.returncode == 127 \
-                    or self._is_unsupported(s_output[0].decode("utf-8").splitlines()) \
-                    or self._is_unsupported(s_output[1].decode("utf-8").splitlines()):
-                self.logger.error(colored(f"server does not support the test", 'red'))
-                status = TestResult.UNSUPPORTED
-            elif not expired:
-                lines = output.splitlines()
-                if c.returncode == 127 or self._is_unsupported(lines):
-                    self.logger.error(colored(f"client does not support the test", 'red'))
+            if 's' in locals():
+                if s.returncode == 127 \
+                        or self._is_unsupported(s_output[0].decode("utf-8").splitlines()) \
+                        or self._is_unsupported(s_output[1].decode("utf-8").splitlines()):
+                    self.logger.error(colored(f"server does not support the test", 'red'))
                     status = TestResult.UNSUPPORTED
-                elif c.returncode == 0 or any("client exited with code 0" in str(line) for line in lines):
-                    try:
-                        status = testcase.check(client.hostname, server.hostname)
-                    except Exception as e:
-                        self.logger.error(colored(f"testcase.check() threw Exception: {e}", 'red'))
+                elif not expired:
+                    lines = output.splitlines()
+                    if c.returncode == 127 or self._is_unsupported(lines):
+                        self.logger.error(colored(f"client does not support the test", 'red'))
+                        status = TestResult.UNSUPPORTED
+                    elif c.returncode == 0 or any("client exited with code 0" in str(line) for line in lines):
+                        try:
+                            status = testcase.check(client.hostname, server.hostname)
+                        except Exception as e:
+                            self.logger.error(colored(f"testcase.check() threw Exception: {e}", 'red'))
+                            status = TestResult.FAILED
+                    else:
+                        self.logger.error(colored(f"Client or server failed", 'red'))
                         status = TestResult.FAILED
-                else:
-                    self.logger.error(colored(f"Client or server failed", 'red'))
-                    status = TestResult.FAILED
             else:
                 self.logger.error(colored(f"Client or server expired", 'red'))
                 status = TestResult.FAILED

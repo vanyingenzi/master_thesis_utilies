@@ -1,12 +1,12 @@
 {
     "server": {
-        "hostname": "amd169.utah.cloudlab.us", 
+        "hostname": "hp196.utah.cloudlab.us", 
         "ip": "10.10.1.2",
-        "interface":  "enp65s0f0np0"
+        "interfaces": ["ens1f1np1"]
     }, 
     "client" :{
-        "hostname": "amd174.utah.cloudlab.us",
+        "hostname": "hp199.utah.cloudlab.us",
         "ip": "10.10.3.2",
-        "interface": "enp65s0f0np0"
+        "interfaces": ["ens1f1np1", "ens1f1np0"]
     }
 }

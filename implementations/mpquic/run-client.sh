@@ -43,11 +43,10 @@ if [[ $TESTCASE == "goodput" ]]; then
         client_port_1=$(get_unused_port)
         client_port_2=$(get_unused_port)
         start=$(date +%s%N)
-        ./mpquic-client \
+        RUST_LOG=info ./mpquic-client \
             --no-verify \
             --cc-algorithm cubic \
             --wire-version 00000001 \
-            --dump-responses $DOWNLOADS \
             --max-data $MAX_DATA \
             --max-window $MAX_WINDOW \
             --max-stream-data $MAX_STREAM_DATA \
@@ -55,7 +54,7 @@ if [[ $TESTCASE == "goodput" ]]; then
             -A 10.10.2.2:${client_port_1} \
             -A 10.10.3.2:${client_port_2} \
             --multipath \
-            $REQUESTS
+            $REQUESTS 1>/dev/null 2>${LOGS:-.}/client.log
         end=$(date +%s%N)
         echo {\"start\": $start, \"end\": $end} > ${LOGS:-.}/time.json
     fi

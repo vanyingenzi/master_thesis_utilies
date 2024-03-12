@@ -1,13 +1,34 @@
 # These are implementations to be run both at the server and client
-implementations: [quic, mpquic, mcmpquic]
+implementations: [quic]
 # The number of times the run must be made
 measurement_metrics: [goodput]
-repetitions: 10
+repetitions: 1
 # The file size in MB to transfer between the two hosts. 
-filesize: 1024
+filesize: 8192
 # The following entries describe the script to run at the host.
-client_prerunscript: []
-server_prerunscript: []
-client_postrunscript: []
-server_postrunscript: []
-build_script: 'build_optimised.sh' # can be also build.sh for debug
+client_prerunscript:
+  - pre-post-scripts/run-ethtool.sh
+  - pre-post-scripts/run-netstat.sh
+  - pre-post-scripts/set-rcvbuf.sh
+  - pre-post-scripts/start-cpu-monitor.sh
+client_postrunscript:
+  - pre-post-scripts/run-ethtool.sh
+  - pre-post-scripts/run-netstat.sh
+  - pre-post-scripts/set-buffers-default.sh
+  - pre-post-scripts/stop-cpu-monitor.sh
+server_prerunscript:
+  - pre-post-scripts/run-ethtool.sh
+  - pre-post-scripts/run-netstat.sh
+  - pre-post-scripts/set-rcvbuf.sh
+  - pre-post-scripts/start-cpu-monitor.sh
+server_postrunscript:
+  - pre-post-scripts/run-ethtool.sh
+  - pre-post-scripts/run-netstat.sh
+  - pre-post-scripts/set-buffers-default.sh
+  - pre-post-scripts/stop-cpu-monitor.sh
+client_implementaion_params:
+  rmem_value: 100000000 # 100MB
+server_implementaion_params:
+  rmem_value: 100000000 # 100MB
+
+build_script: 'build_optimised.sh' # can also be build.sh for debug

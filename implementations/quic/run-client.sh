@@ -32,16 +32,15 @@ if [[ $TESTCASE == "goodput" ]]; then
         exit 0
     else
         start=$(date +%s%N)
-        ./quiche-client \
+        RUST_LOG=info ./quic-client \
             --no-verify \
             --cc-algorithm cubic \
             --wire-version 00000001 \
-            --dump-responses $DOWNLOADS \
             --max-data $MAX_DATA \
             --max-window $MAX_WINDOW \
             --max-stream-data $MAX_STREAM_DATA \
             --max-stream-window $MAX_STREAM_WINDOW \
-            $REQUESTS
+            $REQUESTS 1>/dev/null 2>${LOGS:-.}/client.log
         end=$(date +%s%N)
         echo {\"start\": $start, \"end\": $end} > ${LOGS:-.}/time.json
     fi

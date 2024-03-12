@@ -42,7 +42,7 @@ if [[ $TESTCASE == "goodput" ]]; then
         --max-window $MAX_WINDOW \
         --max-stream-data $MAX_STREAM_DATA \
         --max-stream-window $MAX_STREAM_WINDOW \
-        --multipath
+        --multipath 2> ${LOGS:-.}/server.log 1>/dev/null
 else
     # Exit on unknown test with code 127
     echo "exited with code 127"

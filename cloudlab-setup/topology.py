@@ -29,7 +29,7 @@ def setup_client_server_specs():
     client = request.RawPC("client")
 
     for node in [client, server]:
-        node.hardware_type = "c6525-25g"
+        node.hardware_type = "xl170"
     return (client, server)
 
 

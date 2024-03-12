@@ -30,7 +30,7 @@ fi
 WWW=${WWW::-1}
 
 if [[ $TESTCASE == "goodput" ]]; then
-    ./quiche-server \
+    ./quic-server \
         --cc-algorithm cubic \
         --name "quiche-interop" \
         --listen "${IP}:${PORT}" \
@@ -41,7 +41,8 @@ if [[ $TESTCASE == "goodput" ]]; then
         --max-data $MAX_DATA \
         --max-window $MAX_WINDOW \
         --max-stream-data $MAX_STREAM_DATA \
-        --max-stream-window $MAX_STREAM_WINDOW
+        --max-stream-window $MAX_STREAM_WINDOW \
+        2> ${LOGS:-.}/server.log 1>/dev/null
 else
     # Exit on unknown test with code 127
     echo "exited with code 127"

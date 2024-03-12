@@ -3,7 +3,7 @@
 # Variables
 
 QUICHE_REPO=https://github.com/cloudflare/quiche.git
-QUICHE_COMMIT=95af1427ba7aa5a96bd9b809a770747e4750971f
+QUICHE_COMMIT=e71c51b8cd9aa3b78749fa7cb82f35699d23e7bf
 RUST_PLATFORM=x86_64-unknown-linux-gnu
 
 # Version
@@ -23,10 +23,10 @@ RUSTFLAGS='-C target-cpu=native' cargo build --release
 cd ..
 
 # Export as archive
-cp quiche/target/release/quiche-client .
-cp quiche/target/release/quiche-server .
+cp quiche/target/release/quiche-client quic-client
+cp quiche/target/release/quiche-server quic-server
 zip artifact.zip \
     VERSION \
     setup-env.sh run-client.sh run-server.sh \
-    quiche-client \
-    quiche-server
+    quic-client \
+    quic-server
