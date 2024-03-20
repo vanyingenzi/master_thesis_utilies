@@ -1,8 +1,8 @@
 # These are implementations to be run both at the server and client
-implementations: [quic]
+implementations: [quic, mpquic, mcmpquic]
 # The number of times the run must be made
 measurement_metrics: [goodput]
-repetitions: 1
+repetitions: 2
 # The file size in MB to transfer between the two hosts. 
 filesize: 8192
 # The following entries describe the script to run at the host.
