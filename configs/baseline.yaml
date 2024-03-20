@@ -7,25 +7,37 @@ repetitions: 1
 filesize: 8192
 # The following entries describe the script to run at the host.
 client_prerunscript:
-  - pre-post-scripts/run-ethtool.sh
-  - pre-post-scripts/run-netstat.sh
-  - pre-post-scripts/set-rcvbuf.sh
-  - pre-post-scripts/start-cpu-monitor.sh
+  - path: pre-post-scripts/run-ethtool.sh
+  - path: pre-post-scripts/run-netstat.sh
+  - path: pre-post-scripts/set-rcvbuf.sh
+  - path: pre-post-scripts/start-cpu-monitor.sh
+    blocking: true
+  - path: pre-post-scripts/run-bandwidth-monitor.sh
+    blocking: true
+
 client_postrunscript:
-  - pre-post-scripts/run-ethtool.sh
-  - pre-post-scripts/run-netstat.sh
-  - pre-post-scripts/set-buffers-default.sh
-  - pre-post-scripts/stop-cpu-monitor.sh
+  - path: pre-post-scripts/run-ethtool.sh
+  - path: pre-post-scripts/run-netstat.sh
+  - path: pre-post-scripts/set-buffers-default.sh
+  - path: pre-post-scripts/stop-cpu-monitor.sh
+  - path: pre-post-scripts/stop-bandwidth-monitor.sh
+
 server_prerunscript:
-  - pre-post-scripts/run-ethtool.sh
-  - pre-post-scripts/run-netstat.sh
-  - pre-post-scripts/set-rcvbuf.sh
-  - pre-post-scripts/start-cpu-monitor.sh
+  - path: pre-post-scripts/run-ethtool.sh
+  - path: pre-post-scripts/run-netstat.sh
+  - path: pre-post-scripts/set-rcvbuf.sh
+  - path: pre-post-scripts/start-cpu-monitor.sh
+    blocking: true
+  - path: pre-post-scripts/run-bandwidth-monitor.sh
+    blocking: true
+
 server_postrunscript:
-  - pre-post-scripts/run-ethtool.sh
-  - pre-post-scripts/run-netstat.sh
-  - pre-post-scripts/set-buffers-default.sh
-  - pre-post-scripts/stop-cpu-monitor.sh
+  - path: pre-post-scripts/run-ethtool.sh
+  - path: pre-post-scripts/run-netstat.sh
+  - path: pre-post-scripts/set-buffers-default.sh
+  - path: pre-post-scripts/stop-cpu-monitor.sh
+  - path: pre-post-scripts/stop-bandwidth-monitor.sh
+
 client_implementaion_params:
   rmem_value: 100000000 # 100MB
 server_implementaion_params:

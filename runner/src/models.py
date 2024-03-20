@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 import json
 import os
 import logging
-from typing import List
+from typing import List, Dict
 import yaml
 import re
 from enum import Enum
@@ -43,35 +43,49 @@ class TestbedConfig:
         )        
     
 @dataclass
+class PrePostRunScript:
+    script: str
+    blocking: bool = False
+
+@dataclass
 class YamlConfig:
     implementations: List[str]
     repetitions: int
     measurement_metrics: List[str]
     filesize: int
-    client_prerunscript: List[str] = field(default_factory=list)
-    server_prerunscript: List[str] = field(default_factory=list)
-    client_postrunscript: List[str] = field(default_factory=list)
-    server_postrunscript: List[str] = field(default_factory=list)
+    client_prerunscript: List[PrePostRunScript] = field(default_factory=list)
+    server_prerunscript: List[PrePostRunScript] = field(default_factory=list)
+    client_postrunscript: List[PrePostRunScript] = field(default_factory=list)
+    server_postrunscript: List[PrePostRunScript] = field(default_factory=list)
     client_implementation_params: dict = field(default_factory=lambda: {})
     server_implementation_params: dict = field(default_factory=lambda: {})
     build_script: str = None
+
+    @classmethod
+    def parse_postpre_runscript(cls, script_data: List[dict]):
+        scripts = []
+        for script in script_data:
+            scripts.append(
+                PrePostRunScript(os.path.join(project_root, script['path']), blocking=script.get('blocking', False))
+            )
+        return scripts
 
     @classmethod
     def parse_yaml(cls, yaml_file: str):
 
         with open(yaml_file, 'r') as yaml_file:
             yaml_data = yaml.safe_load(yaml_file)
-
+        
         # Create an instance of the TestbedConfig data class
         return YamlConfig(
             implementations=yaml_data['implementations'],
             repetitions=yaml_data['repetitions'],
             measurement_metrics=yaml_data['measurement_metrics'],
             filesize=yaml_data['filesize'] * MB,
-            client_prerunscript=[os.path.join(project_root, path) for path in yaml_data['client_prerunscript']],
-            server_prerunscript=[os.path.join(project_root, path) for path in yaml_data['server_prerunscript']],
-            client_postrunscript=[os.path.join(project_root, path) for path in yaml_data['client_postrunscript']],
-            server_postrunscript=[os.path.join(project_root, path) for path in yaml_data['server_postrunscript']], 
+            client_prerunscript = cls.parse_postpre_runscript(yaml_data['client_prerunscript']),
+            server_prerunscript = cls.parse_postpre_runscript(yaml_data['server_prerunscript']),
+            client_postrunscript = cls.parse_postpre_runscript(yaml_data['client_postrunscript']),
+            server_postrunscript = cls.parse_postpre_runscript(yaml_data['server_postrunscript']),
             client_implementation_params=yaml_data.get('client_implementaion_params', {}),
             server_implementation_params=yaml_data.get('server_implementaion_params', {}),
             build_script=yaml_data['build_script']

@@ -3,7 +3,7 @@
 # Variables
 
 QUICHE_REPO=https://github.com/cloudflare/quiche.git
-QUICHE_COMMIT=e71c51b8cd9aa3b78749fa7cb82f35699d23e7bf
+QUICHE_COMMIT=367dfc89e34870b0a3635d9e21b92a8fa4d72ae8
 RUST_PLATFORM=x86_64-unknown-linux-gnu
 
 # Version

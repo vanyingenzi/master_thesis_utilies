@@ -30,7 +30,7 @@ fi
 WWW=${WWW::-1}
 
 if [[ $TESTCASE == "goodput" ]]; then
-    ./quic-server \
+    RUST_LOG=info ./quic-server \
         --cc-algorithm cubic \
         --name "quiche-interop" \
         --listen "${IP}:${PORT}" \

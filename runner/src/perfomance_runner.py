@@ -317,22 +317,42 @@ class PerfomanceRunner:
         self.logger.debug(colored(f"\nstdout: {stdout.decode('utf-8')}", "yellow"))
         self.logger.debug(colored(f"\nstderr: {stderr.decode('utf-8')}", "yellow"))
     
-    def _run_script_on_machine(self, host: Host, script_path: str, timeout=None):
+    def _run_script_on_machine(self, host: Host, script_path: str):
         self.logger.debug(f'Running {script_path} on {host.hostname}')
         proc = subprocess.Popen(
-            f'ssh {host.hostname} "sudo bash -s" -- < {script_path}',
+            f'cat {script_path} | ssh {host.hostname} "sudo bash -s"',
             shell=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
         try: 
-            stdout, stderr = proc.communicate(timeout=timeout)
+            stdout, stderr = proc.communicate()
             self._log_process(stdout, stderr, f'host: {host.hostname}')
         except subprocess.TimeoutExpired:
             self.logger.debug(
                 colored(f'Timeout when running {script_path} on host {host.hostname}', 'yellow')
             )
             return
+        
+    def _run_prepost_runscript(self, host: Host, script: PrePostRunScript):
+        self.logger.debug(f'Running {script.script} on {host.hostname}')
+        proc = subprocess.Popen(
+            f'cat {script.script} | ssh {host.hostname} "sudo bash -s"',
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        try:
+            if not script.blocking:
+                stdout, stderr = proc.communicate()
+                self._log_process(stdout, stderr, f'host: {host.hostname}')
+        except Exception as e:
+            self.logger.error(
+                colored(f'Error{e} when running {script.script} on host {host.hostname}', 'red')
+            )
+        finally: 
+            return proc
+        
     def _setup_hosts(self):
         self._run_script_on_machine(self._testbed.server, os.path.join(current_script_directory, "setup.sh"))
         self._run_script_on_machine(self._testbed.client, os.path.join(current_script_directory, "setup.sh"))
@@ -488,6 +508,8 @@ class PerfomanceRunner:
                 client_params
             ])
 
+
+
         if implementation_name not in self._built_executables:
             self._build_impl_executable(server, implementation_name)
             self._built_executables.add(implementation_name)
@@ -503,15 +525,11 @@ class PerfomanceRunner:
         server_cmd = f"{server_venv_script}; {server_params} {server_run_script}"
         client_cmd = f"{client_venv_script}; {client_params} {client_run_script}"
 
-        # trace_cmd = f'ssh {client.hostname} "{trace_cmd}"'
-        # ifstat_cmd = f'ssh {client.hostname} "{ifstat_cmd}"'
-
         server_cmd = f'ssh {server.hostname} \'cd ~/{implementation_name}; {server_cmd}\''
         client_cmd = f'ssh {client.hostname} \'cd ~/{implementation_name}; {client_cmd}\''
         expired = False
 
         try:
-            # TODO add tcpdump 
             # TODO add ifstat 
             # TODO add adding delays with tc
             server_variables: dict = {
@@ -545,23 +563,22 @@ class PerfomanceRunner:
                 client_variables
             )
 
-            # Execute List of Server Pre Run Scripts if given
-            if len(self._config.server_prerunscript) > 0:
-                for server_script in self._config.server_prerunscript:
-                    self._run_script_on_machine(
-                        host = server,
-                        script_path = server_script,
-                        timeout=10
-                    )
+            server_scripts_run: List[Tuple[PrePostRunScript, subprocess.Popen]] = []
+            client_scripts_run: List[Tuple[PrePostRunScript, subprocess.Popen]] = []
 
+            # Execute List of Server Pre Run Scripts if given
+            for server_script in self._config.server_prerunscript:
+                if not server_script.blocking:
+                    self._run_script_on_machine(server, server_script.script)
+                else:
+                    server_scripts_run.append((server_script, self._run_prepost_runscript(server, server_script)))
+            
             # Execute List of Client Pre Run Scripts if given
-            if len(self._config.client_prerunscript) > 0:
-                for client_script in self._config.client_prerunscript:
-                    self._run_script_on_machine(
-                        host = client,
-                        script_path = client_script,
-                        timeout=10
-                    )
+            for client_script in self._config.client_prerunscript:
+                if not client_script.blocking:
+                    self._run_script_on_machine(client, client_script.script)
+                else:
+                    client_scripts_run.append((client_script, self._run_prepost_runscript(client, client_script)))
             
             # Run Server
             self.logger.info(f'Starting server:\n {server_cmd}\n')
@@ -591,31 +608,34 @@ class PerfomanceRunner:
             self.logger.error(colored(f"Client expired: {ex}", 'red'))
             expired = True
         finally:
-            if len(self._config.server_postrunscript) != 0:
-                for server_script in self._config.server_postrunscript:
-                    self._run_script_on_machine(
-                        host = server,
-                        script_path = server_script, 
-                        timeout=10
-                    )
             
             # Execute List of Client Post Run Scripts if given
-            if len(self._config.client_postrunscript) != 0:
-                for client_script in self._config.client_postrunscript:
-                    self._run_script_on_machine(
-                        host = client,
-                        script_path = client_script, 
-                        timeout=10
-                    )
+            for client_script in self._config.client_postrunscript:
+                self._run_script_on_machine(
+                    host = client,
+                    script_path = client_script.script, 
+                )
+
             time.sleep(1)
+            
             subprocess.Popen(f'ssh {self._testbed.server.hostname} pkill -f server', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
+            for server_script in self._config.server_postrunscript: # Post run scripts shouldn't be blocking
+                self._run_script_on_machine(
+                    host = server,
+                    script_path = server_script.script, 
+                )
+            
             self._remove_all_variables_from_machine(
                 server
             )
+
             self._remove_all_variables_from_machine(                    
                 client
             )
+
+
+
             if not expired and ('c_stdout' in locals() and 'c_stderr' in locals()): 
                 self._log_process(c_stdout, c_stderr, 'Client')
             if 's' in locals():
@@ -825,42 +845,41 @@ class PerfomanceRunner:
 
         # Copy server and client pre- and postscripts into logdir root
         for server_script in self._config.server_prerunscript:
-            shutil.copyfile(server_script, 
+            shutil.copyfile(server_script.script, 
                             os.path.join(self._log_dir, 'spre_' + \
-                                         server_script.split("/")[1]
+                                         server_script.script.split("/")[1]
                                         )
             )
         for server_script in self._config.server_postrunscript:
-            shutil.copyfile(server_script, 
+            shutil.copyfile(server_script.script, 
                         os.path.join(self._log_dir, 'spost_' + \
-                                     server_script.split("/")[1]
+                                     server_script.script.split("/")[1]
                                     )
         )
         for client_script in self._config.client_prerunscript:
-            shutil.copyfile(client_script, 
+            shutil.copyfile(client_script.script, 
                             os.path.join(self._log_dir, 'cpre_' + \
-                                         client_script.split("/")[1]
+                                         client_script.script.split("/")[1]
                                         )
             )
         for client_script in self._config.client_postrunscript:
-            shutil.copyfile(client_script, 
+            shutil.copyfile(client_script.script, 
                         os.path.join(self._log_dir, 'cpost_' + \
-                                     client_script.split("/")[1]
+                                     client_script.script.split("/")[1]
                                     )
         )
         
     def run(self): 
         self.logger.info(colored(f"Testbed: {self._testbed.basename}", 'white', attrs=['bold']))
         # Copy implementations to hosts
-        self._copy_implementations()
-        self._setup_hosts()
+        # self._copy_implementations()
+        # self._setup_hosts()
         total_tests = len(self._config.implementations) * self._config.repetitions
         finished_tests = 0
         nr_failed = 0
 
         # run the measurements
         for implementation_name in self._config.implementations:
-            # self._build_impl_executable(self._testbed.server, implementation_name)
             for measurement in self._measurements:
                 finished_tests += 1
 
