@@ -2,8 +2,8 @@
 
 # Variables
 
-QUICHE_REPO=https://github.com/cloudflare/quiche.git
-QUICHE_COMMIT=367dfc89e34870b0a3635d9e21b92a8fa4d72ae8
+QUICHE_REPO=https://github.com/vanyingenzi/quiche.git
+QUICHE_COMMIT=df791ab18310876e1dadb4145887b4a4987e0054
 RUST_PLATFORM=x86_64-unknown-linux-gnu
 
 # Version

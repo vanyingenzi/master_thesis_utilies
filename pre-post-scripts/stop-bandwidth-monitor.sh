@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pkill -f watch
+pkill -f ifstat

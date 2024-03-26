@@ -2,11 +2,11 @@
     "server": {
         "hostname": "hp057.utah.cloudlab.us", 
         "ip": "10.10.1.2",
-        "interfaces": ["ens1f1np1"]
+        "interfaces": ["eno2"]
     }, 
     "client" :{
         "hostname": "hp070.utah.cloudlab.us",
         "ip": "10.10.3.2",
-        "interfaces": ["ens1f1np1", "ens1f1np0"]
+        "interfaces": ["eno2"]
     }
 }

@@ -13,15 +13,19 @@ request = portal.context.makeRequestRSpec()
 
 def setup_router(client, server):
     router = request.RawPC("router")
-    router.hardware_type = "xl170"
-    # coordinator <-> server link 
-    link_0 = request.Link(members = [router, server])
-    link_1 = request.Link(members = [router, client])
-    link_2 = request.Link(members = [router, client])
+    router.hardware_type = "r6525"
 
-    for link in [link_0, link_1, link_2]:
-        link.best_effort = True
-        link.link_multiplexing = True
+    link_router_client_1 = request.Link(members = [router, client])
+    link_router_client_1.link_multiplexing = False
+    link_router_client_1.best_effort = True
+
+    link_router_client_2 = request.Link(members = [router, client])
+    link_router_client_2.link_multiplexing = False
+    link_router_client_2.best_effort = True
+
+    link_server = request.Link(members = [router, server])
+    link_server.link_multiplexing = True
+    link_server.best_effort = True
     return router
 
 def setup_client_server_specs():
