@@ -1,12 +1,12 @@
 {
     "server": {
-        "hostname": "hp057.utah.cloudlab.us", 
-        "ip": "10.10.1.2",
-        "interfaces": ["eno2"]
+        "hostname": "amd174.utah.cloudlab.us", 
+        "ips": ["10.10.1.1", "10.10.2.1"],
+        "interfaces": ["enp65s0f0np0", "enp65s0f1np1"]
     }, 
     "client" :{
-        "hostname": "hp070.utah.cloudlab.us",
-        "ip": "10.10.3.2",
-        "interfaces": ["eno2"]
+        "hostname": "amd175.utah.cloudlab.us",
+        "ips": ["10.10.1.2", "10.10.2.2"],
+        "interfaces": ["enp65s0f0np0", "enp65s0f1np1"]
     }
 }

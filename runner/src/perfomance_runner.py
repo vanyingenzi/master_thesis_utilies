@@ -14,8 +14,9 @@ import shutil
 from collections import defaultdict
 import glob
 import os
+import json
 import prettytable
-from pprint import pprint
+from pprint import pprint   
 
 current_script_directory = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.normpath(os.path.join(os.path.join(current_script_directory, os.pardir), os.pardir))
@@ -34,6 +35,7 @@ def get_tests_and_measurements(config: YamlConfig) -> Tuple[List[TestCase], List
         measurement = MEASUREMENTS[measurement_metric]
         measurement.FILESIZE = config.filesize
         measurement.REPETITIONS = config.repetitions
+        measurement.CONCURRENT_CLIENTS = config.concurrent_clients
         measurements.append(measurement)
     return tests, measurements
 
@@ -405,6 +407,25 @@ class PerfomanceRunner:
         )
         return prog.wait(10)
     
+
+    def _get_content_of_remote_file(self, host: Host, src: str):
+        self.logger.debug(f"Getting content of {src} from {host.hostname}")
+        cmd = f'ssh {host.hostname} "cat {src}"'
+        p = subprocess.Popen(
+            cmd,
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        try:
+            stdout, stderr = p.communicate(timeout=10)
+            return stdout.decode("utf-8")
+        except subprocess.TimeoutExpired:
+            self.logger.error(
+                f'Timeout when reading file {src} from host {host.hostname}')
+        return None
+
+    
     def _pull_directory_from_remote(self, host: Host, src: str, dst=None):
         src = os.path.normpath(src)
         if not dst:
@@ -461,8 +482,9 @@ class PerfomanceRunner:
             server_log_dir=server_log_dir.name,
             client_qlog_dir=client_qlog_dir,
             server_qlog_dir=server_qlog_dir,
-            server_ip=server.ip,
-            server_name=server.role
+            server_ip=server.ips[0],
+            server_name=server.role,
+            concurrent_clients=self._config.concurrent_clients
         )
 
         for dir in [server_log_dir.name, testcase.www_dir(), testcase.certs_dir()]:
@@ -473,9 +495,6 @@ class PerfomanceRunner:
         paths = testcase.get_paths(
             host=server.hostname
         )
-
-        reqs = " ".join([testcase.urlprefix() + p for p in paths])
-        self.logger.debug("Requests: %s", reqs)
 
         server_params = " ".join([
             f"SSLKEYLOGFILE={server_keylog}",
@@ -488,27 +507,29 @@ class PerfomanceRunner:
             f"PORT={testcase.port()}",
             f"SERVERNAME={testcase.servername()}",
         ])
+        
         if self._disable_server_aes_offload:
             server_params = " ".join([
                 'OPENSSL_ia32cap="~0x200000200000000"',
                 server_params
             ])
 
-        client_params = " ".join([
-            f"SSLKEYLOGFILE={client_keylog}",
-            f"QLOGDIR={client_qlog_dir}" if testcase.use_qlog() else "",
-            f"LOGS={client_log_dir.name}",
-            f"TESTCASE={testcase.testname(Perspective.CLIENT)}",
-            f"DOWNLOADS={testcase.download_dir()}",
-            f"REQUESTS=\"{reqs}\"",
-        ])
-        if self._disable_client_aes_offload:
+        clients_params = []
+        for client_id in range(0, self._config.concurrent_clients):
             client_params = " ".join([
-                'OPENSSL_ia32cap="~0x200000200000000"',
-                client_params
+                f"SSLKEYLOGFILE={client_keylog}",
+                f"QLOGDIR={client_qlog_dir}" if testcase.use_qlog() else "",
+                f"LOGS={client_log_dir.name}",
+                f"TESTCASE={testcase.testname(Perspective.CLIENT)}",
+                f"DOWNLOADS={testcase.download_dir()}",
+                f"CLIENTSUFFIX={('_'+str(client_id)) if self._config.concurrent_clients > 1 else ''}",
             ])
-
-
+            if self._disable_client_aes_offload:
+                client_params = " ".join([
+                    'OPENSSL_ia32cap="~0x200000200000000"',
+                    client_params
+                ])
+            clients_params.append(client_params)
 
         if implementation_name not in self._built_executables:
             self._build_impl_executable(server, implementation_name)
@@ -516,7 +537,6 @@ class PerfomanceRunner:
             self._build_impl_executable(client, implementation_name)
             self._built_executables.add(implementation_name)
 
-        
         server_run_script = "./run-server.sh"
         server_venv_script = self._get_venv(server)
         client_run_script = "./run-client.sh"
@@ -524,9 +544,13 @@ class PerfomanceRunner:
 
         server_cmd = f"{server_venv_script}; {server_params} {server_run_script}"
         client_cmd = f"{client_venv_script}; {client_params} {client_run_script}"
+        clients_cmd = []
+        for client_params in clients_params:
+            clients_cmd.append(f"{client_venv_script}; {client_params} {client_run_script}")
 
         server_cmd = f'ssh {server.hostname} \'cd ~/{implementation_name}; {server_cmd}\''
         client_cmd = f'ssh {client.hostname} \'cd ~/{implementation_name}; {client_cmd}\''
+        clients_cmd = [f'ssh {client.hostname} \'cd ~/{implementation_name}; {client_cmd}\'' for client_cmd in clients_cmd]
         expired = False
 
         try:
@@ -540,6 +564,7 @@ class PerfomanceRunner:
                 "www_dir": testcase.www_dir(),
                 "certs_dir": testcase.certs_dir(),
                 "role": server.role,
+                "filesize": testcase.FILESIZE, # in bytes
             }
             server_variables = {**server_variables, **self._config.server_implementation_params}
             client_variables: dict = {
@@ -550,6 +575,7 @@ class PerfomanceRunner:
                 "sim_log_dir": sim_log_dir.name,
                 "download_dir": testcase.download_dir(),
                 "role": client.role,
+                "server_ip_port": f"{testcase.ip()}:{testcase.port()}"
             }
             client_variables = {**client_variables, **self._config.client_implementation_params}
 
@@ -591,24 +617,55 @@ class PerfomanceRunner:
 
             time.sleep(2)
             # Run Client
-            self.logger.info(f'Starting client:\n {client_cmd}\n')
-            testcase._start_time = datetime.now()
-            c = subprocess.Popen(
-                client_cmd,
-                shell=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
-            )
-            c_stdout, c_stderr = c.communicate(timeout=testcase.timeout())
-            testcase._end_time = datetime.now()
-            output = (c_stdout.decode("utf-8") if c_stdout else '') + \
-                     (c_stderr.decode("utf-8") if c_stderr else '')
+            clients_processes: List[subprocess.Popen[bytes]] = []
+            for client_cmd in clients_cmd:
+                self.logger.info(f'Starting client:\n {client_cmd}\n')
+                c = subprocess.Popen(
+                    client_cmd,
+                    shell=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE
+                )
+                clients_processes.append(c)
+
+            min_start_time = None
+            max_end_time = None
+            for client_id, c in enumerate(clients_processes):
+                c_stdout, c_stderr = c.communicate(timeout=testcase.timeout())
+                output = (c_stdout.decode("utf-8") if c_stdout else '') + \
+                        (c_stderr.decode("utf-8") if c_stderr else '')
+                
+                self._log_process(c_stdout, c_stderr, 'Client')
+
+                cat_client_time_ssh = self._get_content_of_remote_file(
+                    client, 
+                    f"{client_log_dir.name}/time{('_'+str(client_id))  if self._config.concurrent_clients > 1 else '' }.json"
+                )
+                json_data = json.loads(cat_client_time_ssh)
+                
+                seconds, nanoseconds = int(str(json_data['start'])[:-9]), int(str(json_data['start'])[-9:])
+                run_start_time = datetime(1970, 1, 1) + timedelta(seconds=seconds, microseconds=nanoseconds//1000)
+                if min_start_time is None or run_start_time < min_start_time:
+                    min_start_time = run_start_time
+                seconds, nanoseconds = int(str(json_data['end'])[:-9]), int(str(json_data['end'])[-9:])
+
+                end_time = datetime(1970, 1, 1) + timedelta(seconds=seconds, microseconds=nanoseconds//1000)
+                if max_end_time is None or end_time > max_end_time:
+                    max_end_time = end_time
+            self.logger.debug(f"Min start time: {min_start_time}")
+            self.logger.debug(f"Max end time: {max_end_time}")
+
+            testcase._start_time = min_start_time
+            testcase._end_time = max_end_time
 
         except subprocess.TimeoutExpired as ex:
             self.logger.error(colored(f"Client expired: {ex}", 'red'))
             expired = True
+        except Exception as ex:
+            self.logger.error(colored(f"Client or server threw Exception: {ex}", 'red'))
+            self.logger.error(colored(str(ex.with_traceback()), 'red'))
+            expired = True
         finally:
-            
             # Execute List of Client Post Run Scripts if given
             for client_script in self._config.client_postrunscript:
                 self._run_script_on_machine(
@@ -634,10 +691,6 @@ class PerfomanceRunner:
                 client
             )
 
-
-
-            if not expired and ('c_stdout' in locals() and 'c_stderr' in locals()): 
-                self._log_process(c_stdout, c_stderr, 'Client')
             if 's' in locals():
                 s_output = s.communicate()
                 self._log_process(*s_output, 'Server')
@@ -668,6 +721,9 @@ class PerfomanceRunner:
                     else:
                         self.logger.error(colored(f"Client or server failed", 'red'))
                         status = TestResult.FAILED
+                else:
+                    self.logger.error(colored(f"Client or server expired", 'red'))
+                    status = TestResult.FAILED
             else:
                 self.logger.error(colored(f"Client or server expired", 'red'))
                 status = TestResult.FAILED
@@ -835,6 +891,7 @@ class PerfomanceRunner:
                         "filesize": measurement.FILESIZE,
                         "average": result.details,
                         "details": result.all_infos,
+                        "concurrent_clients": measurement.CONCURRENT_CLIENTS,
                     }
                 )  
         out["measurements"].append(measurements)
@@ -872,7 +929,7 @@ class PerfomanceRunner:
     def run(self): 
         self.logger.info(colored(f"Testbed: {self._testbed.basename}", 'white', attrs=['bold']))
         # Copy implementations to hosts
-        # self._copy_implementations()
+        self._copy_implementations()
         self._setup_hosts()
         total_tests = len(self._config.implementations) * self._config.repetitions
         finished_tests = 0
@@ -881,7 +938,6 @@ class PerfomanceRunner:
         # run the measurements
         for implementation_name in self._config.implementations:
             for measurement in self._measurements:
-                finished_tests += 1
 
                 self.logger.info(
                     colored(
@@ -899,6 +955,7 @@ class PerfomanceRunner:
 
                 res = self._run_measurement(implementation_name, self._testbed.server, self._testbed.client, measurement)
                 self.measurement_results[measurement][implementation_name] = res
+                finished_tests += self._config.repetitions
 
         self._print_results()
         self._export_results()

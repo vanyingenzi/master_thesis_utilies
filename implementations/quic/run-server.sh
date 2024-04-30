@@ -12,32 +12,35 @@
 # - IP
 # - PORT
 
+TRANSFER_SIZE=$(jq -er '.TRANSFER_SIZE // empty'  /tmp/interop-variables.json)
 MAX_DATA=$(jq -er '.MAX_DATA // empty'  /tmp/interop-variables.json)
 MAX_WINDOW=$(jq -er '.MAX_WINDOW // empty'  /tmp/interop-variables.json)
 MAX_STREAM_DATA=$(jq -er '.MAX_STREAM_DATA // empty'  /tmp/interop-variables.json)
 MAX_STREAM_WINDOW=$(jq -er '.MAX_STREAM_WINDOW // empty'  /tmp/interop-variables.json)
-# Default values defined in https://github.com/cloudflare/quiche/blob/master/apps/src/args.rs#L216
 
 if [[ $? != 0 ]]; then
-    MAX_DATA=10000000
-    MAX_WINDOW=25165824
-    MAX_STREAM_DATA=1000000
-    MAX_STREAM_WINDOW=16777216
+    MAX_DATA=100000000
+    MAX_WINDOW=100000000
+    MAX_STREAM_DATA=100000000
+    MAX_STREAM_WINDOW=100000000
 fi
 
-# WWW is given as '/tmp/www_123/'
-# Removing last slash for quiche
-WWW=${WWW::-1}
-
 if [[ $TESTCASE == "goodput" ]]; then
+
+    if [[ -z "$TRANSFER_SIZE" ]]; then
+        echo "transfer size is empty"
+        exit 127
+    fi
+
     RUST_LOG=info ./quic-server \
         --cc-algorithm cubic \
         --name "quiche-interop" \
         --listen "${IP}:${PORT}" \
-        --root $WWW \
         --no-retry \
+        --transfer-size $FILESIZE \
         --cert $CERTS/cert.pem \
         --key $CERTS/priv.key \
+        --transfer-size $TRANSFER_SIZE \
         --max-data $MAX_DATA \
         --max-window $MAX_WINDOW \
         --max-stream-data $MAX_STREAM_DATA \

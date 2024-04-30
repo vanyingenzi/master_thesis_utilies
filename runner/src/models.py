@@ -14,8 +14,8 @@ project_root = os.path.normpath(os.path.join(os.path.join(current_script_directo
 @dataclass
 class Host:
     hostname: str
-    ip: str
     role: str
+    ips: List[str] = field(default_factory=list)
     interfaces: List[str] = field(default_factory=list)
 
 @dataclass
@@ -59,7 +59,8 @@ class YamlConfig:
     server_postrunscript: List[PrePostRunScript] = field(default_factory=list)
     client_implementation_params: dict = field(default_factory=lambda: {})
     server_implementation_params: dict = field(default_factory=lambda: {})
-    build_script: str = None
+    build_script: str = None, 
+    concurrent_clients: int = 1
 
     @classmethod
     def parse_postpre_runscript(cls, script_data: List[dict]):
@@ -88,7 +89,8 @@ class YamlConfig:
             server_postrunscript = cls.parse_postpre_runscript(yaml_data['server_postrunscript']),
             client_implementation_params=yaml_data.get('client_implementaion_params', {}),
             server_implementation_params=yaml_data.get('server_implementaion_params', {}),
-            build_script=yaml_data['build_script']
+            build_script=yaml_data['build_script'], 
+            concurrent_clients=yaml_data.get('concurrent_clients', 1)
         )
     
 

@@ -19,31 +19,35 @@ MAX_STREAM_WINDOW=$(jq -er '.MAX_STREAM_WINDOW // empty'  /tmp/interop-variables
 # Default values defined in https://github.com/cloudflare/quiche/blob/master/apps/src/args.rs#L216
 
 if [[ $? != 0 ]]; then
-    MAX_DATA=10000000
-    MAX_WINDOW=25165824
-    MAX_STREAM_DATA=1000000
-    MAX_STREAM_WINDOW=16777216
+    MAX_DATA=100000000
+    MAX_WINDOW=100000000
+    MAX_STREAM_DATA=100000000
+    MAX_STREAM_WINDOW=100000000
 fi
 
-# WWW is given as '/tmp/www_123/'
-# Removing last slash for quiche
-WWW=${WWW::-1}
+TRANSFER_SIZE=$(jq -er '.filesize // empty'  /tmp/interop-variables.json)
 
 if [[ $TESTCASE == "goodput" ]]; then
+    if [[ -z "$TRANSFER_SIZE" ]]; then
+        echo "transfer size is empty"
+        exit 127
+    fi
     RUST_LOG=info ./mcmpquic-server \
         --cc-algorithm cubic \
         --name "quiche-interop" \
         --listen "${IP}:${PORT}" \
-        --root $WWW \
         --no-retry \
         --cert $CERTS/cert.pem \
         --key $CERTS/priv.key \
+        --transfer-size ${TRANSFER_SIZE} \
         --max-data $MAX_DATA \
         --max-window $MAX_WINDOW \
         --max-stream-data $MAX_STREAM_DATA \
         --max-stream-window $MAX_STREAM_WINDOW \
+        --server-address "10.10.2.1:3344" \
+        --multicore \
+        --cpu-affinity \
         --multipath 2>${LOGS:-.}/server.log 1>/dev/null
-        # Server not multithreaded yet
 else
     # Exit on unknown test with code 127
     echo "exited with code 127"

@@ -79,6 +79,7 @@ class TestCase(abc.ABC):
     _link_bandwidth = None
     _client_delay = None
     _server_delay = None
+    _concurrent_clients = None
 
     def __init__(
         self,
@@ -95,6 +96,7 @@ class TestCase(abc.ABC):
         server_ip: str = "127.0.0.2",
         server_name: str = "server",
         server_port: int = 4433,
+        concurrent_clients: int = 1,
     ):
         self._server_keylog_file = server_keylog_file
         self._client_keylog_file = client_keylog_file
@@ -110,6 +112,7 @@ class TestCase(abc.ABC):
         self._link_bandwidth = link_bandwidth
         self._client_delay = client_delay
         self._server_delay = server_delay
+        self._concurrent_clients = concurrent_clients
 
     @abc.abstractmethod
     def name(self):
@@ -158,7 +161,7 @@ class TestCase(abc.ABC):
 
     def urlprefix(self) -> str:
         """ URL prefix """
-        return f"https://{self.servername()}:{self.port()}/"
+        return f"https://{self.ip()}:{self.port()}/"
 
     def ip(self):
         return self._server_ip
@@ -282,11 +285,35 @@ class TestCase(abc.ABC):
         return True
 
     def _check_files(self, client=None, server=None) -> bool:
-
-        # TODO check hashes returned and not the files
-        return True
         if len(self._files) == 0:
             raise Exception("No test files generated.")
+        
+        grep_server_file_cmd = f'ssh {server} \'cat {self.download_dir() + "server.log"} | grep ERROR \''
+        logging.debug(grep_server_file_cmd)
+        server_p = subprocess.run(
+            grep_server_file_cmd,
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        if server_p.returncode == 0:
+            logging.info(f'Error found in server log: {server_p.stdout.decode()}')
+            return False
+        
+        grep_client_file_cmd = f'ssh {client} \'cat {self.download_dir() + "client.log"} | grep ERROR \''
+        logging.debug(grep_client_file_cmd)
+        client_p = subprocess.run(
+            grep_client_file_cmd,
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        if client_p.returncode == 0:
+            logging.info(f'Error found in client log: {client_p.stdout.decode()}')
+            return False
+        return True
+
+        # TODO check hashes returned and not the files
 
         if client and server:  # testbed mode
 
@@ -459,6 +486,7 @@ class Measurement(TestCase):
 
 class MeasurementGoodput(Measurement):
     FILESIZE = 1 * GB
+    CONCURRENT_CLIENTS = 1
     _result = 0.0
 
     @staticmethod
@@ -502,9 +530,9 @@ class MeasurementGoodput(Measurement):
             return TestResult.FAILED
 
         time = (self._end_time - self._start_time) / timedelta(seconds=1)
-        goodput = (8 * self.FILESIZE) / time / 10**6
+        goodput = (8 * self.FILESIZE * self.CONCURRENT_CLIENTS) / time / 10**6
         logging.info(
-            f"Transferring {self.FILESIZE / 10**6:.2f} MB took {time:.3f} s. Goodput: {goodput:.3f} {self.unit()}",
+            f"Transferring {(self.FILESIZE * self.CONCURRENT_CLIENTS) / 10**6:.2f} MB took {time:.3f} s. With {self.CONCURRENT_CLIENTS} concurrent clients. Goodput: {goodput:.3f} {self.unit()}",
         )
         self._result = goodput
 

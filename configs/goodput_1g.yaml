@@ -1,10 +1,12 @@
 # These are implementations to be run both at the server and client
-implementations: [quic, mpquic, mcmpquic]
-# The number of times the run must be made
+implementations: [mpquic, mcmpquic]
 measurement_metrics: [goodput]
-repetitions: 3
+# The number of times the run must be made
+repetitions: 10
 # The file size in MB to transfer between the two hosts. 
-filesize: 8192
+filesize: 1024
+# The number of concurrent clients to run
+concurrent_clients: 1
 # The following entries describe the script to run at the host.
 client_prerunscript:
   - path: pre-post-scripts/run-ethtool.sh
