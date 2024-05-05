@@ -17,6 +17,7 @@ import os
 import json
 import prettytable
 from pprint import pprint   
+import traceback
 
 current_script_directory = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.normpath(os.path.join(os.path.join(current_script_directory, os.pardir), os.pardir))
@@ -32,11 +33,18 @@ def get_tests_and_measurements(config: YamlConfig) -> Tuple[List[TestCase], List
     for measurement_metric in config.measurement_metrics:
         if measurement_metric not in MEASUREMENTS.keys():
             raise ValueError(f"Unknown measurement metric: {measurement_metric}")
-        measurement = MEASUREMENTS[measurement_metric]
-        measurement.FILESIZE = config.filesize
-        measurement.REPETITIONS = config.repetitions
-        measurement.CONCURRENT_CLIENTS = config.concurrent_clients
-        measurements.append(measurement)
+        if measurement_metric == "throughput":
+            measurement = MEASUREMENTS[measurement_metric]
+            measurement.DURATION = config.duration
+            measurement.REPETITIONS = config.repetitions
+            measurement.CONCURRENT_CLIENTS = config.concurrent_clients
+            measurements.append(measurement)
+        elif measurement_metric == "goodput":
+            measurement = MEASUREMENTS[measurement_metric]
+            measurement.FILESIZE = config.filesize
+            measurement.REPETITIONS = config.repetitions
+            measurement.CONCURRENT_CLIENTS = config.concurrent_clients
+            measurements.append(measurement)
     return tests, measurements
 
 class PerfomanceRunner:
@@ -492,10 +500,6 @@ class PerfomanceRunner:
         for dir in [sim_log_dir.name, client_log_dir.name, testcase.download_dir()]:
             self._push_directory_to_remote(client.hostname, dir)
 
-        paths = testcase.get_paths(
-            host=server.hostname
-        )
-
         server_params = " ".join([
             f"SSLKEYLOGFILE={server_keylog}",
             f"QLOGDIR={server_qlog_dir}" if testcase.use_qlog() else "",
@@ -564,7 +568,8 @@ class PerfomanceRunner:
                 "www_dir": testcase.www_dir(),
                 "certs_dir": testcase.certs_dir(),
                 "role": server.role,
-                "filesize": testcase.FILESIZE, # in bytes
+                "filesize": testcase.FILESIZE, # in bytes, 
+                "duration": testcase.DURATION, # in seconds
             }
             server_variables = {**server_variables, **self._config.server_implementation_params}
             client_variables: dict = {
@@ -641,19 +646,16 @@ class PerfomanceRunner:
                     client, 
                     f"{client_log_dir.name}/time{('_'+str(client_id))  if self._config.concurrent_clients > 1 else '' }.json"
                 )
-                json_data = json.loads(cat_client_time_ssh)
-                
-                seconds, nanoseconds = int(str(json_data['start'])[:-9]), int(str(json_data['start'])[-9:])
-                run_start_time = datetime(1970, 1, 1) + timedelta(seconds=seconds, microseconds=nanoseconds//1000)
+                json_data = json.loads(cat_client_time_ssh)                
+                run_start_time = datetime.fromtimestamp(int(str(json_data['start'])) / 1e9)
                 if min_start_time is None or run_start_time < min_start_time:
-                    min_start_time = run_start_time
-                seconds, nanoseconds = int(str(json_data['end'])[:-9]), int(str(json_data['end'])[-9:])
-
-                end_time = datetime(1970, 1, 1) + timedelta(seconds=seconds, microseconds=nanoseconds//1000)
+                    min_start_time = run_start_time      
+                      
+                end_time = datetime.fromtimestamp(int(str(json_data['end'])) / 1e9)
                 if max_end_time is None or end_time > max_end_time:
                     max_end_time = end_time
-            self.logger.debug(f"Min start time: {min_start_time}")
-            self.logger.debug(f"Max end time: {max_end_time}")
+            self.logger.debug(f"start time: {min_start_time}")
+            self.logger.debug(f"end time: {max_end_time}")
 
             testcase._start_time = min_start_time
             testcase._end_time = max_end_time
@@ -717,6 +719,7 @@ class PerfomanceRunner:
                             status = testcase.check(client.hostname, server.hostname)
                         except Exception as e:
                             self.logger.error(colored(f"testcase.check() threw Exception: {e}", 'red'))
+                            self.logger.error(colored(traceback.format_exc()), 'red')
                             status = TestResult.FAILED
                     else:
                         self.logger.error(colored(f"Client or server failed", 'red'))
@@ -883,17 +886,30 @@ class PerfomanceRunner:
         measurements = []
         for measurement, implementation_result in self.measurement_results.items():
             for implementation, result in implementation_result.items():
-                measurements.append(
-                    {
-                        "name": measurement.name(),
-                        "implementation": implementation,
-                        "abbr": measurement.abbreviation(),
-                        "filesize": measurement.FILESIZE,
-                        "average": result.details,
-                        "details": result.all_infos,
-                        "concurrent_clients": measurement.CONCURRENT_CLIENTS,
-                    }
-                )  
+                if measurement.name() == "goodput":
+                    measurements.append(
+                        {
+                            "name": measurement.name(),
+                            "implementation": implementation,
+                            "abbr": measurement.abbreviation(),
+                            "filesize": measurement.FILESIZE,
+                            "average": result.details,
+                            "details": result.all_infos,
+                            "concurrent_clients": measurement.CONCURRENT_CLIENTS,
+                        }
+                    )
+                elif measurement.name() ==  "throughput":
+                    measurements.append(
+                        {
+                            "name": measurement.name(),
+                            "implementation": implementation,
+                            "abbr": measurement.abbreviation(),
+                            "duration": measurement.DURATION,
+                            "average": result.details,
+                            "details": result.all_infos,
+                            "concurrent_clients": measurement.CONCURRENT_CLIENTS,
+                        }
+                    )
         out["measurements"].append(measurements)
 
         f = open(self._output, "w")
@@ -938,7 +954,6 @@ class PerfomanceRunner:
         # run the measurements
         for implementation_name in self._config.implementations:
             for measurement in self._measurements:
-
                 self.logger.info(
                     colored(
                         "\n---\n"

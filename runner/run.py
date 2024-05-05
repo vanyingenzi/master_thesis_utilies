@@ -1,6 +1,7 @@
 from src.args_parser import Arguments
 from src.perfomance_runner import PerfomanceRunner
 from src.models import TestbedConfig, YamlConfig
+from pprint import pprint
 
 def main():
     args = Arguments.parse_argument()

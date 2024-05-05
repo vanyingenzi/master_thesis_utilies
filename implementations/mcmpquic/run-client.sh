@@ -30,7 +30,7 @@ get_unused_port(){
     echo "$port"
 }
 
-if [[ $TESTCASE == "goodput" ]]; then
+if [[ $TESTCASE == "goodput" ]] || [[ $TESTCASE == "throughput" ]] ; then
     client_port_1=$(get_unused_port)
     client_port_2=$(get_unused_port)
     start=$(date +%s%N)

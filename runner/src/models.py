@@ -52,7 +52,8 @@ class YamlConfig:
     implementations: List[str]
     repetitions: int
     measurement_metrics: List[str]
-    filesize: int
+    filesize: int = None
+    duration: int = None
     client_prerunscript: List[PrePostRunScript] = field(default_factory=list)
     server_prerunscript: List[PrePostRunScript] = field(default_factory=list)
     client_postrunscript: List[PrePostRunScript] = field(default_factory=list)
@@ -82,7 +83,8 @@ class YamlConfig:
             implementations=yaml_data['implementations'],
             repetitions=yaml_data['repetitions'],
             measurement_metrics=yaml_data['measurement_metrics'],
-            filesize=yaml_data['filesize'] * MB,
+            filesize=yaml_data['filesize'] * MB if 'filesize' in yaml_data else None,
+            duration=yaml_data['duration'] if 'duration' in yaml_data else None,
             client_prerunscript = cls.parse_postpre_runscript(yaml_data['client_prerunscript']),
             server_prerunscript = cls.parse_postpre_runscript(yaml_data['server_prerunscript']),
             client_postrunscript = cls.parse_postpre_runscript(yaml_data['client_postrunscript']),

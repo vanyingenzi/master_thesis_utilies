@@ -8,7 +8,7 @@ import string
 import subprocess
 import sys
 import tempfile
-from datetime import timedelta
+from datetime import timedelta, datetime
 from enum import Enum, IntEnum
 from .trace import Direction, PacketType, TraceAnalyzer
 from typing import List
@@ -71,8 +71,8 @@ class TestCase(abc.ABC):
     _cert_dir = None
     _cached_server_trace = None
     _cached_client_trace = None
-    _start_time = None
-    _end_time = None
+    _start_time: datetime | None = None
+    _end_time: datetime | None = None
     _server_ip = None
     _server_port = None
     _server_name = None
@@ -285,9 +285,6 @@ class TestCase(abc.ABC):
         return True
 
     def _check_files(self, client=None, server=None) -> bool:
-        if len(self._files) == 0:
-            raise Exception("No test files generated.")
-        
         grep_server_file_cmd = f'ssh {server} \'cat {self.download_dir() + "server.log"} | grep ERROR \''
         logging.debug(grep_server_file_cmd)
         server_p = subprocess.run(
@@ -311,99 +308,6 @@ class TestCase(abc.ABC):
         if client_p.returncode == 0:
             logging.info(f'Error found in client log: {client_p.stdout.decode()}')
             return False
-        return True
-
-        # TODO check hashes returned and not the files
-
-        if client and server:  # testbed mode
-
-            for file in self._files:
-
-                cmd = f'ssh {client} \'stat -c %s {self.download_dir() + file}\''
-                logging.debug(cmd)
-                client_p = subprocess.Popen(
-                    cmd,
-                    shell=True,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE
-                )
-
-                client_stdout, client_stderr = client_p.communicate(timeout=10)
-
-                cmd = f'ssh {server} \'stat -c %s {self.www_dir() + file}\''
-                logging.debug(cmd)
-                server_p = subprocess.Popen(
-                    cmd,
-                    shell=True,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE
-                )
-
-                server_stdout, server_stderr = server_p.communicate(timeout=10)
-
-                if client_p.returncode > 0 or server_p.returncode > 0:
-                    logging.debug(f'An error occured while comparing the filesize!')
-                    logging.debug(f'Client stderr: {client_stderr.decode()}')
-                    logging.debug(f'Server stderr: {server_stderr.decode()}')
-                    return False
-
-                client_size = float(client_stdout.decode())
-                server_size = float(server_stdout.decode())
-
-                deviation = abs(client_size - server_size) / max(client_size, server_size)
-
-                if client_size != server_size:
-                    logging.debug(f'Different filesize: {client_size} | {server_size}')
-
-                    # We allow differences in the filesize < 1%
-                    if deviation < 0.01:
-                        logging.debug(f'Different filesize tolerated (less than 1%')
-                    else:
-                        logging.debug(f'Different filesize not tolerated: {deviation * 100:.2f}%')
-                        return False
-
-        else:
-            files = [
-                n
-                for n in os.listdir(self.download_dir())
-                if os.path.isfile(os.path.join(self.download_dir(), n))
-            ]
-            too_many = [f for f in files if f not in self._files]
-            if len(too_many) != 0:
-                logging.info("Found unexpected downloaded files: %s", too_many)
-            too_few = [f for f in self._files if f not in files]
-            if len(too_few) != 0:
-                logging.info("Missing files: %s", too_few)
-            if len(too_many) != 0 or len(too_few) != 0:
-                return False
-            for f in self._files:
-                fp = self.download_dir() + f
-                if not os.path.isfile(fp):
-                    logging.info("File %s does not exist.", fp)
-                    return False
-                try:
-                    size = os.path.getsize(self.www_dir() + f)
-                    downloaded_size = os.path.getsize(fp)
-
-                    deviation = abs(downloaded_size - size) / max(downloaded_size, size)
-
-                    # We allow differences in the filesize < 1%
-                    if deviation < 0.01:
-                        logging.debug(f'Different filesize tolerated (less than 1%')
-                    else:
-                        logging.debug(f'Different filesize not tolerated: {deviation * 100:.2f}%')
-                        logging.debug(f'File size of {fp} doesn\'t match. Original: {size} bytes, downloaded: {downloaded_size} bytes.')
-                        return False
-
-                except Exception as exception:
-                    logging.info(
-                        "Could not compare files %s and %s: %s",
-                        self.www_dir() + f,
-                        fp,
-                        exception,
-                    )
-                    return False
-        logging.debug("Check of downloaded files succeeded.")
         return True
 
     def _check_version_and_files(self) -> bool:
@@ -518,10 +422,6 @@ class MeasurementGoodput(Measurement):
             logging.debug(f'Limit filesize for {self.name()} to {max_size}')
             self.FILESIZE = max_size
         self._files = [
-            self._generate_random_file(
-                self.FILESIZE,
-                host=host
-            )
         ]
         return self._files
 
@@ -541,6 +441,100 @@ class MeasurementGoodput(Measurement):
     def result(self) -> float:
         return self._result
 
+from datetime import datetime
+import numpy as np
+
+class MeasurementThroughput(Measurement):
+    CONCURRENT_CLIENTS = 1
+    DURATION: int = 10
+    FILESIZE=0
+    _result = 0.0
+    
+    @staticmethod
+    def name():
+        return "throughput"
+    
+    def timeout(self):
+        return self.DURATION + 30 # Transfer time + 30s idle time
+    
+    @staticmethod
+    def unit() -> str:
+        return "Mbps"
+    
+    @staticmethod
+    def testname(p: Perspective):
+        return "throughput"
+    
+    @staticmethod
+    def abbreviation():
+        return "T"
+    
+    @staticmethod
+    def desc():
+        return "Measures connection throughput."
+    
+    def _is_valid_timestamp(self, timestamp):
+        pattern = r"^[0-2][0-9]:[0-5][0-9]:[0-5][0-9]$"
+        return bool(re.match(pattern, timestamp))
+
+    def extract_ifstat_data_file(self, filecontent: str) -> List[float]:
+        lines = filecontent.splitlines()
+        lines = [line.strip() for line in lines if len(line.strip()) != 0]
+        data_per_second = []
+        for line in lines:
+            timestamp = line.split()[0]
+            if not self._is_valid_timestamp(timestamp):
+                continue
+            timestamp_datetime = datetime.strptime(timestamp, '%H:%M:%S')
+            timestamp_datetime = timestamp_datetime.replace(year=self._start_time.year, month=self._start_time.month, day=self._start_time.day)
+            if not (self._start_time <= timestamp_datetime and timestamp_datetime <= self._end_time):
+                continue
+            data = sum([float(measurement) for measurement in line.split()[1:]])
+            data_per_second.append(data)
+        trimed_data = data_per_second[2:-2] # Remove first and last 2 seconds
+        sum_data = sum(trimed_data)
+        return sum_data * 8 / 1024 # Convert to Mb
+
+    def _get_ifstat_file_throughput(self, client):
+        cmd = f'ssh {client} \'cat {self._client_log_dir + "/ifstat_monitor.txt"}\''
+        logging.debug(cmd)
+        p = subprocess.Popen(
+            cmd,
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        stdout, stderr = p.communicate()
+        if p.returncode != 0:
+            logging.error(f'Error while getting ifstat file: {stderr.decode()}')
+            return None
+        return stdout.decode()
+
+    def check(self, client=str | None, server=str | None) -> TestResult:
+        if not self._check_files(client=client, server=server):
+            return TestResult.FAILED
+        
+        time = (self._end_time - self._start_time) / timedelta(seconds=1) # Transfer time
+        time -= 4 # Remove first and last 2 seconds
+        client_ifstat = self._get_ifstat_file_throughput(client)
+        total_usage = self.extract_ifstat_data_file(client_ifstat)
+        throughput = total_usage / time
+        logging.info(
+            f"Bandwidth usage (throughput) {throughput:.3f} {self.unit()}, with {self.CONCURRENT_CLIENTS} concurrent clients.",
+        )
+        self._result = throughput
+        return TestResult.SUCCEEDED
+    
+    def get_paths(self, max_size=None, host=None):
+        if max_size and max_size < self.FILESIZE:
+            logging.debug(f'Limit filesize for {self.name()} to {max_size}')
+            self.FILESIZE = max_size
+        self._files = [
+        ]
+        return self._files
+    
+    def result(self) -> float:
+        return self._result
 
 class MeasurementQlog(Measurement):
     FILESIZE = 200 * MB
@@ -643,5 +637,5 @@ TESTCASES = [
 ]
 
 MEASUREMENTS = {
-    tc.name(): tc for tc in [MeasurementGoodput]
+    tc.name(): tc for tc in [MeasurementGoodput, MeasurementThroughput]
 }

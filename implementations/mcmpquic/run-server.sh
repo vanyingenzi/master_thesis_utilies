@@ -48,6 +48,31 @@ if [[ $TESTCASE == "goodput" ]]; then
         --multicore \
         --cpu-affinity \
         --multipath 2>${LOGS:-.}/server.log 1>/dev/null
+elif [[ $TESTCASE == "throughput" ]]; then
+
+    TRANSFER_TIME=$(jq -er '.duration // empty'  /tmp/interop-variables.json)
+    if [[ -z "$TRANSFER_TIME" ]]; then
+        echo "transfer time is empty"
+        exit 127
+    fi
+
+    RUST_LOG=info ./mcmpquic-server \
+        --cc-algorithm cubic \
+        --name "quiche-interop" \
+        --listen "${IP}:${PORT}" \
+        --no-retry \
+        --cert $CERTS/cert.pem \
+        --key $CERTS/priv.key \
+        --transfer-time ${TRANSFER_TIME} \
+        --max-data $MAX_DATA \
+        --max-window $MAX_WINDOW \
+        --max-stream-data $MAX_STREAM_DATA \
+        --max-stream-window $MAX_STREAM_WINDOW \
+        --server-address "10.10.2.1:3344" \
+        --multicore \
+        --cpu-affinity \
+        --multipath 2>${LOGS:-.}/server.log 1>/dev/null
+
 else
     # Exit on unknown test with code 127
     echo "exited with code 127"

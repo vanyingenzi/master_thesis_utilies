@@ -24,8 +24,7 @@ if [[ $? != 0 ]]; then
     MAX_STREAM_WINDOW=100000000
 fi
 
-if [[ $TESTCASE == "goodput" ]]; then
-
+if [[ $TESTCASE == "goodput" ]] || [[ $TESTCASE == "throughput" ]] ; then
     start=$(date +%s%N)
     RUST_LOG=info ./quic-client \
         --no-verify \

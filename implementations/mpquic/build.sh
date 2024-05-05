@@ -3,7 +3,7 @@
 # Variables
 
 QUICHE_REPO=https://github.com/vanyingenzi/quiche.git
-QUICHE_COMMIT=7e54abb6b00c1a9b761f5067fdfcbd340a8aad8e # Containes patches from Maxime Piraux
+QUICHE_COMMIT=7ee31de5289ad73f9fb443c212fedc6b3ef44731
 RUST_PLATFORM=x86_64-unknown-linux-gnu
 
 # Version
