@@ -1,7 +1,7 @@
 implementations: [mpquic, mcmpquic]
 measurement_metrics: [throughput]
-repetitions: 5
-duration: 120 # seconds
+repetitions: 1
+duration: 20
 concurrent_clients: 1
 nb_paths: 1
 client_prerunscript:
@@ -41,4 +41,4 @@ client_implementaion_params:
 server_implementaion_params:
   rmem_value: 100000000 # 100MB
 
-build_script: 'build_optimised.sh' # can also be build.sh for debug
+build_script: "build_optimised.sh" # can also be build.sh for debug

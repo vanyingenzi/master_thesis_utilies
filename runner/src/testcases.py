@@ -23,7 +23,6 @@ class TestResult(Enum):
     FAILED = "failed"
     UNSUPPORTED = "unsupported"
 
-
 KB = 1 << 10
 MB = 1 << 20
 GB = 1 << 30
@@ -362,6 +361,7 @@ class TestCase(abc.ABC):
 
 class Measurement(TestCase):
     REPETITIONS = 20
+    DURATION: int = 0
 
     @abc.abstractmethod
     def result(self) -> float:
@@ -446,7 +446,6 @@ import numpy as np
 
 class MeasurementThroughput(Measurement):
     CONCURRENT_CLIENTS = 1
-    DURATION: int = 10
     FILESIZE=0
     _result = 0.0
     

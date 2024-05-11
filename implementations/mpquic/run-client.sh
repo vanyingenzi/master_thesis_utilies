@@ -21,18 +21,22 @@ if [[ $? != 0 ]]; then
     MAX_STREAM_WINDOW=100000000
 fi
 
-get_unused_port(){
-    local port
-    port=$(shuf -i 2000-65000 -n 1)
-    while netstat -atn | grep -q ":$port "; do
-        port=$(shuf -i 2000-65000 -n 1)
-    done
-    echo "$port"
-}
-
 if [[ $TESTCASE == "goodput" ]] || [[ $TESTCASE == "throughput" ]] ; then
-    client_port_1=$(get_unused_port)
-    client_port_2=$(get_unused_port)
+
+    CLIENT_ADDRESSES=$(jq -r '.client_addrs[]' /tmp/interop-variables.json)
+    CONNECT_TO=$(jq -r '.connect_to' /tmp/interop-variables.json)
+    SERVER_ADDRESSES=$(jq -r '.extra_server_addrs[]' /tmp/interop-variables.json)
+
+    CLIENT_ADDR_ARGS=""
+    for addr in $CLIENT_ADDRESSES; do
+        CLIENT_ADDR_ARGS="$CLIENT_ADDR_ARGS -A $addr"
+    done
+    
+    SERVER_ADDR_ARGS=""
+    for addr in $SERVER_ADDRESSES; do
+        SERVER_ADDR_ARGS="$SERVER_ADDR_ARGS --server-address $addr"
+    done
+
     start=$(date +%s%N)
     RUST_LOG=info ./mpquic-client \
         --no-verify \
@@ -42,10 +46,10 @@ if [[ $TESTCASE == "goodput" ]] || [[ $TESTCASE == "throughput" ]] ; then
         --max-window $MAX_WINDOW \
         --max-stream-data $MAX_STREAM_DATA \
         --max-stream-window $MAX_STREAM_WINDOW \
-        -A "10.10.1.2:${client_port_1}" \
-        -A "10.10.2.2:${client_port_2}" \
-        --connect-to "10.10.1.1:4433" \
-        --server-address "10.10.2.1:3344" \
+        ${CLIENT_ADDR_ARGS} \
+        --max-active-cids 16 \
+        --connect-to ${CONNECT_TO} \
+        ${SERVER_ADDR_ARGS} \
         --multipath \
         1>/dev/null 2>${LOGS:-.}/client.log
     retVal=$?

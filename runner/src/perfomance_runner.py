@@ -16,7 +16,6 @@ import glob
 import os
 import json
 import prettytable
-from pprint import pprint   
 import traceback
 
 current_script_directory = os.path.dirname(os.path.abspath(__file__))
@@ -360,8 +359,32 @@ class PerfomanceRunner:
             self.logger.error(
                 colored(f'Error{e} when running {script.script} on host {host.hostname}', 'red')
             )
-        finally: 
+        finally:
             return proc
+        
+    def _create_paths(self) -> Tuple[List[IPv4Path], List[IPv4Path]] :
+        server_paths = []
+        client_paths = []
+        if self._config.nb_paths < 1:
+            raise ValueError("Number of paths must be at least 1")
+        servers_provided_ips = len(self._testbed.server.ips)
+        clients_provided_ips = len(self._testbed.client.ips)
+        server_ports = [4433] + [random.randint(4434, 7000) for _ in range(self._config.nb_paths - 1)]
+        # TODO ensure unique ports
+        client_ports = [random.randint(4434, 7000) for _ in range(self._config.nb_paths)]
+        client_ips_idx = 0
+        server_ips_idx = 0
+        for i in range(self._config.nb_paths):
+            client_ip = self._testbed.client.ips[client_ips_idx]
+            client_port = client_ports[i]
+            server_ip = self._testbed.server.ips[server_ips_idx]
+            server_port = server_ports[i]
+            client_paths.append(IPv4Path(client_ip, client_port))
+            server_paths.append(IPv4Path(server_ip, server_port))
+            client_ips_idx = (client_ips_idx + 1) % clients_provided_ips
+            server_ips_idx = (server_ips_idx + 1) % servers_provided_ips
+        return client_paths, server_paths
+        
         
     def _setup_hosts(self):
         self._run_script_on_machine(self._testbed.server, os.path.join(current_script_directory, "setup.sh"))
@@ -414,7 +437,6 @@ class PerfomanceRunner:
             stderr=subprocess.PIPE
         )
         return prog.wait(10)
-    
 
     def _get_content_of_remote_file(self, host: Host, src: str):
         self.logger.debug(f"Getting content of {src} from {host.hostname}")
@@ -479,6 +501,8 @@ class PerfomanceRunner:
         client_qlog_dir = os.path.join(client_log_dir.name, 'client_qlog/')
         server_qlog_dir = os.path.join(server_log_dir.name, 'server_qlog/')
         
+        client_paths, server_paths = self._create_paths()
+        
         testcase: TestCase = test(
             link_bandwidth=None,
             client_delay=None,
@@ -490,7 +514,8 @@ class PerfomanceRunner:
             server_log_dir=server_log_dir.name,
             client_qlog_dir=client_qlog_dir,
             server_qlog_dir=server_qlog_dir,
-            server_ip=server.ips[0],
+            server_ip=server_paths[0].address,
+            server_port=server_paths[0].port,
             server_name=server.role,
             concurrent_clients=self._config.concurrent_clients
         )
@@ -558,8 +583,6 @@ class PerfomanceRunner:
         expired = False
 
         try:
-            # TODO add ifstat 
-            # TODO add adding delays with tc
             server_variables: dict = {
                 "implementation": implementation_name,
                 "interfaces": server.interfaces,
@@ -569,7 +592,9 @@ class PerfomanceRunner:
                 "certs_dir": testcase.certs_dir(),
                 "role": server.role,
                 "filesize": testcase.FILESIZE, # in bytes, 
-                "duration": testcase.DURATION, # in seconds
+                "duration": testcase.DURATION, # in seconds, 
+                "listen_addr": server_paths[0].repr(),
+                "extra_server_addrs": [addr.repr() for addr in server_paths[1:]],
             }
             server_variables = {**server_variables, **self._config.server_implementation_params}
             client_variables: dict = {
@@ -580,7 +605,10 @@ class PerfomanceRunner:
                 "sim_log_dir": sim_log_dir.name,
                 "download_dir": testcase.download_dir(),
                 "role": client.role,
-                "server_ip_port": f"{testcase.ip()}:{testcase.port()}"
+                "server_ip_port": f"{testcase.ip()}:{testcase.port()}",
+                "connect_to": server_paths[0].repr(),
+                "extra_server_addrs": [addr.repr() for addr in server_paths[1:]],
+                "client_addrs": [addr.repr() for addr in client_paths],
             }
             client_variables = {**client_variables, **self._config.client_implementation_params}
 
@@ -895,6 +923,7 @@ class PerfomanceRunner:
                             "filesize": measurement.FILESIZE,
                             "average": result.details,
                             "details": result.all_infos,
+                            "nb_paths": self._config.nb_paths,
                             "concurrent_clients": measurement.CONCURRENT_CLIENTS,
                         }
                     )
@@ -907,6 +936,7 @@ class PerfomanceRunner:
                             "duration": measurement.DURATION,
                             "average": result.details,
                             "details": result.all_infos,
+                            "nb_paths": self._config.nb_paths,
                             "concurrent_clients": measurement.CONCURRENT_CLIENTS,
                         }
                     )
@@ -942,7 +972,7 @@ class PerfomanceRunner:
                                     )
         )
         
-    def run(self): 
+    def run(self):    
         self.logger.info(colored(f"Testbed: {self._testbed.basename}", 'white', attrs=['bold']))
         # Copy implementations to hosts
         self._copy_implementations()

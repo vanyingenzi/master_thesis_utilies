@@ -52,6 +52,7 @@ class YamlConfig:
     implementations: List[str]
     repetitions: int
     measurement_metrics: List[str]
+    nb_paths: int
     filesize: int = None
     duration: int = None
     client_prerunscript: List[PrePostRunScript] = field(default_factory=list)
@@ -78,11 +79,15 @@ class YamlConfig:
         with open(yaml_file, 'r') as yaml_file:
             yaml_data = yaml.safe_load(yaml_file)
         
+        if yaml_data['nb_paths'] < 1:
+            raise ValueError("Number of paths must be greater than 0")
+        
         # Create an instance of the TestbedConfig data class
         return YamlConfig(
             implementations=yaml_data['implementations'],
             repetitions=yaml_data['repetitions'],
             measurement_metrics=yaml_data['measurement_metrics'],
+            nb_paths=yaml_data['nb_paths'],
             filesize=yaml_data['filesize'] * MB if 'filesize' in yaml_data else None,
             duration=yaml_data['duration'] if 'duration' in yaml_data else None,
             client_prerunscript = cls.parse_postpre_runscript(yaml_data['client_prerunscript']),
@@ -101,8 +106,18 @@ class LogFileFormatter(logging.Formatter):
         msg = super(LogFileFormatter, self).format(record)
         # remove color control characters
         return re.compile(r"\x1B[@-_][0-?]*[ -/]*[@-~]").sub("", msg)
-    
 
 class Perspective(Enum):
     SERVER = "server"
     CLIENT = "client"
+
+@dataclass
+class IPv4Path:
+    address: str 
+    port: int
+    
+    def __str__(self):
+        return f"{self.address}:{self.port}"
+    
+    def repr(self):
+        return f"{self.address}:{self.port}"
