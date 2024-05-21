@@ -1,44 +1,35 @@
 implementations: [mpquic, mcmpquic]
 measurement_metrics: [throughput]
-repetitions: 1
-duration: 20
+repetitions: 1 # 2
+duration: 15 # seconds
 concurrent_clients: 1
-nb_paths: 1
+nb_paths: [1, 4, 8, 12, 16]
 client_prerunscript:
+  - path: pre-post-scripts/off-ht.sh
   - path: pre-post-scripts/run-ethtool.sh
-  - path: pre-post-scripts/run-netstat.sh
   - path: pre-post-scripts/set-rcvbuf.sh
-  - path: pre-post-scripts/start-cpu-monitor.sh
-    blocking: true
-  - path: pre-post-scripts/run-bandwidth-monitor.sh
-    blocking: true
 
 client_postrunscript:
   - path: pre-post-scripts/run-ethtool.sh
   - path: pre-post-scripts/run-netstat.sh
   - path: pre-post-scripts/set-buffers-default.sh
-  - path: pre-post-scripts/stop-cpu-monitor.sh
-  - path: pre-post-scripts/stop-bandwidth-monitor.sh
 
 server_prerunscript:
+  - path: pre-post-scripts/off-ht.sh
   - path: pre-post-scripts/run-ethtool.sh
-  - path: pre-post-scripts/run-netstat.sh
   - path: pre-post-scripts/set-rcvbuf.sh
-  - path: pre-post-scripts/start-cpu-monitor.sh
-    blocking: true
-  - path: pre-post-scripts/run-bandwidth-monitor.sh
+  - path: pre-post-scripts/run-perf.sh
     blocking: true
 
 server_postrunscript:
   - path: pre-post-scripts/run-ethtool.sh
   - path: pre-post-scripts/run-netstat.sh
   - path: pre-post-scripts/set-buffers-default.sh
-  - path: pre-post-scripts/stop-cpu-monitor.sh
-  - path: pre-post-scripts/stop-bandwidth-monitor.sh
+  - path: pre-post-scripts/stop-perf.sh
 
 client_implementaion_params:
   rmem_value: 100000000 # 100MB
 server_implementaion_params:
   rmem_value: 100000000 # 100MB
 
-build_script: "build_optimised.sh" # can also be build.sh for debug
+build_script: 'build_optimised.sh'

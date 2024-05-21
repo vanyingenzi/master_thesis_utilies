@@ -22,6 +22,7 @@ class Host:
 class MeasurementResult:
     result = TestResult
     details = str
+    nb_paths = int
     all_infos: List[float] = field(default_factory=list)
 
 @dataclass
@@ -52,7 +53,7 @@ class YamlConfig:
     implementations: List[str]
     repetitions: int
     measurement_metrics: List[str]
-    nb_paths: int
+    nb_paths: List[str]
     filesize: int = None
     duration: int = None
     client_prerunscript: List[PrePostRunScript] = field(default_factory=list)
@@ -79,7 +80,7 @@ class YamlConfig:
         with open(yaml_file, 'r') as yaml_file:
             yaml_data = yaml.safe_load(yaml_file)
         
-        if yaml_data['nb_paths'] < 1:
+        if next((x for x in yaml_data["nb_paths"] if x <= 0), None) != None:
             raise ValueError("Number of paths must be greater than 0")
         
         # Create an instance of the TestbedConfig data class
@@ -94,8 +95,8 @@ class YamlConfig:
             server_prerunscript = cls.parse_postpre_runscript(yaml_data['server_prerunscript']),
             client_postrunscript = cls.parse_postpre_runscript(yaml_data['client_postrunscript']),
             server_postrunscript = cls.parse_postpre_runscript(yaml_data['server_postrunscript']),
-            client_implementation_params=yaml_data.get('client_implementaion_params', {}),
-            server_implementation_params=yaml_data.get('server_implementaion_params', {}),
+            client_implementation_params=yaml_data.get('client_implementation_params', {}),
+            server_implementation_params=yaml_data.get('server_implementation_params', {}),
             build_script=yaml_data['build_script'], 
             concurrent_clients=yaml_data.get('concurrent_clients', 1)
         )

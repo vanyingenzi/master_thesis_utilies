@@ -454,7 +454,7 @@ class MeasurementThroughput(Measurement):
         return "throughput"
     
     def timeout(self):
-        return self.DURATION + 30 # Transfer time + 30s idle time
+        return self.DURATION + 90 # Transfer time + 90s idle time (cause of strace)
     
     @staticmethod
     def unit() -> str:
@@ -638,3 +638,7 @@ TESTCASES = [
 MEASUREMENTS = {
     tc.name(): tc for tc in [MeasurementGoodput, MeasurementThroughput]
 }
+
+class MeasurementNames(Enum):
+    Throughput: str = "throughput"
+    Goodput: str = "goodput"

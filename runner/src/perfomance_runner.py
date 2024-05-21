@@ -70,7 +70,7 @@ class PerfomanceRunner:
         self._tests, self._measurements = get_tests_and_measurements(self._config) 
         self._prepared_envs = set()
         self.test_results = {}
-        self.measurement_results = defaultdict(dict)
+        self.measurement_results: dict[MeasurementNames, Dict[str, Dict[int, MeasurementResult]]] = defaultdict(lambda: defaultdict(dict))
         self._continue_on_error = False
         self._log_dir = os.path.join(project_root, "logs", "logs_{:%Y-%m-%dT%H:%M:%S}".format(self._start_time))
         self._built_executables = set()
@@ -89,7 +89,7 @@ class PerfomanceRunner:
             console.setLevel(logging.INFO)
         self.logger.addHandler(console)
 
-    def _push_directory_to_remote(self, host: str, src, dst=None, normalize=True):
+    def _push_directory_to_remote(self, host: str, src, dst=None, normalize=True) -> bool:
         """Copies a directory <src> from the machine it is executed on
         (management host) to a given host <host> to path <dst> using rsync.
         """
@@ -110,10 +110,17 @@ class PerfomanceRunner:
         try:
             returned_code = p.wait()
             self.logger.debug(f"The transfer return code : {returned_code}")
+            if returned_code != 0:
+                self.logger.error(
+                    colored(f"Failed to copy {src} to {host}:{dst}", "red")
+                )
+                self.logger.error(colored(f"{p.stdout.read().decode('utf-8')}", "red"))
+                self.logger.error(colored(f"{p.stderr.read().decode('utf-8')}", "red"))
+            return returned_code == 0
         except subprocess.TimeoutExpired:
             self.logger.debug(
                 f'Timeout when moving files {src} to host {host}')
-        return
+        return False
 
     def _generate_cert_chain(self, directory: str, length: int = 1):
         cmd = f"{current_script_directory}/certs.sh " + directory + " " + str(length)
@@ -240,87 +247,7 @@ class PerfomanceRunner:
         return any("exited with code 127" in str(line) for line in lines) or any(
             "exit status 127" in str(line) for line in lines
         )
-    
-    def _check_compliance(self, implementation: str, host: Host) -> bool:
-        assert host.role in ['client', 'server'], "Host role must be either 'client' or 'server'"
-        if host.role in self.compliant_checks:
-            self.logger.debug(
-                f"Already checked compliance for {host.role}"
-            )
-            return self.compliant_checks[host.role]
-        
-        log_dir = tempfile.TemporaryDirectory(dir="/tmp", prefix="logs_")
-        www_dir = tempfile.TemporaryDirectory(dir="/tmp", prefix="compliance_www_")
-        certs_dir = tempfile.TemporaryDirectory(dir="/tmp", prefix="compliance_certs_")
-        downloads_dir = tempfile.TemporaryDirectory(
-            dir="/tmp", prefix="compliance_downloads_"
-        )
 
-        script_to_run = f"~/{implementation}/run-{host.role}.sh"
-        
-        if not self._does_remote_file_exist(host, script_to_run):
-            self.logger.error(
-                colored(f"{script_to_run} does not exist on {host.hostname}", "red")
-            )
-            return False
-        
-        self._generate_cert_chain(certs_dir.name)
-
-        for dir in [log_dir.name, www_dir.name, certs_dir.name, downloads_dir.name]:
-            self._push_directory_to_remote(
-                host.hostname,
-                dir
-            )
-
-        venv_script = self._get_venv(host)
-
-        params = " ".join([
-            f"TESTCASE={random_string(8)}",
-            f"DOWNLOADS={downloads_dir.name}",
-            f"LOGS={log_dir.name}",
-            f"QLOGDIR={log_dir.name}",
-            f"SSLKEYLOGFILE={log_dir.name}/keys.log",
-            f"IP=localhost",
-            f"PORT=4433",
-            f"CERTS={certs_dir.name}",
-            f"WWW={www_dir.name}",
-        ])
-
-        cmd = f"{venv_script}; {params} ./run-{host.role}.sh"
-        cmd = f'ssh {host.hostname} \'cd {implementation}; {cmd}\''
-        
-        self.logger.debug(cmd)
-
-        proc = subprocess.Popen(
-            cmd,
-            shell=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT
-        )
-
-        try:
-            stdout, stderr = proc.communicate(timeout=10)
-        except subprocess.TimeoutExpired:
-            self.logger.error(colored(f"{host.hostname} {host.role} compliance check timeout", 'red'))
-            self.logger.error(colored(f"{host.hostname} {host.role} not compliant", 'red'))
-            self.compliant_checks[host.role] = False
-            return False
-        finally:
-            self._delete_remote_directory(host, log_dir.name)
-            self._delete_remote_directory(host, www_dir.name)
-            self._delete_remote_directory(host, certs_dir.name)
-            self._delete_remote_directory(host, downloads_dir.name)
-
-        if not proc.returncode == 127 and not self._is_unsupported(stdout.decode("utf-8").splitlines()):
-            self.logger.error(colored(f"{host.hostname} {host.role} not compliant", 'red'))
-            self.logger.debug("%s", stdout.decode("utf-8"))
-            self.compliant_checks[host.role] = False
-            return False
-        
-        self.logger.debug(f"{host.hostname} {host.role} compliant.")
-        self.compliant_checks[host.role] = True
-        return True
-    
     def _log_process(self, stdout: bytes, stderr: bytes, context: str) -> None:
         self.logger.debug(context)
         self.logger.debug(colored(f"\nstdout: {stdout.decode('utf-8')}", "yellow"))
@@ -361,20 +288,44 @@ class PerfomanceRunner:
             )
         finally:
             return proc
-        
-    def _create_paths(self) -> Tuple[List[IPv4Path], List[IPv4Path]] :
+    
+    def _is_port_in_use(self, host: Host, port: int) -> None:
+        self.logger.debug(f"Checking if port {port} is in use on {host.hostname}")
+        check = subprocess.Popen(
+            f'ssh {host.hostname} "ss -tupln | grep {port}"',
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        try:
+            stdout, stderr = check.communicate(timeout=10)
+            self._log_process(stdout, stderr, f'host: {host.hostname}')
+            return check.returncode == 0 # 0 means port is in use
+        except subprocess.TimeoutExpired:
+            return True
+    
+    def _generate_ports(self, host: Host, nb_ports: int) -> List[int]:
+        to_return = []
+        for _ in range(nb_ports):
+            port = random.randint(4434, 7000)
+            while self._is_port_in_use(host, port) or port in to_return:
+                port = random.randint(4434, 7000)
+            to_return.append(port)
+        return to_return
+    
+    def _create_paths(self, nb_paths: int) -> Tuple[List[IPv4Path], List[IPv4Path]] :
         server_paths = []
         client_paths = []
-        if self._config.nb_paths < 1:
+        if nb_paths < 1:
             raise ValueError("Number of paths must be at least 1")
         servers_provided_ips = len(self._testbed.server.ips)
         clients_provided_ips = len(self._testbed.client.ips)
-        server_ports = [4433] + [random.randint(4434, 7000) for _ in range(self._config.nb_paths - 1)]
+        server_ports = [4433] + self._generate_ports(self._testbed.server, nb_paths - 1)
         # TODO ensure unique ports
-        client_ports = [random.randint(4434, 7000) for _ in range(self._config.nb_paths)]
+        client_ports = self._generate_ports(self._testbed.client, nb_paths)
         client_ips_idx = 0
         server_ips_idx = 0
-        for i in range(self._config.nb_paths):
+        for i in range(nb_paths):
             client_ip = self._testbed.client.ips[client_ips_idx]
             client_port = client_ports[i]
             server_ip = self._testbed.server.ips[server_ips_idx]
@@ -394,9 +345,6 @@ class PerfomanceRunner:
             self._setup_env(self._testbed.client, "~/" + implementation)
             self._setup_env(self._testbed.server, "~/" + implementation)
 
-    def _check_impl_compliance(self, implementation: str) -> bool:
-        return self._check_compliance(implementation, self._testbed.server) and self._check_compliance(implementation, self._testbed.client)
-    
     def _set_variables_on_machine(self, host: Host, dictionary: dict):
         self.logger.debug(f"Setting the variables:\n{dictionary}\non the host {host.hostname}")
 
@@ -472,6 +420,7 @@ class PerfomanceRunner:
         try:
             # large timeout as copied file could be very large
             p.wait(2000)
+            
         except subprocess.TimeoutExpired:
             self.logger.debug(
                 f'Timeout when copying files {src} from host {host.hostname}')
@@ -482,7 +431,7 @@ class PerfomanceRunner:
         self._run_command_on_remote_host(host, [f"cd ~/{implementation}; ./{self._config.build_script}"])
         self._give_execute_permission(host, f"~/{implementation}/{implementation}-{host.role}")
 
-    def _run_testcase(self, implementation_name: str, server: Host, client: Host, test: Callable[[], TestCase], log_dir_prefix=None) -> None:
+    def _run_testcase(self, implementation_name: str, server: Host, client: Host, test: Callable[[], TestCase], nb_paths: int, log_dir_prefix=None) -> None:
         start_time = datetime.now()
         sim_log_dir = tempfile.TemporaryDirectory(dir="/tmp", prefix="logs_sim_")
         server_log_dir = tempfile.TemporaryDirectory(dir="/tmp", prefix="logs_server_")
@@ -501,7 +450,7 @@ class PerfomanceRunner:
         client_qlog_dir = os.path.join(client_log_dir.name, 'client_qlog/')
         server_qlog_dir = os.path.join(server_log_dir.name, 'server_qlog/')
         
-        client_paths, server_paths = self._create_paths()
+        client_paths, server_paths = self._create_paths(nb_paths)
         
         testcase: TestCase = test(
             link_bandwidth=None,
@@ -519,11 +468,33 @@ class PerfomanceRunner:
             server_name=server.role,
             concurrent_clients=self._config.concurrent_clients
         )
+        
+        created_dirs_on_remote_client = []
+        created_dirs_on_remote_server = []
 
         for dir in [server_log_dir.name, testcase.www_dir(), testcase.certs_dir()]:
-            self._push_directory_to_remote(server.hostname, dir)
+            if self._push_directory_to_remote(server.hostname, dir):
+                created_dirs_on_remote_server.append(dir)
+            else:
+                for dir in created_dirs_on_remote_server:
+                    self._delete_remote_directory(server, dir)
+                server_log_dir.cleanup()
+                client_log_dir.cleanup()
+                sim_log_dir.cleanup()
+                return TestResult.FAILED, None
+            
         for dir in [sim_log_dir.name, client_log_dir.name, testcase.download_dir()]:
-            self._push_directory_to_remote(client.hostname, dir)
+            if self._push_directory_to_remote(client.hostname, dir):
+                created_dirs_on_remote_client.append(dir)
+            else:
+                for dir in created_dirs_on_remote_server:
+                    self._delete_remote_directory(server, dir)
+                for dir in created_dirs_on_remote_client:
+                    self._delete_remote_directory(client, dir)
+                server_log_dir.cleanup()
+                client_log_dir.cleanup()
+                sim_log_dir.cleanup()
+                return TestResult.FAILED, None
 
         server_params = " ".join([
             f"SSLKEYLOGFILE={server_keylog}",
@@ -730,7 +701,6 @@ class PerfomanceRunner:
             for dir in [sim_log_dir.name, client_log_dir.name]:
                 self._pull_directory_from_remote(client, dir)
 
-            # TODO calculate timestamps from logs
             if 's' in locals():
                 if s.returncode == 127 \
                         or self._is_unsupported(s_output[0].decode("utf-8").splitlines()) \
@@ -795,6 +765,7 @@ class PerfomanceRunner:
             testcase.cleanup()
             server_log_dir.cleanup()
             client_log_dir.cleanup()
+            sim_log_dir.cleanup()
             self.logger.debug("Test took %ss", (datetime.now() - start_time).total_seconds())
 
             # measurements also have a value
@@ -831,17 +802,18 @@ class PerfomanceRunner:
             return ex
         return
     
-    def _run_measurement(self, implementation_name: str, server: Host, client: Host, test: Callable[[], TestCase]) -> MeasurementResult:
+    def _run_measurement(self, implementation_name: str, server: Host, client: Host, test: Callable[[], TestCase], nb_paths: int, index_offset: int) -> MeasurementResult:
         values = []
         for i in range(0, test.repetitions()):
             self.logger.info(f"Running repetition {i + 1}/{test.repetitions()}")
-            result, value = self._run_testcase(implementation_name, server, client, test, "%d" % (i + 1))
+            result, value = self._run_testcase(implementation_name, server, client, test, nb_paths, "%d" % (i + 1 + index_offset))
             if result != TestResult.SUCCEEDED:
                 if self._continue_on_error:
                     continue
                 res = MeasurementResult()
                 res.result = result
                 res.details = ""
+                res.nb_paths = nb_paths
                 return res
             values.append(value)
 
@@ -850,6 +822,7 @@ class PerfomanceRunner:
         res.result = TestResult.SUCCEEDED
         res.all_infos = values
         res.details = ""
+        res.nb_paths = nb_paths
 
         if len(values) > 0:
             mean = statistics.mean(values)
@@ -863,15 +836,14 @@ class PerfomanceRunner:
                 
     def _print_results(self) -> None:
         self.logger.info("\n\nRun took %s", datetime.now() - self._start_time)
-        for measurement in self.measurement_results.keys():
+        for measurement_name, implementations in self.measurement_results.items():
             table = prettytable.PrettyTable()
-            table.title = measurement.name()
-            for measurement, result in self.measurement_results[measurement].items():
-                table.add_row([measurement, result.details])
-            self.logger.info(
-                "\n" + 
-                str(table)
-            )
+            table.field_names = ["Implementation", "Number of Paths", "Details"]
+            table.title = measurement_name.name()  # Assuming MeasurementNames has a.name() method
+            for implementation_name, paths in implementations.items():
+                for nb_paths, result in paths.items():
+                    table.add_row([implementation_name, nb_paths, result.details])  # Assuming MeasurementResult has a.details attribute
+            self.logger.info("\n" + str(table))
 
     def _get_commit_hash(self) -> str:
         p = subprocess.Popen(
@@ -914,32 +886,33 @@ class PerfomanceRunner:
         measurements = []
         for measurement, implementation_result in self.measurement_results.items():
             for implementation, result in implementation_result.items():
-                if measurement.name() == "goodput":
-                    measurements.append(
-                        {
-                            "name": measurement.name(),
-                            "implementation": implementation,
-                            "abbr": measurement.abbreviation(),
-                            "filesize": measurement.FILESIZE,
-                            "average": result.details,
-                            "details": result.all_infos,
-                            "nb_paths": self._config.nb_paths,
-                            "concurrent_clients": measurement.CONCURRENT_CLIENTS,
-                        }
-                    )
-                elif measurement.name() ==  "throughput":
-                    measurements.append(
-                        {
-                            "name": measurement.name(),
-                            "implementation": implementation,
-                            "abbr": measurement.abbreviation(),
-                            "duration": measurement.DURATION,
-                            "average": result.details,
-                            "details": result.all_infos,
-                            "nb_paths": self._config.nb_paths,
-                            "concurrent_clients": measurement.CONCURRENT_CLIENTS,
-                        }
-                    )
+                for _, result in result.items():
+                    if measurement.name() == "goodput":
+                        measurements.append(
+                            {
+                                "name": measurement.name(),
+                                "implementation": implementation,
+                                "abbr": measurement.abbreviation(),
+                                "filesize": measurement.FILESIZE,
+                                "average": result.details,
+                                "details": result.all_infos,
+                                "nb_paths": result.nb_paths,
+                                "concurrent_clients": measurement.CONCURRENT_CLIENTS,
+                            }
+                        )
+                    elif measurement.name() ==  "throughput":
+                        measurements.append(
+                            {
+                                "name": measurement.name(),
+                                "implementation": implementation,
+                                "abbr": measurement.abbreviation(),
+                                "duration": measurement.DURATION,
+                                "average": result.details,
+                                "details": result.all_infos,
+                                "nb_paths": result.nb_paths,
+                                "concurrent_clients": measurement.CONCURRENT_CLIENTS,
+                            }
+                        )
         out["measurements"].append(measurements)
 
         f = open(self._output, "w")
@@ -971,37 +944,46 @@ class PerfomanceRunner:
                                      client_script.script.split("/")[1]
                                     )
         )
+            
+    def _iterate_tests(self):
+        total_tests = len(self._config.implementations) * self._config.repetitions * len(self._config.nb_paths)
+        finished_tests = 0
+        
+        # run the measurements
+        for implementation_name in self._config.implementations:
+            for measurement in self._measurements:
+                for nb_paths in self._config.nb_paths:
+                    self.logger.info(
+                        colored(
+                            "\n---\n"
+                            + f"{finished_tests + 1}/{total_tests}\n"
+                            + f"Measurement: {measurement.name()}\n"
+                            + f"Implementation: {implementation_name}\n"
+                            + f"Server: {self._testbed.server.hostname}  "
+                            + f"Client: {self._testbed.client.hostname}\n"
+                            + f"Paths: {nb_paths}\n"
+                            + "---",
+                            'magenta',
+                            attrs=['bold']
+                        )
+                    )
+
+                    res = self._run_measurement(implementation_name, self._testbed.server, self._testbed.client, measurement, nb_paths, finished_tests)
+                    if res.result != TestResult.SUCCEEDED:
+                        return 1
+                        
+                    self.measurement_results[measurement][implementation_name][nb_paths] = res
+                    finished_tests += self._config.repetitions
+        return 0
         
     def run(self):    
         self.logger.info(colored(f"Testbed: {self._testbed.basename}", 'white', attrs=['bold']))
         # Copy implementations to hosts
         self._copy_implementations()
         self._setup_hosts()
-        total_tests = len(self._config.implementations) * self._config.repetitions
-        finished_tests = 0
-        nr_failed = 0
-
-        # run the measurements
-        for implementation_name in self._config.implementations:
-            for measurement in self._measurements:
-                self.logger.info(
-                    colored(
-                        "\n---\n"
-                        + f"{finished_tests}/{total_tests}\n"
-                        + f"Measurement: {measurement.name()}\n"
-                        + f"Implementation: {implementation_name}\n"
-                        + f"Server: {self._testbed.server.hostname}  "
-                        + f"Client: {self._testbed.client.hostname}\n"
-                        + "---",
-                        'magenta',
-                        attrs=['bold']
-                    )
-                )
-
-                res = self._run_measurement(implementation_name, self._testbed.server, self._testbed.client, measurement)
-                self.measurement_results[measurement][implementation_name] = res
-                finished_tests += self._config.repetitions
-
+        
+        nr_failed = self._iterate_tests()
+    
         self._print_results()
         self._export_results()
         return nr_failed

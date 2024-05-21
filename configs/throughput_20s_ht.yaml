@@ -1,16 +1,14 @@
-# These are implementations to be run both at the server and client
-implementations: [mpquic, mcmpquic]
-measurement_metrics: [goodput]
-# The number of times the run must be made
-repetitions: 10
-# The file size in MB to transfer between the two hosts. 
-filesize: 1024
-# The number of concurrent clients to run
+implementations: [mcmpquic]
+measurement_metrics: [throughput]
+repetitions: 2 # 10
+duration: 20 # seconds
 concurrent_clients: 1
-# The following entries describe the script to run at the host.
+nb_paths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 client_prerunscript:
+  - path: pre-post-scripts/on-ht.sh
   - path: pre-post-scripts/run-ethtool.sh
   - path: pre-post-scripts/run-netstat.sh
+  - path: pre-post-scripts/run-rx-interrupts.sh
   - path: pre-post-scripts/set-rcvbuf.sh
   - path: pre-post-scripts/start-cpu-monitor.sh
     blocking: true
@@ -20,13 +18,16 @@ client_prerunscript:
 client_postrunscript:
   - path: pre-post-scripts/run-ethtool.sh
   - path: pre-post-scripts/run-netstat.sh
+  - path: pre-post-scripts/run-rx-interrupts.sh
   - path: pre-post-scripts/set-buffers-default.sh
   - path: pre-post-scripts/stop-cpu-monitor.sh
   - path: pre-post-scripts/stop-bandwidth-monitor.sh
 
 server_prerunscript:
+  - path: pre-post-scripts/on-ht.sh
   - path: pre-post-scripts/run-ethtool.sh
   - path: pre-post-scripts/run-netstat.sh
+  - path: pre-post-scripts/run-rx-interrupts.sh
   - path: pre-post-scripts/set-rcvbuf.sh
   - path: pre-post-scripts/start-cpu-monitor.sh
     blocking: true
@@ -36,13 +37,16 @@ server_prerunscript:
 server_postrunscript:
   - path: pre-post-scripts/run-ethtool.sh
   - path: pre-post-scripts/run-netstat.sh
+  - path: pre-post-scripts/run-rx-interrupts.sh
   - path: pre-post-scripts/set-buffers-default.sh
   - path: pre-post-scripts/stop-cpu-monitor.sh
   - path: pre-post-scripts/stop-bandwidth-monitor.sh
 
-client_implementaion_params:
+client_implementation_params:
   rmem_value: 100000000 # 100MB
-server_implementaion_params:
+  app_cpu_aff: "0-16"
+server_implementation_params:
   rmem_value: 100000000 # 100MB
+  app_cpu_aff: "0-16"
 
 build_script: 'build_optimised.sh' # can also be build.sh for debug

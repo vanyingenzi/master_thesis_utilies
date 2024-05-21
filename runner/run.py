@@ -10,7 +10,7 @@ def main():
         config=YamlConfig.parse_yaml(args.config_yaml), 
         debug=args.debug
     )
-    runner.run()
+    return runner.run()
     
 if __name__ == "__main__":
-    main()
+    exit(main())

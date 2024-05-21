@@ -8,6 +8,3 @@ sudo apt-get install -y tcpdump iputils-ping traceroute jq iperf3 cmake zip ifst
 
 # Set the timezone to Brussels
 sudo timedatectl set-timezone Europe/Brussels
-
-# Turn off hyperthreading
-echo off | sudo tee /sys/devices/system/cpu/smt/control

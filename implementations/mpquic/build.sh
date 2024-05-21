@@ -3,7 +3,7 @@
 # Variables
 
 QUICHE_REPO=https://github.com/vanyingenzi/quiche.git
-QUICHE_COMMIT=97fb4260aa37830dc78212deabeea601f4071e5f
+QUICHE_COMMIT=f3e23461e4242318d324fc691dc95dade7451b50
 RUST_PLATFORM=x86_64-unknown-linux-gnu
 
 # Version
@@ -23,10 +23,10 @@ RUSTFLAGS='-C target-cpu=native' cargo build
 cd ..
 
 # Export as archive
-cp quiche/target/release/quiche-client ./mpquic-server
-cp quiche/target/release/quiche-server ./mpquic-server
+cp quiche/target/debug/quiche-client ./mpquic-client
+cp quiche/target/debug/quiche-server ./mpquic-server
 zip artifact.zip \
     VERSION \
     setup-env.sh run-client.sh run-server.sh \
     mpquic-server \
-    mpquic-server
+    mpquic-client

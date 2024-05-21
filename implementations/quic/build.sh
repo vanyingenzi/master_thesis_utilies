@@ -3,7 +3,7 @@
 # Variables
 
 QUICHE_REPO=https://github.com/vanyingenzi/quiche.git
-QUICHE_COMMIT=7ee31de5289ad73f9fb443c212fedc6b3ef44731
+QUICHE_COMMIT=f3e23461e4242318d324fc691dc95dade7451b50
 RUST_PLATFORM=x86_64-unknown-linux-gnu
 
 # Version

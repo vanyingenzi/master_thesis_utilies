@@ -25,6 +25,12 @@ if [[ $? != 0 ]]; then
     MAX_STREAM_WINDOW=100000000
 fi
 
+CPU_AFFINITY_ARGS=""
+CPU_AFFINITY=$(jq -er '.app_cpu_aff // empty'  /tmp/interop-variables.json)
+
+if [[ $CPU_AFFINITY == "true" ]]; then
+    CPU_AFFINITY_ARGS="--cpu-affinity ${CPU_AFFINITY}"
+fi
 
 SERVER_ADDRESSES=$(jq -r '.extra_server_addrs[]' /tmp/interop-variables.json)
 SERVER_ADDR_ARGS=""
@@ -55,7 +61,7 @@ if [[ $TESTCASE == "goodput" ]]; then
         --max-stream-window $MAX_STREAM_WINDOW \
         ${SERVER_ADDR_ARGS} \
         --multicore \
-        --cpu-affinity \
+        ${CPU_AFFINITY_ARGS} \
         --multipath 2>${LOGS:-.}/server.log 1>/dev/null
 elif [[ $TESTCASE == "throughput" ]]; then
 
@@ -80,7 +86,7 @@ elif [[ $TESTCASE == "throughput" ]]; then
         --max-stream-window $MAX_STREAM_WINDOW \
         ${SERVER_ADDR_ARGS} \
         --multicore \
-        --cpu-affinity \
+        ${CPU_AFFINITY_ARGS} \
         --multipath 2>${LOGS:-.}/server.log 1>/dev/null
 
 else

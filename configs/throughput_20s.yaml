@@ -1,16 +1,14 @@
-# These are implementations to be run both at the server and client
 implementations: [mpquic, mcmpquic]
-measurement_metrics: [goodput]
-# The number of times the run must be made
-repetitions: 10
-# The file size in MB to transfer between the two hosts. 
-filesize: 2048
-# The number of concurrent clients to run
+measurement_metrics: [throughput]
+repetitions: 2 # 10
+duration: 20 # seconds
 concurrent_clients: 1
-# The following entries describe the script to run at the host.
+nb_paths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 client_prerunscript:
+  - path: pre-post-scripts/off-ht.sh
   - path: pre-post-scripts/run-ethtool.sh
   - path: pre-post-scripts/run-netstat.sh
+  - path: pre-post-scripts/run-rx-interrupts.sh
   - path: pre-post-scripts/set-rcvbuf.sh
   - path: pre-post-scripts/start-cpu-monitor.sh
     blocking: true
@@ -20,13 +18,16 @@ client_prerunscript:
 client_postrunscript:
   - path: pre-post-scripts/run-ethtool.sh
   - path: pre-post-scripts/run-netstat.sh
+  - path: pre-post-scripts/run-rx-interrupts.sh
   - path: pre-post-scripts/set-buffers-default.sh
   - path: pre-post-scripts/stop-cpu-monitor.sh
   - path: pre-post-scripts/stop-bandwidth-monitor.sh
 
 server_prerunscript:
+  - path: pre-post-scripts/off-ht.sh
   - path: pre-post-scripts/run-ethtool.sh
   - path: pre-post-scripts/run-netstat.sh
+  - path: pre-post-scripts/run-rx-interrupts.sh
   - path: pre-post-scripts/set-rcvbuf.sh
   - path: pre-post-scripts/start-cpu-monitor.sh
     blocking: true
@@ -36,6 +37,7 @@ server_prerunscript:
 server_postrunscript:
   - path: pre-post-scripts/run-ethtool.sh
   - path: pre-post-scripts/run-netstat.sh
+  - path: pre-post-scripts/run-rx-interrupts.sh
   - path: pre-post-scripts/set-buffers-default.sh
   - path: pre-post-scripts/stop-cpu-monitor.sh
   - path: pre-post-scripts/stop-bandwidth-monitor.sh

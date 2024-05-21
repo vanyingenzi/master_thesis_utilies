@@ -36,6 +36,13 @@ if [[ $TESTCASE == "goodput" ]] || [[ $TESTCASE == "throughput" ]] ; then
         SERVER_ADDR_ARGS="$SERVER_ADDR_ARGS --server-address $addr"
     done
 
+    CPU_AFFINITY_ARGS=""
+    CPU_AFFINITY=$(jq -er '.app_cpu_aff // empty'  /tmp/interop-variables.json)
+
+    if [[ $CPU_AFFINITY == "true" ]]; then
+        CPU_AFFINITY_ARGS="--cpu-affinity ${CPU_AFFINITY}"
+    fi
+
     start=$(date +%s%N)
     RUST_LOG=info ./mcmpquic-client \
         --no-verify \
@@ -50,7 +57,7 @@ if [[ $TESTCASE == "goodput" ]] || [[ $TESTCASE == "throughput" ]] ; then
         --connect-to ${CONNECT_TO} \
         ${SERVER_ADDR_ARGS} \
         --multicore \
-        --cpu-affinity \
+        ${CPU_AFFINITY_ARGS} \
         --multipath \
         $REQUESTS 1>/dev/null 2>${LOGS:-.}/client.log
     retVal=$?
