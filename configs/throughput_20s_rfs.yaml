@@ -46,10 +46,10 @@ server_postrunscript:
   - path: pre-post-scripts/stop-cpu-monitor.sh
   - path: pre-post-scripts/stop-bandwidth-monitor.sh
 
-client_implementaion_params:
+client_implementation_params:
   rmem_value: 100000000 # 100MB
   app_cpu_aff: "0-16" # CPU affinity for the application
-server_implementaion_params:
+server_implementation_params:
   rmem_value: 100000000 # 100MB
   app_cpu_aff: "0-16" # CPU affinity for the application
 

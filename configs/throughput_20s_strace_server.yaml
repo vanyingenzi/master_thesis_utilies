@@ -27,9 +27,9 @@ server_postrunscript:
   - path: pre-post-scripts/set-buffers-default.sh
   - path: pre-post-scripts/stop-strace.sh
 
-client_implementaion_params:
+client_implementation_params:
   rmem_value: 100000000 # 100MB
-server_implementaion_params:
+server_implementation_params:
   rmem_value: 100000000 # 100MB
 
 build_script: 'build_optimised.sh'
