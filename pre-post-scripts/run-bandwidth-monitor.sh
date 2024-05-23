@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Install net-tools if not already installed
+# Install ifstat if not already installed
 apt install -y ifstat
 
 # Read log directory from JSON file
