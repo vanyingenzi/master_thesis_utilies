@@ -37,12 +37,7 @@ def get_tests_and_measurements(config: YamlConfig) -> Tuple[List[TestCase], List
             measurement.DURATION = config.duration
             measurement.REPETITIONS = config.repetitions
             measurement.CONCURRENT_CLIENTS = config.concurrent_clients
-            measurements.append(measurement)
-        elif measurement_metric == "goodput":
-            measurement = MEASUREMENTS[measurement_metric]
-            measurement.FILESIZE = config.filesize
-            measurement.REPETITIONS = config.repetitions
-            measurement.CONCURRENT_CLIENTS = config.concurrent_clients
+            measurement.TIMEOUT = config.timeout
             measurements.append(measurement)
     return tests, measurements
 
@@ -446,12 +441,10 @@ class PerfomanceRunner:
 
         client_keylog = os.path.join(client_log_dir.name, 'keys.log')
         server_keylog = os.path.join(server_log_dir.name, 'keys.log')
-
         client_qlog_dir = os.path.join(client_log_dir.name, 'client_qlog/')
         server_qlog_dir = os.path.join(server_log_dir.name, 'server_qlog/')
         
         client_paths, server_paths = self._create_paths(nb_paths)
-        
         testcase: TestCase = test(
             link_bandwidth=None,
             client_delay=None,

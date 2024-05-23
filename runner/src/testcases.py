@@ -388,65 +388,13 @@ class Measurement(TestCase):
     def use_qlog() -> bool:
         return False
 
-class MeasurementGoodput(Measurement):
-    FILESIZE = 1 * GB
-    CONCURRENT_CLIENTS = 1
-    _result = 0.0
-
-    @staticmethod
-    def name():
-        return "goodput"
-
-    @staticmethod
-    def timeout():
-        return 180
-
-    @staticmethod
-    def unit() -> str:
-        return "Mbps"
-
-    @staticmethod
-    def testname(p: Perspective):
-        return "goodput"
-
-    @staticmethod
-    def abbreviation():
-        return "G"
-
-    @staticmethod
-    def desc():
-        return "Measures connection goodput as baseline."
-
-    def get_paths(self, max_size=None, host=None):
-        if max_size and max_size < self.FILESIZE:
-            logging.debug(f'Limit filesize for {self.name()} to {max_size}')
-            self.FILESIZE = max_size
-        self._files = [
-        ]
-        return self._files
-
-    def check(self, client=None, server=None) -> TestResult:
-        if not self._check_files(client=client, server=server):
-            return TestResult.FAILED
-
-        time = (self._end_time - self._start_time) / timedelta(seconds=1)
-        goodput = (8 * self.FILESIZE * self.CONCURRENT_CLIENTS) / time / 10**6
-        logging.info(
-            f"Transferring {(self.FILESIZE * self.CONCURRENT_CLIENTS) / 10**6:.2f} MB took {time:.3f} s. With {self.CONCURRENT_CLIENTS} concurrent clients. Goodput: {goodput:.3f} {self.unit()}",
-        )
-        self._result = goodput
-
-        return TestResult.SUCCEEDED
-
-    def result(self) -> float:
-        return self._result
-
 from datetime import datetime
 import numpy as np
 
 class MeasurementThroughput(Measurement):
     CONCURRENT_CLIENTS = 1
     FILESIZE=0
+    TIMEOUT=0
     _result = 0.0
     
     @staticmethod
@@ -454,7 +402,9 @@ class MeasurementThroughput(Measurement):
         return "throughput"
     
     def timeout(self):
-        return self.DURATION + 90 # Transfer time + 90s idle time (cause of strace)
+        if self.TIMEOUT == 0:
+            return self.DURATION + 30
+        return self.TIMEOUT
     
     @staticmethod
     def unit() -> str:
@@ -490,7 +440,10 @@ class MeasurementThroughput(Measurement):
                 continue
             data = sum([float(measurement) for measurement in line.split()[1:]])
             data_per_second.append(data)
-        trimed_data = data_per_second[2:-2] # Remove first and last 2 seconds
+        if self.DURATION > 5:
+            trimed_data = data_per_second[2:-2] # Remove first and last 2 seconds
+        else:
+            trimed_data = data_per_second
         sum_data = sum(trimed_data)
         return sum_data * 8 / 1024 # Convert to Mb
 
@@ -535,110 +488,13 @@ class MeasurementThroughput(Measurement):
     def result(self) -> float:
         return self._result
 
-class MeasurementQlog(Measurement):
-    FILESIZE = 200 * MB
-    _result = 0.0
-
-    @staticmethod
-    def name():
-        return "qlog"
-
-    @staticmethod
-    def timeout():
-        return 80
-
-    @staticmethod
-    def unit() -> str:
-        return "Mbps"
-
-    @staticmethod
-    def testname(p: Perspective):
-        return "qlog"
-
-    @staticmethod
-    def abbreviation():
-        return "Q"
-
-    @staticmethod
-    def desc():
-        return "Measures connection goodput while running qlog."
-
-    @staticmethod
-    def use_qlog() -> bool:
-        return True
-
-    def get_paths(self, max_size=None, host=None):
-        self._files = [self._generate_random_file(min(self.FILESIZE, max_size) if max_size else self.FILESIZE )]
-        return self._files
-
-    def check(self, client=None, server=None) -> TestResult:
-
-        result_status = TestResult.SUCCEEDED
-
-        # Check if qlog file exists
-        client_qlogs = [os.path.join(self._client_qlog_dir, name) for name in os.listdir(self._client_qlog_dir)]
-        server_qlogs = [os.path.join(self._server_qlog_dir, name) for name in os.listdir(self._server_qlog_dir)]
-
-        if len(client_qlogs) < 1:
-            logging.info(f"Expected at least 1 qlog file from client. Got: {len(client_qlogs)}")
-            result_status = TestResult.FAILED
-
-        if len(server_qlogs) < 1:
-            logging.info(f"Expected at least 1 qlog file from server. Got: {len(server_qlogs)}")
-            result_status = TestResult.FAILED
-
-        logging.debug(f"Deleting {len(client_qlogs + server_qlogs)} qlogs")
-        for f in client_qlogs + server_qlogs:
-            os.remove(f)
-
-        if not self._check_files():
-            result_status = TestResult.FAILED
-
-        if result_status == TestResult.FAILED:
-            return result_status
-
-        time = (self._end_time - self._start_time) / timedelta(seconds=1)
-        goodput = (8 * self.FILESIZE) / time / 10**6
-        logging.info(
-            f"Transferring {self.FILESIZE / 10**6:.2f} MB took {time:.3f} s. Goodput (with qlog): {goodput:.3f} {self.unit()}",
-        )
-        self._result = goodput
-        return TestResult.SUCCEEDED
-
-    def result(self) -> float:
-        return self._result
-
-
-class MeasurementOptimize(MeasurementGoodput):
-
-    @staticmethod
-    def name():
-        return "optimize"
-
-    @staticmethod
-    def timeout():
-        return 80
-
-    @staticmethod
-    def testname(p: Perspective):
-        return "optimize"
-
-    @staticmethod
-    def abbreviation():
-        return "Opt"
-
-    @staticmethod
-    def desc():
-        return "Measures connection goodput with optimizations."
-
 
 TESTCASES = [
 ]
 
 MEASUREMENTS = {
-    tc.name(): tc for tc in [MeasurementGoodput, MeasurementThroughput]
+    tc.name(): tc for tc in [MeasurementThroughput]
 }
 
 class MeasurementNames(Enum):
     Throughput: str = "throughput"
-    Goodput: str = "goodput"

@@ -21,8 +21,8 @@ fi
 
 # Wait for a process entitle role
 while [ -z "$(pgrep -f $IMPLEMENTATION-$ROLE)" ]; do
-    sleep 1
+    sleep 0.1
 done
 
 pid=$(pgrep -f $IMPLEMENTATION-$ROLE)
-sudo perf record -e cycles -F 999 -g --call-graph fp -p $pid -o ${LOG_DIR}/perf.data
+sudo perf record -a -e cycles -F 999 -g --call-graph dwarf -p $pid -o ${LOG_DIR}/perf.data

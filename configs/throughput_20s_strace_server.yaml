@@ -1,6 +1,6 @@
 implementations: [mpquic, mcmpquic]
 measurement_metrics: [throughput]
-repetitions: 1 # 2
+repetitions: 2
 duration: 15 # seconds
 concurrent_clients: 1
 nb_paths: [1, 4, 8, 12, 16]
@@ -8,25 +8,31 @@ client_prerunscript:
   - path: pre-post-scripts/off-ht.sh
   - path: pre-post-scripts/run-ethtool.sh
   - path: pre-post-scripts/set-rcvbuf.sh
-
+  - path: pre-post-scripts/run-bandwidth-monitor.sh # needed
+    blocking: true
+    
 client_postrunscript:
   - path: pre-post-scripts/run-ethtool.sh
   - path: pre-post-scripts/run-netstat.sh
   - path: pre-post-scripts/set-buffers-default.sh
-
+  - path: pre-post-scripts/stop-bandwidth-monitor.sh
+  
 server_prerunscript:
   - path: pre-post-scripts/off-ht.sh
   - path: pre-post-scripts/run-ethtool.sh
   - path: pre-post-scripts/set-rcvbuf.sh
   - path: pre-post-scripts/run-strace.sh
     blocking: true
-
+  - path: pre-post-scripts/run-bandwidth-monitor.sh # needed
+    blocking: true
+    
 server_postrunscript:
   - path: pre-post-scripts/run-ethtool.sh
   - path: pre-post-scripts/run-netstat.sh
   - path: pre-post-scripts/set-buffers-default.sh
   - path: pre-post-scripts/stop-strace.sh
-
+  - path: pre-post-scripts/stop-bandwidth-monitor.sh
+  
 client_implementation_params:
   rmem_value: 100000000 # 100MB
 server_implementation_params:

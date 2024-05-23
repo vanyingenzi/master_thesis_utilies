@@ -62,7 +62,8 @@ class YamlConfig:
     server_postrunscript: List[PrePostRunScript] = field(default_factory=list)
     client_implementation_params: dict = field(default_factory=lambda: {})
     server_implementation_params: dict = field(default_factory=lambda: {})
-    build_script: str = None, 
+    build_script: str = None,
+    timeout:int = 0
     concurrent_clients: int = 1
 
     @classmethod
@@ -98,7 +99,8 @@ class YamlConfig:
             client_implementation_params=yaml_data.get('client_implementation_params', {}),
             server_implementation_params=yaml_data.get('server_implementation_params', {}),
             build_script=yaml_data['build_script'], 
-            concurrent_clients=yaml_data.get('concurrent_clients', 1)
+            concurrent_clients=yaml_data.get('concurrent_clients', 1),
+            timeout=yaml_data.get('timeout', 0)
         )
     
 

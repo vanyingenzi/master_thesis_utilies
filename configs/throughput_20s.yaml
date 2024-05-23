@@ -1,6 +1,6 @@
 implementations: [mpquic, mcmpquic]
 measurement_metrics: [throughput]
-repetitions: 2 # 10
+repetitions: 10
 duration: 20 # seconds
 concurrent_clients: 1
 nb_paths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
