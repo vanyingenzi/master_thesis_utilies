@@ -21,8 +21,8 @@ fi
 
 # Wait for a process entitle role
 while [ -z "$(pgrep -f $IMPLEMENTATION-$ROLE)" ]; do
-    sleep 1
+    sleep 0.5
 done
 
 pid=$(pgrep -f $IMPLEMENTATION-$ROLE)
-sudo perf trace -s -p $pid -o ${LOG_DIR}/trace.txt
+sudo perf trace -a -D 2000 -s -p $pid -o ${LOG_DIR}/trace.txt

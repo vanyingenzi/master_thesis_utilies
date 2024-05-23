@@ -25,4 +25,4 @@ while [ -z "$(pgrep -f $IMPLEMENTATION-$ROLE)" ]; do
 done
 
 pid=$(pgrep -f $IMPLEMENTATION-$ROLE)
-sudo perf record -D -cpu=0 -D 2 --timeout 2000 -e cycles -F 999 -g --call-graph dwarf -p $pid -o ${LOG_DIR}/perf.data
+sudo perf record -e cycles --cpu=0 -D 2000 --timeout 2000 -F 999 -g --call-graph dwarf -p $pid -o ${LOG_DIR}/perf.data

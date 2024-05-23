@@ -1,7 +1,7 @@
 implementations: [mpquic, mcmpquic]
 measurement_metrics: [throughput]
 repetitions: 2
-duration: 15 # seconds
+duration: 10 # seconds
 concurrent_clients: 1
 timeout: 1800 # seconds (30 minutes) 
 nb_paths: [1, 4, 8, 12, 16]
