@@ -35,7 +35,7 @@ else
     perf_pid=$!
 fi
 
-if [[ $perf_pid -eq 0 ]]; then
+if [[ $perf_pid -ne 0 ]]; then
     sleep 1
     sudo kill -SIGINT $perf_pid
 fi
