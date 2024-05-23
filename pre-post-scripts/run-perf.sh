@@ -25,4 +25,8 @@ while [ -z "$(pgrep -f $IMPLEMENTATION-$ROLE)" ]; do
 done
 
 pid=$(pgrep -f $IMPLEMENTATION-$ROLE)
-sudo perf record -e cycles --cpu=0 -D 2000 --timeout 2000 -F 999 -g --call-graph dwarf -p $pid -o ${LOG_DIR}/perf.data
+if [[ $IMPLEMENTATION == "mcmpquic" ]]; then
+    sudo perf record -e cycles --cpu=0 -D 2000 -F 999 -g --call-graph dwarf -p $pid -o ${LOG_DIR}/perf.data
+else
+    sudo perf record -e cycles -a -D 2000 -F 999 -g --call-graph dwarf -p $pid -o ${LOG_DIR}/perf.data
+fi
