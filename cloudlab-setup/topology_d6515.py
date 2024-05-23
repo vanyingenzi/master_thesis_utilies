@@ -27,12 +27,5 @@ def setup_client_server_specs():
         node.hardware_type = "d6515"
     return (client, server)
 
-
-def specify_os_setup_scripts(nodes):
-    for node in nodes:
-        # Defalt OS is ubuntu 20.64 node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU20-64-STD"
-        node.addService(pg.Install(url="https://raw.githubusercontent.com/vanyingenzi/master_thesis_utilities/main/cloudlab-setup/install_scripts/setup.sh", path="/local"))
-        node.addService(pg.Execute(shell="bash", command="/local/setup.sh"))
-
 client, server = setup_client_server_specs()
 portal.context.printRequestRSpec()
