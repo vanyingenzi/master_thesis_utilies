@@ -12,14 +12,14 @@ pid=$(pgrep -f $IMPLEMENTATION-$ROLE)
 perf_pid=0
 
 if [[ $IMPLEMENTATION == "mcmpquic" ]]; then
-    sudo perf record -e cycles -D 1000 --cpu=0 -F 999 --max-size=4M --call-graph dwarf -p $pid -o ${LOG_DIR}/perf.data &
+    sudo perf record -e cycles -D 4000 --cpu=0 -F 999 --max-size=4M --call-graph dwarf -p $pid -o ${LOG_DIR}/perf.data &
     perf_pid=$!
 else
-    sudo perf record -e cycles -D 1000 -F 999 --max-size=4M --call-graph dwarf -p $pid -o ${LOG_DIR}/perf.data &
+    sudo perf record -e cycles -D 4000 -F 999 --max-size=4M --call-graph dwarf -p $pid -o ${LOG_DIR}/perf.data &
     perf_pid=$!
 fi
 
 if [[ $perf_pid -ne 0 ]]; then
-    sleep 0.5
+    sleep 1
     sudo kill -SIGINT $perf_pid
 fi
