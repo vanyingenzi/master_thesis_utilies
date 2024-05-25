@@ -3,7 +3,7 @@ measurement_metrics: [throughput]
 repetitions: 10
 duration: 20 # seconds
 concurrent_clients: 1
-nb_paths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+nb_paths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
 client_prerunscript:
   - path: pre-post-scripts/on-ht.sh
   - path: pre-post-scripts/run-ethtool.sh
@@ -44,9 +44,9 @@ server_postrunscript:
 
 client_implementation_params:
   rmem_value: 100000000 # 100MB
-  app_cpu_aff: "0-16"
+  app_cpu_aff: "0-31"
 server_implementation_params:
   rmem_value: 100000000 # 100MB
-  app_cpu_aff: "0-16"
+  app_cpu_aff: "0-31"
 
 build_script: 'build_optimised.sh' # can also be build.sh for debug
