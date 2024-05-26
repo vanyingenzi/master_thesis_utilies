@@ -25,11 +25,11 @@ fi
 
 SERVER_ADDRESSES=$(jq -r '.extra_server_addrs[]' /tmp/interop-variables.json)
 SERVER_ADDR_ARGS=""
+CIDS=1 # connect-to address
 for addr in $SERVER_ADDRESSES; do
     SERVER_ADDR_ARGS="$SERVER_ADDR_ARGS --server-address $addr"
+    CIDS=$((CIDS+1))
 done
-
-CIDS=$(echo "$SERVER_ADDRESSES" | jq 'length + 1')
 
 if [[ $TESTCASE == "goodput" ]]; then
     TRANSFER_SIZE=$(jq -er '.filesize // empty'  /tmp/interop-variables.json)

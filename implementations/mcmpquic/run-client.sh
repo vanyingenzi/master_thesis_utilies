@@ -26,9 +26,11 @@ if [[ $TESTCASE == "goodput" ]] || [[ $TESTCASE == "throughput" ]] ; then
     CONNECT_TO=$(jq -r '.connect_to' /tmp/interop-variables.json)
     SERVER_ADDRESSES=$(jq -r '.extra_server_addrs[]' /tmp/interop-variables.json)
 
+    CIDS=0
     CLIENT_ADDR_ARGS=""
     for addr in $CLIENT_ADDRESSES; do
         CLIENT_ADDR_ARGS="$CLIENT_ADDR_ARGS -A $addr"
+        CIDS=$((CIDS+1))
     done
     
     SERVER_ADDR_ARGS=""
@@ -39,11 +41,9 @@ if [[ $TESTCASE == "goodput" ]] || [[ $TESTCASE == "throughput" ]] ; then
     CPU_AFFINITY_ARGS=""
     CPU_AFFINITY=$(jq -er '.app_cpu_aff // empty'  /tmp/interop-variables.json)
 
-    if [[ $CPU_AFFINITY == "true" ]]; then
+    if [[ -n "$CPU_AFFINITY" ]]; then
         CPU_AFFINITY_ARGS="--cpu-affinity ${CPU_AFFINITY}"
     fi
-
-    CIDS=$(echo "$CLIENT_ADDRESSES" | jq 'length')
 
     start=$(date +%s%N)
     RUST_LOG=info ./mcmpquic-client \

@@ -872,6 +872,8 @@ class PerfomanceRunner:
             },
             "quic_draft": QUIC_DRAFT,
             "quic_version": QUIC_VERSION,
+            "config": self._config.basename, 
+            "testbed": self._testbed.basename,
             "results": [],
             "measurements": [],
         }

@@ -27,17 +27,17 @@ if [[ $TESTCASE == "goodput" ]] || [[ $TESTCASE == "throughput" ]] ; then
     CONNECT_TO=$(jq -r '.connect_to' /tmp/interop-variables.json)
     SERVER_ADDRESSES=$(jq -r '.extra_server_addrs[]' /tmp/interop-variables.json)
 
+    CIDS=0
     CLIENT_ADDR_ARGS=""
     for addr in $CLIENT_ADDRESSES; do
         CLIENT_ADDR_ARGS="$CLIENT_ADDR_ARGS -A $addr"
+        CIDS=$((CIDS+1))
     done
     
     SERVER_ADDR_ARGS=""
     for addr in $SERVER_ADDRESSES; do
         SERVER_ADDR_ARGS="$SERVER_ADDR_ARGS --server-address $addr"
     done
-
-    CIDS=$(echo "$CLIENT_ADDRESSES" | jq 'length')
 
     start=$(date +%s%N)
     RUST_LOG=info ./mpquic-client \

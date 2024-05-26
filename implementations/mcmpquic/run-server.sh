@@ -28,17 +28,17 @@ fi
 CPU_AFFINITY_ARGS=""
 CPU_AFFINITY=$(jq -er '.app_cpu_aff // empty'  /tmp/interop-variables.json)
 
-if [[ $CPU_AFFINITY == "true" ]]; then
+if [[ -n "$CPU_AFFINITY" ]]; then
     CPU_AFFINITY_ARGS="--cpu-affinity ${CPU_AFFINITY}"
 fi
 
 SERVER_ADDRESSES=$(jq -r '.extra_server_addrs[]' /tmp/interop-variables.json)
 SERVER_ADDR_ARGS=""
+CIDS=1 # connect-to address
 for addr in $SERVER_ADDRESSES; do
     SERVER_ADDR_ARGS="$SERVER_ADDR_ARGS --server-address $addr"
+    CIDS=$((CIDS+1))
 done
-
-CIDS=$(echo "$SERVER_ADDRESSES" | jq 'length + 1')
 
 if [[ $TESTCASE == "goodput" ]]; then
     TRANSFER_SIZE=$(jq -er '.filesize // empty'  /tmp/interop-variables.json)
@@ -82,7 +82,7 @@ elif [[ $TESTCASE == "throughput" ]]; then
         --key $CERTS/priv.key \
         --transfer-time ${TRANSFER_TIME} \
         --max-data $MAX_DATA \
-        --max-active-cids 16 \
+        --max-active-cids ${CIDS} \
         --max-window $MAX_WINDOW \
         --max-stream-data $MAX_STREAM_DATA \
         --max-stream-window $MAX_STREAM_WINDOW \

@@ -36,7 +36,6 @@ class TestbedConfig:
         with open(testbed_json, 'r') as json_file:
             json_data = json.load(json_file)
 
-        # Parse JSON data into the TestbedConfig structure
         return TestbedConfig(
             server=Host(**json_data['server'], role='server'),
             client=Host(**json_data['client'], role='client'), 
@@ -54,6 +53,7 @@ class YamlConfig:
     repetitions: int
     measurement_metrics: List[str]
     nb_paths: List[str]
+    basename: str
     filesize: int = None
     duration: int = None
     client_prerunscript: List[PrePostRunScript] = field(default_factory=list)
@@ -76,15 +76,14 @@ class YamlConfig:
         return scripts
 
     @classmethod
-    def parse_yaml(cls, yaml_file: str):
+    def parse_yaml(cls, yaml_file_path: str):
 
-        with open(yaml_file, 'r') as yaml_file:
+        with open(yaml_file_path, 'r') as yaml_file:
             yaml_data = yaml.safe_load(yaml_file)
         
         if next((x for x in yaml_data["nb_paths"] if x <= 0), None) != None:
             raise ValueError("Number of paths must be greater than 0")
         
-        # Create an instance of the TestbedConfig data class
         return YamlConfig(
             implementations=yaml_data['implementations'],
             repetitions=yaml_data['repetitions'],
@@ -100,7 +99,8 @@ class YamlConfig:
             server_implementation_params=yaml_data.get('server_implementation_params', {}),
             build_script=yaml_data['build_script'], 
             concurrent_clients=yaml_data.get('concurrent_clients', 1),
-            timeout=yaml_data.get('timeout', 0)
+            timeout=yaml_data.get('timeout', 0), 
+            basename=os.path.basename(yaml_file_path)
         )
     
 
