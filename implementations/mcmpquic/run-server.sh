@@ -38,6 +38,8 @@ for addr in $SERVER_ADDRESSES; do
     SERVER_ADDR_ARGS="$SERVER_ADDR_ARGS --server-address $addr"
 done
 
+CIDS=$(echo "$SERVER_ADDRESSES" | jq 'length + 1')
+
 if [[ $TESTCASE == "goodput" ]]; then
     TRANSFER_SIZE=$(jq -er '.filesize // empty'  /tmp/interop-variables.json)
     
@@ -55,7 +57,7 @@ if [[ $TESTCASE == "goodput" ]]; then
         --key $CERTS/priv.key \
         --transfer-size ${TRANSFER_SIZE} \
         --max-data $MAX_DATA \
-        --max-active-cids 16 \
+        --max-active-cids ${CIDS} \
         --max-window $MAX_WINDOW \
         --max-stream-data $MAX_STREAM_DATA \
         --max-stream-window $MAX_STREAM_WINDOW \

@@ -37,6 +37,8 @@ if [[ $TESTCASE == "goodput" ]] || [[ $TESTCASE == "throughput" ]] ; then
         SERVER_ADDR_ARGS="$SERVER_ADDR_ARGS --server-address $addr"
     done
 
+    CIDS=$(echo "$CLIENT_ADDRESSES" | jq 'length')
+
     start=$(date +%s%N)
     RUST_LOG=info ./mpquic-client \
         --no-verify \
@@ -47,7 +49,7 @@ if [[ $TESTCASE == "goodput" ]] || [[ $TESTCASE == "throughput" ]] ; then
         --max-stream-data $MAX_STREAM_DATA \
         --max-stream-window $MAX_STREAM_WINDOW \
         ${CLIENT_ADDR_ARGS} \
-        --max-active-cids 16 \
+        --max-active-cids ${CIDS} \
         --connect-to ${CONNECT_TO} \
         ${SERVER_ADDR_ARGS} \
         --multipath \

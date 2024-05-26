@@ -43,6 +43,8 @@ if [[ $TESTCASE == "goodput" ]] || [[ $TESTCASE == "throughput" ]] ; then
         CPU_AFFINITY_ARGS="--cpu-affinity ${CPU_AFFINITY}"
     fi
 
+    CIDS=$(echo "$CLIENT_ADDRESSES" | jq 'length')
+
     start=$(date +%s%N)
     RUST_LOG=info ./mcmpquic-client \
         --no-verify \
@@ -53,7 +55,7 @@ if [[ $TESTCASE == "goodput" ]] || [[ $TESTCASE == "throughput" ]] ; then
         --max-stream-data $MAX_STREAM_DATA \
         --max-stream-window $MAX_STREAM_WINDOW \
         ${CLIENT_ADDR_ARGS} \
-        --max-active-cids 16 \
+        --max-active-cids ${CIDS} \
         --connect-to ${CONNECT_TO} \
         ${SERVER_ADDR_ARGS} \
         --multicore \
