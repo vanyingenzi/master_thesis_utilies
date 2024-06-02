@@ -1,0 +1,297 @@
+2024-06-02 00:26:52,766 Checking if port 4818 is in use on sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:26:55,115 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:26:55,115 
+stdout: 
+2024-06-02 00:26:55,115 
+stderr: 
+2024-06-02 00:26:55,479 
+2024-06-02 00:26:55,479 Copy /tmp/logs_server_1cw62z3w to sm220u-10s10639.wisc.cloudlab.us:/tmp
+2024-06-02 00:26:58,417 The transfer return code : 0
+2024-06-02 00:26:58,417 Copy /tmp/www_orq1chj4 to sm220u-10s10639.wisc.cloudlab.us:/tmp
+2024-06-02 00:27:01,289 The transfer return code : 0
+2024-06-02 00:27:01,289 Copy /tmp/certs_u1fwto9k to sm220u-10s10639.wisc.cloudlab.us:/tmp
+2024-06-02 00:27:04,459 The transfer return code : 0
+2024-06-02 00:27:04,459 Copy /tmp/logs_sim__k4uvwd6 to sm220u-10s10631.wisc.cloudlab.us:/tmp
+2024-06-02 00:27:08,683 The transfer return code : 0
+2024-06-02 00:27:08,683 Copy /tmp/logs_client_tnojs98m to sm220u-10s10631.wisc.cloudlab.us:/tmp
+2024-06-02 00:27:11,729 The transfer return code : 0
+2024-06-02 00:27:11,729 Copy /tmp/download_zgre1w4x to sm220u-10s10631.wisc.cloudlab.us:/tmp
+2024-06-02 00:27:15,748 The transfer return code : 0
+2024-06-02 00:27:15,748 Building mcmpquic on sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:27:15,748 Running command "cd ~/mcmpquic; ./build_optimised.sh" on sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:27:26,239 sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:27:26,240 stdout: 
+  stable-x86_64-unknown-linux-gnu unchanged - rustc 1.78.0 (9b00956e5 2024-04-29)
+
+
+Rust is installed now. Great!
+
+To get started you may need to restart your current shell.
+This would reload your PATH environment variable to include
+Cargo's bin directory ($HOME/.cargo/bin).
+
+To configure your current shell, you need to source
+the corresponding env file under $HOME/.cargo.
+
+This is usually done by running one of the following (note the leading DOT):
+. "$HOME/.cargo/env"            # For sh/bash/zsh/ash/dash/pdksh
+source "$HOME/.cargo/env.fish"  # For fish
+updating: VERSION (stored 0%)
+updating: setup-env.sh (stored 0%)
+updating: run-client.sh (deflated 62%)
+updating: run-server.sh (deflated 68%)
+updating: mcmpquic-server (deflated 74%)
+updating: mcmpquic-client (deflated 74%)
+
+2024-06-02 00:27:26,240 stderr: fatal: not a git repository (or any of the parent directories): .git
+info: downloading installer
+info: profile set to 'default'
+info: setting default host triple to x86_64-unknown-linux-gnu
+warning: Updating existing toolchain, profile choice will be ignored
+info: syncing channel updates for 'stable-x86_64-unknown-linux-gnu'
+info: default toolchain set to 'stable-x86_64-unknown-linux-gnu'
+fatal: destination path 'quiche' already exists and is not an empty directory.
+HEAD is now at 4ff7c86b Fixed a bug with on_timeout
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.55s
+
+2024-06-02 00:27:26,240 Give execute permission to ~/mcmpquic/mcmpquic-server on sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:27:28,410 The command return code : 0
+2024-06-02 00:27:28,410 Building mcmpquic on sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:27:28,410 Running command "cd ~/mcmpquic; ./build_optimised.sh" on sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:27:38,538 sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:27:38,538 stdout: 
+  stable-x86_64-unknown-linux-gnu unchanged - rustc 1.78.0 (9b00956e5 2024-04-29)
+
+
+Rust is installed now. Great!
+
+To get started you may need to restart your current shell.
+This would reload your PATH environment variable to include
+Cargo's bin directory ($HOME/.cargo/bin).
+
+To configure your current shell, you need to source
+the corresponding env file under $HOME/.cargo.
+
+This is usually done by running one of the following (note the leading DOT):
+. "$HOME/.cargo/env"            # For sh/bash/zsh/ash/dash/pdksh
+source "$HOME/.cargo/env.fish"  # For fish
+updating: VERSION (stored 0%)
+updating: setup-env.sh (stored 0%)
+updating: run-client.sh (deflated 62%)
+updating: run-server.sh (deflated 68%)
+updating: mcmpquic-server (deflated 74%)
+updating: mcmpquic-client (deflated 74%)
+
+2024-06-02 00:27:38,539 stderr: fatal: not a git repository (or any of the parent directories): .git
+info: downloading installer
+info: profile set to 'default'
+info: setting default host triple to x86_64-unknown-linux-gnu
+warning: Updating existing toolchain, profile choice will be ignored
+info: syncing channel updates for 'stable-x86_64-unknown-linux-gnu'
+info: default toolchain set to 'stable-x86_64-unknown-linux-gnu'
+fatal: destination path 'quiche' already exists and is not an empty directory.
+HEAD is now at 4ff7c86b Fixed a bug with on_timeout
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.56s
+
+2024-06-02 00:27:38,539 Give execute permission to ~/mcmpquic/mcmpquic-client on sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:27:40,694 The command return code : 0
+2024-06-02 00:27:40,694 Checking if /tmp/server/bin/activate exists on sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:27:43,013 Checking if /tmp/client/bin/activate exists on sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:27:45,231 Setting the variables:
+{'implementation': 'mcmpquic', 'interfaces': ['ens2f0np0', 'ens2f1np1'], 'hostname': 'sm220u-10s10639.wisc.cloudlab.us', 'log_dir': '/tmp/logs_server_1cw62z3w', 'www_dir': '/tmp/www_orq1chj4/', 'certs_dir': '/tmp/certs_u1fwto9k/', 'role': 'server', 'filesize': 0, 'duration': 10, 'listen_addr': '10.10.1.1:4433', 'extra_server_addrs': [], 'rmem_value': 100000000, 'app_cpu_aff': '0-16'}
+on the host sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:27:45,232 Copy /tmp/interop-temp-data-wg2smwpd to sm220u-10s10639.wisc.cloudlab.us:/tmp/interop-variables.json
+2024-06-02 00:27:48,904 Setting the variables:
+{'implementation': 'mcmpquic', 'interfaces': ['ens2f0np0', 'ens2f1np1'], 'hostname': 'sm220u-10s10631.wisc.cloudlab.us', 'log_dir': '/tmp/logs_client_tnojs98m', 'sim_log_dir': '/tmp/logs_sim__k4uvwd6', 'download_dir': '/tmp/download_zgre1w4x/', 'role': 'client', 'server_ip_port': '10.10.1.1:4433', 'connect_to': '10.10.1.1:4433', 'duration': 10, 'extra_server_addrs': [], 'client_addrs': ['10.10.1.2:4818'], 'rmem_value': 100000000, 'app_cpu_aff': '0-16'}
+on the host sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:27:48,904 Copy /tmp/interop-temp-data-x3l04ome to sm220u-10s10631.wisc.cloudlab.us:/tmp/interop-variables.json
+2024-06-02 00:27:51,925 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/off-ht.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:27:57,687 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:27:57,687 
+stdout: off
+
+2024-06-02 00:27:57,687 
+stderr: 
+2024-06-02 00:27:57,687 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:28:00,533 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:28:00,533 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-02 00:28:00,533 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-02 00:28:00,533 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-rcvbuf.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:28:03,150 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:28:03,150 
+stdout: net.core.rmem_max = 100000000
+net.core.rmem_default = 100000000
+net.core.wmem_max = 100000000
+net.core.wmem_default = 100000000
+
+2024-06-02 00:28:03,150 
+stderr: 
+2024-06-02 00:28:03,150 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-bandwidth-monitor.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:28:03,150 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/off-ht.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:28:09,127 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:28:09,127 
+stdout: off
+
+2024-06-02 00:28:09,127 
+stderr: 
+2024-06-02 00:28:09,127 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:28:13,479 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:28:13,479 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-02 00:28:13,479 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-02 00:28:13,479 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-rcvbuf.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:28:15,710 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:28:15,711 
+stdout: net.core.rmem_max = 100000000
+net.core.rmem_default = 100000000
+net.core.wmem_max = 100000000
+net.core.wmem_default = 100000000
+
+2024-06-02 00:28:15,711 
+stderr: 
+2024-06-02 00:28:15,711 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-perf.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:28:15,711 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-bandwidth-monitor.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:28:15,712 Starting server:
+ ssh sm220u-10s10639.wisc.cloudlab.us 'cd ~/mcmpquic; /tmp/server/bin/activate; SSLKEYLOGFILE=/tmp/logs_server_1cw62z3w/keys.log  LOGS=/tmp/logs_server_1cw62z3w TESTCASE=throughput WWW=/tmp/www_orq1chj4/ CERTS=/tmp/certs_u1fwto9k/ IP=10.10.1.1 PORT=4433 SERVERNAME=server ./run-server.sh'
+
+2024-06-02 00:28:17,714 Starting client:
+ ssh sm220u-10s10631.wisc.cloudlab.us 'cd ~/mcmpquic; /tmp/client/bin/activate; SSLKEYLOGFILE=/tmp/logs_client_tnojs98m/keys.log  LOGS=/tmp/logs_client_tnojs98m TESTCASE=throughput DOWNLOADS=/tmp/download_zgre1w4x/ CLIENTSUFFIX= ./run-client.sh'
+
+2024-06-02 00:28:30,889 Client
+2024-06-02 00:28:30,889 
+stdout: 
+2024-06-02 00:28:30,889 
+stderr: 
+2024-06-02 00:28:30,889 Getting content of /tmp/logs_client_tnojs98m/time.json from sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:28:33,323 start time: 2024-06-02 00:28:21.457168
+2024-06-02 00:28:33,323 end time: 2024-06-02 00:28:31.513758
+2024-06-02 00:28:33,323 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:28:36,606 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:28:36,606 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-02 00:28:36,606 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-02 00:28:36,606 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-netstat.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:28:39,505 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:28:39,505 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-02 00:28:39,505 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-02 00:28:39,505 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-buffers-default.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:28:41,925 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:28:41,925 
+stdout: net.core.rmem_max = 212992
+net.core.rmem_default = 212992
+net.core.wmem_max = 212992
+net.core.wmem_default = 212992
+
+2024-06-02 00:28:41,925 
+stderr: 
+2024-06-02 00:28:41,925 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/stop-perf.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:51:49,031 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:51:49,031 
+stdout: No existing perf record process found.
+
+2024-06-02 00:51:49,031 
+stderr: 
+2024-06-02 00:51:49,031 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/stop-bandwidth-monitor.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:51:51,594 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:51:51,606 
+stdout: 
+2024-06-02 00:51:51,607 
+stderr: 
+2024-06-02 00:51:52,608 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:51:55,429 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:51:55,429 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-02 00:51:55,429 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-02 00:51:55,430 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-netstat.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:51:58,480 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:51:58,480 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-02 00:51:58,480 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-02 00:51:58,480 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-buffers-default.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:52:00,603 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:52:00,603 
+stdout: net.core.rmem_max = 212992
+net.core.rmem_default = 212992
+net.core.wmem_max = 212992
+net.core.wmem_default = 212992
+
+2024-06-02 00:52:00,603 
+stderr: 
+2024-06-02 00:52:00,603 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/stop-bandwidth-monitor.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:52:03,190 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:52:03,190 
+stdout: 
+2024-06-02 00:52:03,190 
+stderr: 
+2024-06-02 00:52:03,190 Removing all variables from sm220u-10s10639.wisc.cloudlab.us
+2024-06-02 00:52:06,161 Removing all variables from sm220u-10s10631.wisc.cloudlab.us
+2024-06-02 00:52:10,084 Server
+2024-06-02 00:52:10,084 
+stdout: 
+2024-06-02 00:52:10,084 
+stderr: 
+2024-06-02 00:52:10,084 Copy sm220u-10s10639.wisc.cloudlab.us:/tmp/logs_server_1cw62z3w to /tmp
+2024-06-02 00:52:14,256 Copy sm220u-10s10639.wisc.cloudlab.us:/tmp/certs_u1fwto9k to /tmp
+2024-06-02 00:52:17,928 Copy sm220u-10s10631.wisc.cloudlab.us:/tmp/logs_sim__k4uvwd6 to /tmp
+2024-06-02 00:52:21,349 Copy sm220u-10s10631.wisc.cloudlab.us:/tmp/logs_client_tnojs98m to /tmp
+2024-06-02 00:52:26,223 ssh sm220u-10s10639.wisc.cloudlab.us 'cat /tmp/download_zgre1w4x/server.log | grep ERROR '
+2024-06-02 00:52:28,250 ssh sm220u-10s10631.wisc.cloudlab.us 'cat /tmp/download_zgre1w4x/client.log | grep ERROR '
+2024-06-02 00:52:30,206 ssh sm220u-10s10631.wisc.cloudlab.us 'cat /tmp/logs_client_tnojs98m/ifstat_monitor.txt'
+2024-06-02 00:52:32,779 Bandwidth usage (throughput) 3629.461 Mbps, with 1 concurrent clients.
+2024-06-02 00:52:32,779 ✓ Test successful

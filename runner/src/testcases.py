@@ -23,13 +23,12 @@ class TestResult(Enum):
     FAILED = "failed"
     UNSUPPORTED = "unsupported"
 
-KB = 1 << 10
-MB = 1 << 20
-GB = 1 << 30
+KiB = 1 << 10 # kibibyte
+MiB = 1 << 20 # mebibyte
+GiB = 1 << 30 # gibibyte
 
 QUIC_DRAFT = 34  # draft-34
 QUIC_VERSION = hex(0x1)
-
 
 class Perspective(Enum):
     SERVER = "server"
@@ -426,7 +425,7 @@ class MeasurementThroughput(Measurement):
         pattern = r"^[0-2][0-9]:[0-5][0-9]:[0-5][0-9]$"
         return bool(re.match(pattern, timestamp))
 
-    def extract_ifstat_data_file(self, filecontent: str) -> List[float]:
+    def extract_ifstat_data_file(self, filecontent: str) -> float:
         lines = filecontent.splitlines()
         lines = [line.strip() for line in lines if len(line.strip()) != 0]
         data_per_second = []
@@ -445,7 +444,7 @@ class MeasurementThroughput(Measurement):
         else:
             trimed_data = data_per_second
         sum_data = sum(trimed_data)
-        return sum_data * 8 / 1024 # Convert to Mb
+        return sum_data * 8 / 1000 # Convert to Mb
 
     def _get_ifstat_file_throughput(self, client):
         cmd = f'ssh {client} \'cat {self._client_log_dir + "/ifstat_monitor.txt"}\''
@@ -465,7 +464,6 @@ class MeasurementThroughput(Measurement):
     def check(self, client=str | None, server=str | None) -> TestResult:
         if not self._check_files(client=client, server=server):
             return TestResult.FAILED
-        
         time = (self._end_time - self._start_time) / timedelta(seconds=1) # Transfer time
         time -= 4 # Remove first and last 2 seconds
         client_ifstat = self._get_ifstat_file_throughput(client)

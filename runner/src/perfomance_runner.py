@@ -571,6 +571,7 @@ class PerfomanceRunner:
                 "role": client.role,
                 "server_ip_port": f"{testcase.ip()}:{testcase.port()}",
                 "connect_to": server_paths[0].repr(),
+                "duration": testcase.DURATION, # in seconds, also for client, added to support iperf3
                 "extra_server_addrs": [addr.repr() for addr in server_paths[1:]],
                 "client_addrs": [addr.repr() for addr in client_paths],
             }

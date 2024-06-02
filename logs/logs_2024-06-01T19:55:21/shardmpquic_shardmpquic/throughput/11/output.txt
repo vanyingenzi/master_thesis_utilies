@@ -1,0 +1,289 @@
+2024-06-01 20:21:20,949 Checking if port 5934 is in use on amd148.utah.cloudlab.us
+2024-06-01 20:21:23,110 host: amd148.utah.cloudlab.us
+2024-06-01 20:21:23,110 
+stdout: 
+2024-06-01 20:21:23,111 
+stderr: 
+2024-06-01 20:21:23,111 Checking if port 6332 is in use on amd162.utah.cloudlab.us
+2024-06-01 20:21:25,357 host: amd162.utah.cloudlab.us
+2024-06-01 20:21:25,357 
+stdout: 
+2024-06-01 20:21:25,357 
+stderr: 
+2024-06-01 20:21:25,357 Checking if port 4901 is in use on amd162.utah.cloudlab.us
+2024-06-01 20:21:27,522 host: amd162.utah.cloudlab.us
+2024-06-01 20:21:27,522 
+stdout: 
+2024-06-01 20:21:27,522 
+stderr: 
+2024-06-01 20:21:28,212 
+2024-06-01 20:21:28,212 Copy /tmp/logs_server_f5s4kccc to amd148.utah.cloudlab.us:/tmp
+2024-06-01 20:21:31,175 The transfer return code : 0
+2024-06-01 20:21:31,175 Copy /tmp/www_dq83tfws to amd148.utah.cloudlab.us:/tmp
+2024-06-01 20:21:33,853 The transfer return code : 0
+2024-06-01 20:21:33,853 Copy /tmp/certs_2za_3ehm to amd148.utah.cloudlab.us:/tmp
+2024-06-01 20:21:36,764 The transfer return code : 0
+2024-06-01 20:21:36,765 Copy /tmp/logs_sim_36b2f556 to amd162.utah.cloudlab.us:/tmp
+2024-06-01 20:21:39,502 The transfer return code : 0
+2024-06-01 20:21:39,502 Copy /tmp/logs_client_4xrdax20 to amd162.utah.cloudlab.us:/tmp
+2024-06-01 20:21:42,397 The transfer return code : 0
+2024-06-01 20:21:42,397 Copy /tmp/download_yea7zifv to amd162.utah.cloudlab.us:/tmp
+2024-06-01 20:21:46,487 The transfer return code : 0
+2024-06-01 20:21:46,487 Checking if /tmp/server/bin/activate exists on amd148.utah.cloudlab.us
+2024-06-01 20:21:49,859 Checking if /tmp/client/bin/activate exists on amd162.utah.cloudlab.us
+2024-06-01 20:21:51,930 Setting the variables:
+{'implementation': 'shardmpquic', 'interfaces': ['enp65s0f0np0', 'enp65s0f1np1'], 'hostname': 'amd148.utah.cloudlab.us', 'log_dir': '/tmp/logs_server_f5s4kccc', 'www_dir': '/tmp/www_dq83tfws/', 'certs_dir': '/tmp/certs_2za_3ehm/', 'role': 'server', 'filesize': 0, 'duration': 20, 'listen_addr': '10.10.1.1:4433', 'extra_server_addrs': ['10.10.2.1:5934'], 'rmem_value': 100000000}
+on the host amd148.utah.cloudlab.us
+2024-06-01 20:21:51,931 Copy /tmp/interop-temp-data-0q0ukioj to amd148.utah.cloudlab.us:/tmp/interop-variables.json
+2024-06-01 20:21:56,558 Setting the variables:
+{'implementation': 'shardmpquic', 'interfaces': ['enp65s0f0np0', 'enp65s0f1np1'], 'hostname': 'amd162.utah.cloudlab.us', 'log_dir': '/tmp/logs_client_4xrdax20', 'sim_log_dir': '/tmp/logs_sim_36b2f556', 'download_dir': '/tmp/download_yea7zifv/', 'role': 'client', 'server_ip_port': '10.10.1.1:4433', 'connect_to': '10.10.1.1:4433', 'duration': 20, 'extra_server_addrs': ['10.10.2.1:5934'], 'client_addrs': ['10.10.1.2:6332', '10.10.2.2:4901'], 'rmem_value': 100000000}
+on the host amd162.utah.cloudlab.us
+2024-06-01 20:21:56,558 Copy /tmp/interop-temp-data-mzy38z_p to amd162.utah.cloudlab.us:/tmp/interop-variables.json
+2024-06-01 20:22:00,636 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/off-ht.sh on amd148.utah.cloudlab.us
+2024-06-01 20:22:02,945 host: amd148.utah.cloudlab.us
+2024-06-01 20:22:02,946 
+stdout: off
+
+2024-06-01 20:22:02,946 
+stderr: 
+2024-06-01 20:22:02,946 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on amd148.utah.cloudlab.us
+2024-06-01 20:22:05,492 host: amd148.utah.cloudlab.us
+2024-06-01 20:22:05,492 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 20:22:05,492 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 20:22:05,492 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-netstat.sh on amd148.utah.cloudlab.us
+2024-06-01 20:22:08,057 host: amd148.utah.cloudlab.us
+2024-06-01 20:22:08,057 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 20:22:08,057 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 20:22:08,057 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-rx-interrupts.sh on amd148.utah.cloudlab.us
+2024-06-01 20:22:10,352 host: amd148.utah.cloudlab.us
+2024-06-01 20:22:10,352 
+stdout: 
+2024-06-01 20:22:10,353 
+stderr: 
+2024-06-01 20:22:10,353 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-rcvbuf.sh on amd148.utah.cloudlab.us
+2024-06-01 20:22:12,583 host: amd148.utah.cloudlab.us
+2024-06-01 20:22:12,583 
+stdout: net.core.rmem_max = 100000000
+net.core.rmem_default = 100000000
+net.core.wmem_max = 100000000
+net.core.wmem_default = 100000000
+
+2024-06-01 20:22:12,584 
+stderr: 
+2024-06-01 20:22:12,584 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/start-cpu-monitor.sh on amd148.utah.cloudlab.us
+2024-06-01 20:22:12,584 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-bandwidth-monitor.sh on amd148.utah.cloudlab.us
+2024-06-01 20:22:12,584 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/off-ht.sh on amd162.utah.cloudlab.us
+2024-06-01 20:22:15,062 host: amd162.utah.cloudlab.us
+2024-06-01 20:22:15,062 
+stdout: off
+
+2024-06-01 20:22:15,062 
+stderr: 
+2024-06-01 20:22:15,063 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on amd162.utah.cloudlab.us
+2024-06-01 20:22:18,480 host: amd162.utah.cloudlab.us
+2024-06-01 20:22:18,480 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 20:22:18,480 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 20:22:18,481 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-netstat.sh on amd162.utah.cloudlab.us
+2024-06-01 20:22:20,997 host: amd162.utah.cloudlab.us
+2024-06-01 20:22:20,997 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 20:22:20,997 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 20:22:20,997 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-rx-interrupts.sh on amd162.utah.cloudlab.us
+2024-06-01 20:22:23,333 host: amd162.utah.cloudlab.us
+2024-06-01 20:22:23,333 
+stdout: 
+2024-06-01 20:22:23,334 
+stderr: 
+2024-06-01 20:22:23,334 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-rcvbuf.sh on amd162.utah.cloudlab.us
+2024-06-01 20:22:25,616 host: amd162.utah.cloudlab.us
+2024-06-01 20:22:25,616 
+stdout: net.core.rmem_max = 100000000
+net.core.rmem_default = 100000000
+net.core.wmem_max = 100000000
+net.core.wmem_default = 100000000
+
+2024-06-01 20:22:25,616 
+stderr: 
+2024-06-01 20:22:25,616 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/start-cpu-monitor.sh on amd162.utah.cloudlab.us
+2024-06-01 20:22:25,616 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-bandwidth-monitor.sh on amd162.utah.cloudlab.us
+2024-06-01 20:22:25,617 Starting server:
+ ssh amd148.utah.cloudlab.us 'cd ~/shardmpquic; /tmp/server/bin/activate; SSLKEYLOGFILE=/tmp/logs_server_f5s4kccc/keys.log  LOGS=/tmp/logs_server_f5s4kccc TESTCASE=throughput WWW=/tmp/www_dq83tfws/ CERTS=/tmp/certs_2za_3ehm/ IP=10.10.1.1 PORT=4433 SERVERNAME=server ./run-server.sh'
+
+2024-06-01 20:22:27,620 Starting client:
+ ssh amd162.utah.cloudlab.us 'cd ~/shardmpquic; /tmp/client/bin/activate; SSLKEYLOGFILE=/tmp/logs_client_4xrdax20/keys.log  LOGS=/tmp/logs_client_4xrdax20 TESTCASE=throughput DOWNLOADS=/tmp/download_yea7zifv/ CLIENTSUFFIX= ./run-client.sh'
+
+2024-06-01 20:22:49,963 Client
+2024-06-01 20:22:49,963 
+stdout: 
+2024-06-01 20:22:49,963 
+stderr: 
+2024-06-01 20:22:49,963 Getting content of /tmp/logs_client_4xrdax20/time.json from amd162.utah.cloudlab.us
+2024-06-01 20:22:51,952 start time: 2024-06-01 20:22:29.773320
+2024-06-01 20:22:51,952 end time: 2024-06-01 20:22:49.859753
+2024-06-01 20:22:51,952 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on amd162.utah.cloudlab.us
+2024-06-01 20:22:54,877 host: amd162.utah.cloudlab.us
+2024-06-01 20:22:54,877 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 20:22:54,877 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 20:22:54,877 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-netstat.sh on amd162.utah.cloudlab.us
+2024-06-01 20:22:57,535 host: amd162.utah.cloudlab.us
+2024-06-01 20:22:57,535 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 20:22:57,535 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 20:22:57,535 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-rx-interrupts.sh on amd162.utah.cloudlab.us
+2024-06-01 20:22:59,997 host: amd162.utah.cloudlab.us
+2024-06-01 20:22:59,997 
+stdout: 
+2024-06-01 20:22:59,997 
+stderr: 
+2024-06-01 20:22:59,997 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-buffers-default.sh on amd162.utah.cloudlab.us
+2024-06-01 20:23:02,906 host: amd162.utah.cloudlab.us
+2024-06-01 20:23:02,906 
+stdout: net.core.rmem_max = 212992
+net.core.rmem_default = 212992
+net.core.wmem_max = 212992
+net.core.wmem_default = 212992
+
+2024-06-01 20:23:02,906 
+stderr: 
+2024-06-01 20:23:02,906 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/stop-cpu-monitor.sh on amd162.utah.cloudlab.us
+2024-06-01 20:23:05,933 host: amd162.utah.cloudlab.us
+2024-06-01 20:23:05,933 
+stdout: 
+2024-06-01 20:23:05,933 
+stderr: 
+2024-06-01 20:23:05,933 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/stop-bandwidth-monitor.sh on amd162.utah.cloudlab.us
+2024-06-01 20:23:08,799 host: amd162.utah.cloudlab.us
+2024-06-01 20:23:08,799 
+stdout: 
+2024-06-01 20:23:08,799 
+stderr: 
+2024-06-01 20:23:09,801 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on amd148.utah.cloudlab.us
+2024-06-01 20:23:12,752 host: amd148.utah.cloudlab.us
+2024-06-01 20:23:12,752 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 20:23:12,752 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 20:23:12,752 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-netstat.sh on amd148.utah.cloudlab.us
+2024-06-01 20:23:15,901 host: amd148.utah.cloudlab.us
+2024-06-01 20:23:15,901 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 20:23:15,902 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 20:23:15,902 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-rx-interrupts.sh on amd148.utah.cloudlab.us
+2024-06-01 20:23:18,726 host: amd148.utah.cloudlab.us
+2024-06-01 20:23:18,726 
+stdout: 
+2024-06-01 20:23:18,727 
+stderr: 
+2024-06-01 20:23:18,727 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-buffers-default.sh on amd148.utah.cloudlab.us
+2024-06-01 20:23:20,904 host: amd148.utah.cloudlab.us
+2024-06-01 20:23:20,904 
+stdout: net.core.rmem_max = 212992
+net.core.rmem_default = 212992
+net.core.wmem_max = 212992
+net.core.wmem_default = 212992
+
+2024-06-01 20:23:20,905 
+stderr: 
+2024-06-01 20:23:20,905 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/stop-cpu-monitor.sh on amd148.utah.cloudlab.us
+2024-06-01 20:23:23,044 host: amd148.utah.cloudlab.us
+2024-06-01 20:23:23,045 
+stdout: 
+2024-06-01 20:23:23,045 
+stderr: 
+2024-06-01 20:23:23,045 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/stop-bandwidth-monitor.sh on amd148.utah.cloudlab.us
+2024-06-01 20:23:25,184 host: amd148.utah.cloudlab.us
+2024-06-01 20:23:25,185 
+stdout: 
+2024-06-01 20:23:25,185 
+stderr: 
+2024-06-01 20:23:25,185 Removing all variables from amd148.utah.cloudlab.us
+2024-06-01 20:23:27,555 Removing all variables from amd162.utah.cloudlab.us
+2024-06-01 20:23:29,624 Server
+2024-06-01 20:23:29,624 
+stdout: 
+2024-06-01 20:23:29,624 
+stderr: 
+2024-06-01 20:23:29,624 Copy amd148.utah.cloudlab.us:/tmp/logs_server_f5s4kccc to /tmp
+2024-06-01 20:23:34,249 Copy amd148.utah.cloudlab.us:/tmp/certs_2za_3ehm to /tmp
+2024-06-01 20:23:37,320 Copy amd162.utah.cloudlab.us:/tmp/logs_sim_36b2f556 to /tmp
+2024-06-01 20:23:41,042 Copy amd162.utah.cloudlab.us:/tmp/logs_client_4xrdax20 to /tmp
+2024-06-01 20:23:45,018 ssh amd148.utah.cloudlab.us 'cat /tmp/download_yea7zifv/server.log | grep ERROR '
+2024-06-01 20:23:47,132 ssh amd162.utah.cloudlab.us 'cat /tmp/download_yea7zifv/client.log | grep ERROR '
+2024-06-01 20:23:49,252 ssh amd162.utah.cloudlab.us 'cat /tmp/logs_client_4xrdax20/ifstat_monitor.txt'
+2024-06-01 20:23:51,693 Bandwidth usage (throughput) 5816.159 Mbps, with 1 concurrent clients.
+2024-06-01 20:23:51,693 ✓ Test successful

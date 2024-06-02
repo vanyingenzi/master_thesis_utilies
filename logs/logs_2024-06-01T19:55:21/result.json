@@ -1,0 +1,109 @@
+{
+    "runner_commit_hash": "bd340e7594cba1d87897a25c001649183fe2d384",
+    "runner_start_time_unix_timestamp": 1717264521.599352,
+    "runner_end_time_unix_timestamp": 1717271798.2762,
+    "log_dir": "/home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/logs/logs_2024-06-01T19:55:21",
+    "implementations": [
+        "shardmpquic"
+    ],
+    "build_script": "build_optimised.sh",
+    "tests": {
+        "T": {
+            "name": "throughput",
+            "desc": "Measures connection throughput."
+        }
+    },
+    "quic_draft": 34,
+    "quic_version": "0x1",
+    "config": "throughput_20s.yaml",
+    "testbed": "cloudlab-prime.json",
+    "results": [],
+    "measurements": [
+        [
+            {
+                "name": "throughput",
+                "implementation": "shardmpquic",
+                "abbr": "T",
+                "duration": 20,
+                "average": "3258.23 (\u00b1 179.07) Mbps",
+                "details": [
+                    3617.231712777386,
+                    3286.699368520582,
+                    3153.58877877029,
+                    3215.923086512645,
+                    3129.5865420578193,
+                    3145.373031842168,
+                    2988.7692274201027,
+                    3239.0803775654554,
+                    3434.222111581942,
+                    3371.8638833760324
+                ],
+                "nb_paths": 1,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "shardmpquic",
+                "abbr": "T",
+                "duration": 20,
+                "average": "6314.68 (\u00b1 517.72) Mbps",
+                "details": [
+                    5816.159405490949,
+                    6079.205386497562,
+                    5806.88849989866,
+                    6910.038627774479,
+                    6101.943172966835,
+                    7035.691088371076,
+                    6234.182711152359,
+                    5784.460625420501,
+                    7115.1026486385945,
+                    6263.093972039884
+                ],
+                "nb_paths": 2,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "shardmpquic",
+                "abbr": "T",
+                "duration": 20,
+                "average": "9403.97 (\u00b1 472.59) Mbps",
+                "details": [
+                    9285.680015800393,
+                    9418.657330186234,
+                    8961.604974443777,
+                    9189.322536885258,
+                    9935.188703820959,
+                    9124.792816553558,
+                    9604.074818303518,
+                    9480.140431042719,
+                    8707.38940034852,
+                    10332.889914188949
+                ],
+                "nb_paths": 3,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "shardmpquic",
+                "abbr": "T",
+                "duration": 20,
+                "average": "12289.41 (\u00b1 605.34) Mbps",
+                "details": [
+                    12148.227894907981,
+                    12271.505672367115,
+                    12485.273677239597,
+                    11725.503961118624,
+                    11803.89446422631,
+                    12639.589680188436,
+                    12753.266332795953,
+                    12095.13527214477,
+                    11429.22299463506,
+                    13542.478199933475
+                ],
+                "nb_paths": 4,
+                "concurrent_clients": 1
+            }
+        ]
+    ]
+}

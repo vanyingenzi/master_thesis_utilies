@@ -1,0 +1,4 @@
+[2024-05-23T10:34:08.714825706Z INFO  quiche_apps::multicore_client] connecting to 10.10.1.1:4433 from 10.10.1.2:5160
+[2024-05-23T10:34:28.727847291Z INFO  quiche_apps::multicore_client] path 10.10.1.2:5160 <-> 10.10.1.1:4433 received in 20.012866293s
+[2024-05-23T10:34:28.727874312Z INFO  quiche_apps::multicore_client] path 10.10.1.2:5160 <-> 10.10.1.1:4433 app_conn: McMPQUICConnClient { received: 8095785216, stream_ids: {3}, recv_fin_ids: {3}, expected_streams: 1 }
+[2024-05-23T10:34:28.747998723Z INFO  quiche_apps::multicore_client] connection closed, [local_addr=10.10.1.2:5160 peer_addr=10.10.1.1:4433 validation_state=Validated state=Active recv=6238066 sent=63053 lost=0 lost_spurious=0 retrans=0 rtt=76.232µs min_rtt=Some(65.102µs) rttvar=3.919µs rtt_update=61080 cwnd=13500 sent_bytes=4375986 recv_bytes=8418077030 lost_bytes=0 stream_retrans_bytes=0 pmtu=1350 delivery_rate=806405]

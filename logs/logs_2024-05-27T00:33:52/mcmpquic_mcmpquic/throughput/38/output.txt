@@ -1,0 +1,361 @@
+2024-05-27 00:59:18,355 Checking if port 5215 is in use on amd236.utah.cloudlab.us
+2024-05-27 00:59:18,522 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:18,523 
+stdout: 
+2024-05-27 00:59:18,523 
+stderr: 
+2024-05-27 00:59:18,523 Checking if port 5064 is in use on amd236.utah.cloudlab.us
+2024-05-27 00:59:18,683 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:18,683 
+stdout: 
+2024-05-27 00:59:18,683 
+stderr: 
+2024-05-27 00:59:18,684 Checking if port 5674 is in use on amd236.utah.cloudlab.us
+2024-05-27 00:59:18,844 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:18,844 
+stdout: 
+2024-05-27 00:59:18,844 
+stderr: 
+2024-05-27 00:59:18,844 Checking if port 5641 is in use on amd242.utah.cloudlab.us
+2024-05-27 00:59:19,007 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:19,007 
+stdout: 
+2024-05-27 00:59:19,007 
+stderr: 
+2024-05-27 00:59:19,007 Checking if port 6393 is in use on amd242.utah.cloudlab.us
+2024-05-27 00:59:19,167 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:19,167 
+stdout: 
+2024-05-27 00:59:19,167 
+stderr: 
+2024-05-27 00:59:19,167 Checking if port 4456 is in use on amd242.utah.cloudlab.us
+2024-05-27 00:59:19,327 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:19,327 
+stdout: 
+2024-05-27 00:59:19,327 
+stderr: 
+2024-05-27 00:59:19,327 Checking if port 5275 is in use on amd242.utah.cloudlab.us
+2024-05-27 00:59:19,487 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:19,488 
+stdout: 
+2024-05-27 00:59:19,488 
+stderr: 
+2024-05-27 00:59:19,761 
+2024-05-27 00:59:19,761 Copy /tmp/logs_server_yr3bjx89 to amd236.utah.cloudlab.us:/tmp
+2024-05-27 00:59:19,958 The transfer return code : 0
+2024-05-27 00:59:19,958 Copy /tmp/www_49v6o_zy to amd236.utah.cloudlab.us:/tmp
+2024-05-27 00:59:20,163 The transfer return code : 0
+2024-05-27 00:59:20,163 Copy /tmp/certs_pefpt6yw to amd236.utah.cloudlab.us:/tmp
+2024-05-27 00:59:20,368 The transfer return code : 0
+2024-05-27 00:59:20,368 Copy /tmp/logs_sim_6foz_6sy to amd242.utah.cloudlab.us:/tmp
+2024-05-27 00:59:20,567 The transfer return code : 0
+2024-05-27 00:59:20,567 Copy /tmp/logs_client_81s76aao to amd242.utah.cloudlab.us:/tmp
+2024-05-27 00:59:20,768 The transfer return code : 0
+2024-05-27 00:59:20,768 Copy /tmp/download_5mt5__3r to amd242.utah.cloudlab.us:/tmp
+2024-05-27 00:59:20,968 The transfer return code : 0
+2024-05-27 00:59:20,968 Checking if /tmp/server/bin/activate exists on amd236.utah.cloudlab.us
+2024-05-27 00:59:21,132 Checking if /tmp/client/bin/activate exists on amd242.utah.cloudlab.us
+2024-05-27 00:59:21,297 Setting the variables:
+{'implementation': 'mcmpquic', 'interfaces': ['enp65s0f0np0', 'enp65s0f1np1'], 'hostname': 'amd236.utah.cloudlab.us', 'log_dir': '/tmp/logs_server_yr3bjx89', 'www_dir': '/tmp/www_49v6o_zy/', 'certs_dir': '/tmp/certs_pefpt6yw/', 'role': 'server', 'filesize': 0, 'duration': 20, 'listen_addr': '10.10.1.1:4433', 'extra_server_addrs': ['10.10.2.1:5215', '10.10.1.1:5064', '10.10.2.1:5674'], 'rmem_value': 100000000, 'app_cpu_aff': '0-16'}
+on the host amd236.utah.cloudlab.us
+2024-05-27 00:59:21,297 Copy /tmp/interop-temp-data-mi08y87l to amd236.utah.cloudlab.us:/tmp/interop-variables.json
+2024-05-27 00:59:21,512 Setting the variables:
+{'implementation': 'mcmpquic', 'interfaces': ['enp65s0f0np0', 'enp65s0f1np1'], 'hostname': 'amd242.utah.cloudlab.us', 'log_dir': '/tmp/logs_client_81s76aao', 'sim_log_dir': '/tmp/logs_sim_6foz_6sy', 'download_dir': '/tmp/download_5mt5__3r/', 'role': 'client', 'server_ip_port': '10.10.1.1:4433', 'connect_to': '10.10.1.1:4433', 'extra_server_addrs': ['10.10.2.1:5215', '10.10.1.1:5064', '10.10.2.1:5674'], 'client_addrs': ['10.10.1.2:5641', '10.10.2.2:6393', '10.10.1.2:4456', '10.10.2.2:5275'], 'rmem_value': 100000000, 'app_cpu_aff': '0-16'}
+on the host amd242.utah.cloudlab.us
+2024-05-27 00:59:21,512 Copy /tmp/interop-temp-data-hfku3gq_ to amd242.utah.cloudlab.us:/tmp/interop-variables.json
+2024-05-27 00:59:21,727 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/off-ht.sh on amd236.utah.cloudlab.us
+2024-05-27 00:59:21,892 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:21,892 
+stdout: off
+
+2024-05-27 00:59:21,892 
+stderr: 
+2024-05-27 00:59:21,892 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/run-ethtool.sh on amd236.utah.cloudlab.us
+2024-05-27 00:59:22,461 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:22,461 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-05-27 00:59:22,461 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-05-27 00:59:22,461 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/run-netstat.sh on amd236.utah.cloudlab.us
+2024-05-27 00:59:23,009 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:23,009 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-05-27 00:59:23,009 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-05-27 00:59:23,009 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/run-rx-interrupts.sh on amd236.utah.cloudlab.us
+2024-05-27 00:59:23,197 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:23,197 
+stdout: 
+2024-05-27 00:59:23,197 
+stderr: 
+2024-05-27 00:59:23,198 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/set-rcvbuf.sh on amd236.utah.cloudlab.us
+2024-05-27 00:59:23,381 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:23,381 
+stdout: net.core.rmem_max = 100000000
+net.core.rmem_default = 100000000
+net.core.wmem_max = 100000000
+net.core.wmem_default = 100000000
+
+2024-05-27 00:59:23,382 
+stderr: 
+2024-05-27 00:59:23,382 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/set-rfs.sh on amd236.utah.cloudlab.us
+2024-05-27 00:59:24,642 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:24,643 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+inotify-tools is already the newest version (3.22.1.0-2).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+32768
+
+2024-05-27 00:59:24,643 
+stderr: 
+2024-05-27 00:59:24,643 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/start-cpu-monitor.sh on amd236.utah.cloudlab.us
+2024-05-27 00:59:24,643 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/run-bandwidth-monitor.sh on amd236.utah.cloudlab.us
+2024-05-27 00:59:24,643 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/off-ht.sh on amd242.utah.cloudlab.us
+2024-05-27 00:59:24,807 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:24,807 
+stdout: off
+
+2024-05-27 00:59:24,807 
+stderr: 
+2024-05-27 00:59:24,807 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/run-ethtool.sh on amd242.utah.cloudlab.us
+2024-05-27 00:59:25,373 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:25,373 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-05-27 00:59:25,373 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-05-27 00:59:25,373 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/run-netstat.sh on amd242.utah.cloudlab.us
+2024-05-27 00:59:25,900 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:25,900 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-05-27 00:59:25,901 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-05-27 00:59:25,901 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/run-rx-interrupts.sh on amd242.utah.cloudlab.us
+2024-05-27 00:59:26,094 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:26,094 
+stdout: 
+2024-05-27 00:59:26,094 
+stderr: 
+2024-05-27 00:59:26,094 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/set-rcvbuf.sh on amd242.utah.cloudlab.us
+2024-05-27 00:59:26,277 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:26,277 
+stdout: net.core.rmem_max = 100000000
+net.core.rmem_default = 100000000
+net.core.wmem_max = 100000000
+net.core.wmem_default = 100000000
+
+2024-05-27 00:59:26,277 
+stderr: 
+2024-05-27 00:59:26,277 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/set-rfs.sh on amd242.utah.cloudlab.us
+2024-05-27 00:59:27,532 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:27,532 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+inotify-tools is already the newest version (3.22.1.0-2).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+32768
+
+2024-05-27 00:59:27,532 
+stderr: 
+2024-05-27 00:59:27,532 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/start-cpu-monitor.sh on amd242.utah.cloudlab.us
+2024-05-27 00:59:27,532 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/run-bandwidth-monitor.sh on amd242.utah.cloudlab.us
+2024-05-27 00:59:27,533 Starting server:
+ ssh amd236.utah.cloudlab.us 'cd ~/mcmpquic; /tmp/server/bin/activate; SSLKEYLOGFILE=/tmp/logs_server_yr3bjx89/keys.log  LOGS=/tmp/logs_server_yr3bjx89 TESTCASE=throughput WWW=/tmp/www_49v6o_zy/ CERTS=/tmp/certs_pefpt6yw/ IP=10.10.1.1 PORT=4433 SERVERNAME=server ./run-server.sh'
+
+2024-05-27 00:59:29,535 Starting client:
+ ssh amd242.utah.cloudlab.us 'cd ~/mcmpquic; /tmp/client/bin/activate; SSLKEYLOGFILE=/tmp/logs_client_81s76aao/keys.log  LOGS=/tmp/logs_client_81s76aao TESTCASE=throughput DOWNLOADS=/tmp/download_5mt5__3r/ CLIENTSUFFIX= ./run-client.sh'
+
+2024-05-27 00:59:49,941 Client
+2024-05-27 00:59:49,941 
+stdout: 
+2024-05-27 00:59:49,941 
+stderr: 
+2024-05-27 00:59:49,941 Getting content of /tmp/logs_client_81s76aao/time.json from amd242.utah.cloudlab.us
+2024-05-27 00:59:50,096 start time: 2024-05-27 00:59:29.866943
+2024-05-27 00:59:50,096 end time: 2024-05-27 00:59:49.937110
+2024-05-27 00:59:50,096 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/run-ethtool.sh on amd242.utah.cloudlab.us
+2024-05-27 00:59:50,663 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:50,663 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-05-27 00:59:50,663 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-05-27 00:59:50,663 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/run-netstat.sh on amd242.utah.cloudlab.us
+2024-05-27 00:59:51,202 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:51,202 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-05-27 00:59:51,202 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-05-27 00:59:51,202 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/run-rx-interrupts.sh on amd242.utah.cloudlab.us
+2024-05-27 00:59:51,391 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:51,391 
+stdout: 
+2024-05-27 00:59:51,391 
+stderr: 
+2024-05-27 00:59:51,391 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/set-buffers-default.sh on amd242.utah.cloudlab.us
+2024-05-27 00:59:51,552 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:51,552 
+stdout: net.core.rmem_max = 212992
+net.core.rmem_default = 212992
+net.core.wmem_max = 212992
+net.core.wmem_default = 212992
+
+2024-05-27 00:59:51,552 
+stderr: 
+2024-05-27 00:59:51,552 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/reset-rfs.sh on amd242.utah.cloudlab.us
+2024-05-27 00:59:52,835 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:52,835 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+inotify-tools is already the newest version (3.22.1.0-2).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+0
+
+2024-05-27 00:59:52,836 
+stderr: 
+2024-05-27 00:59:52,836 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/stop-cpu-monitor.sh on amd242.utah.cloudlab.us
+2024-05-27 00:59:53,006 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:53,007 
+stdout: 
+2024-05-27 00:59:53,007 
+stderr: 
+2024-05-27 00:59:53,007 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/stop-bandwidth-monitor.sh on amd242.utah.cloudlab.us
+2024-05-27 00:59:53,179 host: amd242.utah.cloudlab.us
+2024-05-27 00:59:53,179 
+stdout: 
+2024-05-27 00:59:53,179 
+stderr: 
+2024-05-27 00:59:54,180 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/run-ethtool.sh on amd236.utah.cloudlab.us
+2024-05-27 00:59:54,756 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:54,756 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-05-27 00:59:54,756 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-05-27 00:59:54,756 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/run-netstat.sh on amd236.utah.cloudlab.us
+2024-05-27 00:59:55,292 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:55,292 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-05-27 00:59:55,292 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-05-27 00:59:55,292 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/run-rx-interrupts.sh on amd236.utah.cloudlab.us
+2024-05-27 00:59:55,479 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:55,479 
+stdout: 
+2024-05-27 00:59:55,479 
+stderr: 
+2024-05-27 00:59:55,479 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/set-buffers-default.sh on amd236.utah.cloudlab.us
+2024-05-27 00:59:55,639 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:55,639 
+stdout: net.core.rmem_max = 212992
+net.core.rmem_default = 212992
+net.core.wmem_max = 212992
+net.core.wmem_default = 212992
+
+2024-05-27 00:59:55,639 
+stderr: 
+2024-05-27 00:59:55,639 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/reset-rfs.sh on amd236.utah.cloudlab.us
+2024-05-27 00:59:56,929 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:56,929 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+inotify-tools is already the newest version (3.22.1.0-2).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+0
+
+2024-05-27 00:59:56,929 
+stderr: 
+2024-05-27 00:59:56,929 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/stop-cpu-monitor.sh on amd236.utah.cloudlab.us
+2024-05-27 00:59:57,106 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:57,106 
+stdout: 
+2024-05-27 00:59:57,106 
+stderr: 
+2024-05-27 00:59:57,107 Running /users/vingenzi/master_thesis_utilities/pre-post-scripts/stop-bandwidth-monitor.sh on amd236.utah.cloudlab.us
+2024-05-27 00:59:57,278 host: amd236.utah.cloudlab.us
+2024-05-27 00:59:57,278 
+stdout: 
+2024-05-27 00:59:57,279 
+stderr: 
+2024-05-27 00:59:57,279 Removing all variables from amd236.utah.cloudlab.us
+2024-05-27 00:59:57,443 Removing all variables from amd242.utah.cloudlab.us
+2024-05-27 00:59:57,607 Server
+2024-05-27 00:59:57,607 
+stdout: 
+2024-05-27 00:59:57,607 
+stderr: 
+2024-05-27 00:59:57,607 Copy amd236.utah.cloudlab.us:/tmp/logs_server_yr3bjx89 to /tmp
+2024-05-27 00:59:57,821 Copy amd236.utah.cloudlab.us:/tmp/certs_pefpt6yw to /tmp
+2024-05-27 00:59:58,035 Copy amd242.utah.cloudlab.us:/tmp/logs_sim_6foz_6sy to /tmp
+2024-05-27 00:59:58,249 Copy amd242.utah.cloudlab.us:/tmp/logs_client_81s76aao to /tmp
+2024-05-27 00:59:58,463 ssh amd236.utah.cloudlab.us 'cat /tmp/download_5mt5__3r/server.log | grep ERROR '
+2024-05-27 00:59:58,620 ssh amd242.utah.cloudlab.us 'cat /tmp/download_5mt5__3r/client.log | grep ERROR '
+2024-05-27 00:59:58,777 ssh amd242.utah.cloudlab.us 'cat /tmp/logs_client_81s76aao/ifstat_monitor.txt'
+2024-05-27 00:59:58,941 Bandwidth usage (throughput) 10992.592 Mbps, with 1 concurrent clients.
+2024-05-27 00:59:58,941 ✓ Test successful

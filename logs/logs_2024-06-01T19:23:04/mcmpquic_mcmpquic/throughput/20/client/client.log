@@ -1,0 +1,51 @@
+[2024-06-01T18:25:59.287833779Z INFO  quiche_apps::multicore_client] connecting to 10.10.1.1:4433 from 10.10.1.2:6253
+[2024-06-01T18:25:59.308614602Z INFO  quiche_apps::multicore_client] Path (10.10.2.2:5408, 10.10.2.1:6429) is now validated
+[2024-06-01T18:25:59.309210130Z INFO  quiche_apps::multicore_client] Path (10.10.1.2:5535, 10.10.1.1:4442) is now validated
+[2024-06-01T18:25:59.309489221Z INFO  quiche_apps::multicore_client] Path (10.10.1.2:5168, 10.10.1.1:5402) is now validated
+[2024-06-01T18:25:59.309498667Z INFO  quiche_apps::multicore_client] Path (10.10.1.2:4704, 10.10.1.1:5481) is now validated
+[2024-06-01T18:25:59.309523880Z INFO  quiche_apps::multicore_client] Path (10.10.2.2:6100, 10.10.2.1:4968) is now validated
+[2024-06-01T18:25:59.309654908Z INFO  quiche_apps::multicore_client] Path (10.10.2.2:5594, 10.10.2.1:4832) is now validated
+[2024-06-01T18:25:59.309883212Z INFO  quiche_apps::multicore_client] Path (10.10.2.2:6516, 10.10.2.1:6801) is now validated
+[2024-06-01T18:25:59.309888857Z INFO  quiche_apps::multicore_client] Path (10.10.2.2:5888, 10.10.2.1:5876) is now validated
+[2024-06-01T18:25:59.309951983Z INFO  quiche_apps::multicore_client] Path (10.10.2.2:4477, 10.10.2.1:5021) is now validated
+[2024-06-01T18:25:59.310087897Z INFO  quiche_apps::multicore_client] Path (10.10.2.2:6682, 10.10.2.1:6777) is now validated
+[2024-06-01T18:25:59.310216340Z INFO  quiche_apps::multicore_client] Path (10.10.1.2:6607, 10.10.1.1:4822) is now validated
+[2024-06-01T18:25:59.310346086Z INFO  quiche_apps::multicore_client] Path (10.10.1.2:5400, 10.10.1.1:4897) is now validated
+[2024-06-01T18:26:19.306260687Z INFO  quiche_apps::multicore_client] path 10.10.1.2:6253 <-> 10.10.1.1:4433 received in 20.017779059s
+[2024-06-01T18:26:19.306288111Z INFO  quiche_apps::multicore_client] path 10.10.1.2:6253 <-> 10.10.1.1:4433 app_conn: McMPQUICConnClient { received: 2957812732, stream_ids: {3}, recv_fin_ids: {3}, expected_streams: 1 }
+[2024-06-01T18:26:19.309899852Z INFO  quiche_apps::multicore_client] path 10.10.2.2:5408 <-> 10.10.2.1:6429 received in 20.021949417s
+[2024-06-01T18:26:19.309918354Z INFO  quiche_apps::multicore_client] path 10.10.2.2:5408 <-> 10.10.2.1:6429 app_conn: McMPQUICConnClient { received: 4571790626, stream_ids: {7}, recv_fin_ids: {7}, expected_streams: 1 }
+[2024-06-01T18:26:19.310438031Z INFO  quiche_apps::multicore_client] path 10.10.1.2:4704 <-> 10.10.1.1:5481 received in 20.022008324s
+[2024-06-01T18:26:19.310450938Z INFO  quiche_apps::multicore_client] path 10.10.1.2:4704 <-> 10.10.1.1:5481 app_conn: McMPQUICConnClient { received: 5527410444, stream_ids: {19}, recv_fin_ids: {19}, expected_streams: 1 }
+[2024-06-01T18:26:19.310927979Z INFO  quiche_apps::multicore_client] path 10.10.1.2:5168 <-> 10.10.1.1:5402 received in 20.022558449s
+[2024-06-01T18:26:19.310939138Z INFO  quiche_apps::multicore_client] path 10.10.1.2:5168 <-> 10.10.1.1:5402 app_conn: McMPQUICConnClient { received: 6076188090, stream_ids: {15}, recv_fin_ids: {15}, expected_streams: 1 }
+[2024-06-01T18:26:19.311004589Z INFO  quiche_apps::multicore_client] path 10.10.2.2:6516 <-> 10.10.2.1:6801 received in 20.02241663s
+[2024-06-01T18:26:19.311014970Z INFO  quiche_apps::multicore_client] path 10.10.2.2:6516 <-> 10.10.2.1:6801 app_conn: McMPQUICConnClient { received: 4820211154, stream_ids: {35}, recv_fin_ids: {35}, expected_streams: 1 }
+[2024-06-01T18:26:19.311232350Z INFO  quiche_apps::multicore_client] path 10.10.2.2:5594 <-> 10.10.2.1:4832 received in 20.022631703s
+[2024-06-01T18:26:19.311243992Z INFO  quiche_apps::multicore_client] path 10.10.2.2:5594 <-> 10.10.2.1:4832 app_conn: McMPQUICConnClient { received: 4892591224, stream_ids: {27}, recv_fin_ids: {27}, expected_streams: 1 }
+[2024-06-01T18:26:19.311257285Z INFO  quiche_apps::multicore_client] path 10.10.2.2:6100 <-> 10.10.2.1:4968 received in 20.022989273s
+[2024-06-01T18:26:19.311267323Z INFO  quiche_apps::multicore_client] path 10.10.2.2:6100 <-> 10.10.2.1:4968 app_conn: McMPQUICConnClient { received: 4092340006, stream_ids: {23}, recv_fin_ids: {23}, expected_streams: 1 }
+[2024-06-01T18:26:19.311764616Z INFO  quiche_apps::multicore_client] path 10.10.1.2:5535 <-> 10.10.1.1:4442 received in 20.023573893s
+[2024-06-01T18:26:19.311802920Z INFO  quiche_apps::multicore_client] path 10.10.1.2:5535 <-> 10.10.1.1:4442 app_conn: McMPQUICConnClient { received: 6084014514, stream_ids: {11}, recv_fin_ids: {11}, expected_streams: 1 }
+[2024-06-01T18:26:19.312059277Z INFO  quiche_apps::multicore_client] path 10.10.2.2:5888 <-> 10.10.2.1:5876 received in 20.023470341s
+[2024-06-01T18:26:19.312070286Z INFO  quiche_apps::multicore_client] path 10.10.2.2:5888 <-> 10.10.2.1:5876 app_conn: McMPQUICConnClient { received: 4992885928, stream_ids: {31}, recv_fin_ids: {31}, expected_streams: 1 }
+[2024-06-01T18:26:19.312071342Z INFO  quiche_apps::multicore_client] path 10.10.1.2:5400 <-> 10.10.1.1:4897 received in 20.023495579s
+[2024-06-01T18:26:19.312086630Z INFO  quiche_apps::multicore_client] path 10.10.1.2:5400 <-> 10.10.1.1:4897 app_conn: McMPQUICConnClient { received: 5670811148, stream_ids: {43}, recv_fin_ids: {43}, expected_streams: 1 }
+[2024-06-01T18:26:19.313008422Z INFO  quiche_apps::multicore_client] path 10.10.1.2:6607 <-> 10.10.1.1:4822 received in 20.024412574s
+[2024-06-01T18:26:19.313017540Z INFO  quiche_apps::multicore_client] path 10.10.1.2:6607 <-> 10.10.1.1:4822 app_conn: McMPQUICConnClient { received: 2775320744, stream_ids: {51}, recv_fin_ids: {51}, expected_streams: 1 }
+[2024-06-01T18:26:19.313077667Z INFO  quiche_apps::multicore_client] path 10.10.2.2:6682 <-> 10.10.2.1:6777 received in 20.024499787s
+[2024-06-01T18:26:19.313087546Z INFO  quiche_apps::multicore_client] path 10.10.2.2:6682 <-> 10.10.2.1:6777 app_conn: McMPQUICConnClient { received: 4568222558, stream_ids: {39}, recv_fin_ids: {39}, expected_streams: 1 }
+[2024-06-01T18:26:19.313120663Z INFO  quiche_apps::multicore_client] path 10.10.2.2:4477 <-> 10.10.2.1:5021 received in 20.024920707s
+[2024-06-01T18:26:19.313130655Z INFO  quiche_apps::multicore_client] path 10.10.2.2:4477 <-> 10.10.2.1:5021 app_conn: McMPQUICConnClient { received: 5943445264, stream_ids: {47}, recv_fin_ids: {47}, expected_streams: 1 }
+[2024-06-01T18:26:19.316360713Z INFO  quiche_apps::common] received message MulticorePathDoneInfo { local: 10.10.2.2:5408, peer: 10.10.2.1:6429, status: Success }
+[2024-06-01T18:26:19.326433223Z INFO  quiche_apps::common] received message MulticorePathDoneInfo { local: 10.10.1.2:4704, peer: 10.10.1.1:5481, status: Success }
+[2024-06-01T18:26:19.336506282Z INFO  quiche_apps::common] received message MulticorePathDoneInfo { local: 10.10.1.2:5168, peer: 10.10.1.1:5402, status: Success }
+[2024-06-01T18:26:19.346581234Z INFO  quiche_apps::common] received message MulticorePathDoneInfo { local: 10.10.2.2:6516, peer: 10.10.2.1:6801, status: Success }
+[2024-06-01T18:26:19.356663889Z INFO  quiche_apps::common] received message MulticorePathDoneInfo { local: 10.10.2.2:5594, peer: 10.10.2.1:4832, status: Success }
+[2024-06-01T18:26:19.366742510Z INFO  quiche_apps::common] received message MulticorePathDoneInfo { local: 10.10.2.2:6100, peer: 10.10.2.1:4968, status: Success }
+[2024-06-01T18:26:19.376820955Z INFO  quiche_apps::common] received message MulticorePathDoneInfo { local: 10.10.1.2:5535, peer: 10.10.1.1:4442, status: Success }
+[2024-06-01T18:26:19.386898164Z INFO  quiche_apps::common] received message MulticorePathDoneInfo { local: 10.10.2.2:5888, peer: 10.10.2.1:5876, status: Success }
+[2024-06-01T18:26:19.396975456Z INFO  quiche_apps::common] received message MulticorePathDoneInfo { local: 10.10.1.2:5400, peer: 10.10.1.1:4897, status: Success }
+[2024-06-01T18:26:19.407049273Z INFO  quiche_apps::common] received message MulticorePathDoneInfo { local: 10.10.1.2:6607, peer: 10.10.1.1:4822, status: Success }
+[2024-06-01T18:26:19.417125201Z INFO  quiche_apps::common] received message MulticorePathDoneInfo { local: 10.10.2.2:6682, peer: 10.10.2.1:6777, status: Success }
+[2024-06-01T18:26:19.427199538Z INFO  quiche_apps::common] received message MulticorePathDoneInfo { local: 10.10.2.2:4477, peer: 10.10.2.1:5021, status: Success }

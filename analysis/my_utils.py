@@ -2,12 +2,12 @@ import re
 from typing import List, Dict, Any, Tuple
 import json
 from datetime import datetime
+import colorsys
 
 colors_impl_mapping = {
     "mpquic": "#E69F00",
     "mcmpquic": "#56B4E9",
-    "quic": "#009E73",
-    "mcmpquic-aff": "#F0E442",
+    "mcmpquic-aff": "#009E73",
     "mcmpquic-rfs": "#CC79A7",
 }
 
@@ -38,3 +38,17 @@ def get_transfer_time_client(time_json_file) -> float:
     end = datetime.fromtimestamp(int(data["end"]) / 1e9)
     diff = end - start
     return diff.total_seconds()
+
+def hex_to_rgb(hex_value):
+    hex_value = hex_value.lstrip('#')
+    return tuple(int(hex_value[i:i+2], 16) for i in (0, 2, 4))
+
+def get_color_for_impl_n_path(impl: str, nb_paths: int, max_nb_paths: int = 16) -> Tuple[float, float, float]:
+    base_color_hex = get_color_for_impl(impl)
+    base_color_rgb = hex_to_rgb(base_color_hex)
+    base_color_rgb_normalized = [x / 255 for x in base_color_rgb]
+    h, s, _ = colorsys.rgb_to_hsv(*base_color_rgb_normalized)
+    step = 100 / max_nb_paths
+    v = step * nb_paths
+    v = v / 100
+    return colorsys.hsv_to_rgb(h, s, v)

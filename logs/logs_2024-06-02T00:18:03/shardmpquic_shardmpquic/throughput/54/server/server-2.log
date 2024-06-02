@@ -1,0 +1,4 @@
+[2024-06-02T03:26:57.681953088Z INFO  quiche_apps::server] listening on 10.10.1.1:6645
+[2024-06-02T03:27:19.526894054Z INFO  quiche_apps::server] app protocol done sending: AdaptedMcMPQUICConnServer { to_send: None, sent: 6409249024, stream_ids: {3}, sent_fin_ids: {3}, end_time: Some(Instant { tv_sec: 18784, tv_nsec: 623855866 }) }
+[2024-06-02T03:27:19.526924691Z INFO  quiche] sent fin for stream id 3
+[2024-06-02T03:27:19.547106504Z INFO  quiche_apps::server] 18f36faf8e0fee7001bd52bc451c280494ed942c connection collected recv=13561 sent=4936617 lost=0 retrans=0 sent_bytes=6662704957 recv_bytes=807024 lost_bytes=0 [local_addr=10.10.1.1:6645 peer_addr=10.10.1.2:5233 validation_state=Validated state=Active recv=13561 sent=4936617 lost=0 lost_spurious=0 retrans=0 rtt=933.815µs min_rtt=Some(21.416µs) rttvar=717.004µs rtt_update=13552 cwnd=28994494 sent_bytes=6662704957 recv_bytes=807024 lost_bytes=0 stream_retrans_bytes=0 pmtu=1350 delivery_rate=422703861]

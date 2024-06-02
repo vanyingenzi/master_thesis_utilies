@@ -1,0 +1,325 @@
+2024-06-01 13:44:32,039 Checking if port 4854 is in use on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:44:34,192 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:44:34,192 
+stdout: 
+2024-06-01 13:44:34,192 
+stderr: 
+2024-06-01 13:44:34,772 
+2024-06-01 13:44:34,772 Copy /tmp/logs_server_swltn3x3 to sm220u-10s10639.wisc.cloudlab.us:/tmp
+2024-06-01 13:44:37,194 The transfer return code : 0
+2024-06-01 13:44:37,195 Copy /tmp/www_tpuesx_1 to sm220u-10s10639.wisc.cloudlab.us:/tmp
+2024-06-01 13:44:39,656 The transfer return code : 0
+2024-06-01 13:44:39,656 Copy /tmp/certs_f3xoi93e to sm220u-10s10639.wisc.cloudlab.us:/tmp
+2024-06-01 13:44:41,992 The transfer return code : 0
+2024-06-01 13:44:41,992 Copy /tmp/logs_sim_u1c39ag5 to sm220u-10s10631.wisc.cloudlab.us:/tmp
+2024-06-01 13:44:44,303 The transfer return code : 0
+2024-06-01 13:44:44,303 Copy /tmp/logs_client_huxlu1yq to sm220u-10s10631.wisc.cloudlab.us:/tmp
+2024-06-01 13:44:46,618 The transfer return code : 0
+2024-06-01 13:44:46,618 Copy /tmp/download_jmmfcjza to sm220u-10s10631.wisc.cloudlab.us:/tmp
+2024-06-01 13:44:48,909 The transfer return code : 0
+2024-06-01 13:44:48,909 Checking if /tmp/server/bin/activate exists on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:44:50,677 Checking if /tmp/client/bin/activate exists on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:44:52,695 Setting the variables:
+{'implementation': 'mcmpquic', 'interfaces': ['ens2f0np0', 'ens2f1np1'], 'hostname': 'sm220u-10s10639.wisc.cloudlab.us', 'log_dir': '/tmp/logs_server_swltn3x3', 'www_dir': '/tmp/www_tpuesx_1/', 'certs_dir': '/tmp/certs_f3xoi93e/', 'role': 'server', 'filesize': 0, 'duration': 20, 'listen_addr': '10.10.1.1:4433', 'extra_server_addrs': [], 'rmem_value': 100000000, 'app_cpu_aff': '0-16'}
+on the host sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:44:52,695 Copy /tmp/interop-temp-data-q9rbhj5n to sm220u-10s10639.wisc.cloudlab.us:/tmp/interop-variables.json
+2024-06-01 13:44:55,565 Setting the variables:
+{'implementation': 'mcmpquic', 'interfaces': ['ens2f0np0', 'ens2f1np1'], 'hostname': 'sm220u-10s10631.wisc.cloudlab.us', 'log_dir': '/tmp/logs_client_huxlu1yq', 'sim_log_dir': '/tmp/logs_sim_u1c39ag5', 'download_dir': '/tmp/download_jmmfcjza/', 'role': 'client', 'server_ip_port': '10.10.1.1:4433', 'connect_to': '10.10.1.1:4433', 'extra_server_addrs': [], 'client_addrs': ['10.10.1.2:4854'], 'rmem_value': 100000000, 'app_cpu_aff': '0-16'}
+on the host sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:44:55,565 Copy /tmp/interop-temp-data-8z1nodz_ to sm220u-10s10631.wisc.cloudlab.us:/tmp/interop-variables.json
+2024-06-01 13:44:58,384 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/off-ht.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:45:00,298 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:45:00,298 
+stdout: off
+
+2024-06-01 13:45:00,298 
+stderr: 
+2024-06-01 13:45:00,298 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:45:02,724 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:45:02,724 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 13:45:02,724 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 13:45:02,724 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-netstat.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:45:05,465 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:45:05,465 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 13:45:05,465 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 13:45:05,465 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-rx-interrupts.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:45:07,685 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:45:07,686 
+stdout: 
+2024-06-01 13:45:07,686 
+stderr: 
+2024-06-01 13:45:07,686 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-rcvbuf.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:45:09,728 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:45:09,728 
+stdout: net.core.rmem_max = 100000000
+net.core.rmem_default = 100000000
+net.core.wmem_max = 100000000
+net.core.wmem_default = 100000000
+
+2024-06-01 13:45:09,728 
+stderr: 
+2024-06-01 13:45:09,728 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-rfs.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:45:14,681 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:45:14,681 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+inotify-tools is already the newest version (3.22.1.0-2).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+32768
+
+2024-06-01 13:45:14,681 
+stderr: 
+2024-06-01 13:45:14,681 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/start-cpu-monitor.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:45:14,682 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-bandwidth-monitor.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:45:14,682 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/off-ht.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:16,642 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:16,642 
+stdout: off
+
+2024-06-01 13:45:16,642 
+stderr: 
+2024-06-01 13:45:16,642 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:19,223 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:19,223 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 13:45:19,223 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 13:45:19,223 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-netstat.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:21,946 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:21,946 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 13:45:21,947 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 13:45:21,947 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-rx-interrupts.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:23,949 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:23,949 
+stdout: 
+2024-06-01 13:45:23,949 
+stderr: 
+2024-06-01 13:45:23,949 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-rcvbuf.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:26,103 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:26,103 
+stdout: net.core.rmem_max = 100000000
+net.core.rmem_default = 100000000
+net.core.wmem_max = 100000000
+net.core.wmem_default = 100000000
+
+2024-06-01 13:45:26,103 
+stderr: 
+2024-06-01 13:45:26,103 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-rfs.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:30,959 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:30,960 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+inotify-tools is already the newest version (3.22.1.0-2).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+32768
+
+2024-06-01 13:45:30,960 
+stderr: 
+2024-06-01 13:45:30,960 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/start-cpu-monitor.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:30,960 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-bandwidth-monitor.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:30,960 Starting server:
+ ssh sm220u-10s10639.wisc.cloudlab.us 'cd ~/mcmpquic; /tmp/server/bin/activate; SSLKEYLOGFILE=/tmp/logs_server_swltn3x3/keys.log  LOGS=/tmp/logs_server_swltn3x3 TESTCASE=throughput WWW=/tmp/www_tpuesx_1/ CERTS=/tmp/certs_f3xoi93e/ IP=10.10.1.1 PORT=4433 SERVERNAME=server ./run-server.sh'
+
+2024-06-01 13:45:32,961 Starting client:
+ ssh sm220u-10s10631.wisc.cloudlab.us 'cd ~/mcmpquic; /tmp/client/bin/activate; SSLKEYLOGFILE=/tmp/logs_client_huxlu1yq/keys.log  LOGS=/tmp/logs_client_huxlu1yq TESTCASE=throughput DOWNLOADS=/tmp/download_jmmfcjza/ CLIENTSUFFIX= ./run-client.sh'
+
+2024-06-01 13:45:54,919 Client
+2024-06-01 13:45:54,919 
+stdout: 
+2024-06-01 13:45:54,919 
+stderr: 
+2024-06-01 13:45:54,919 Getting content of /tmp/logs_client_huxlu1yq/time.json from sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:56,917 start time: 2024-06-01 13:45:34.778623
+2024-06-01 13:45:56,917 end time: 2024-06-01 13:45:54.825263
+2024-06-01 13:45:56,917 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:59,265 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:45:59,265 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 13:45:59,265 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 13:45:59,265 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-netstat.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:46:01,604 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:46:01,604 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 13:46:01,604 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 13:46:01,604 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-rx-interrupts.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:46:03,798 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:46:03,798 
+stdout: 
+2024-06-01 13:46:03,798 
+stderr: 
+2024-06-01 13:46:03,798 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-buffers-default.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:46:05,731 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:46:05,731 
+stdout: net.core.rmem_max = 212992
+net.core.rmem_default = 212992
+net.core.wmem_max = 212992
+net.core.wmem_default = 212992
+
+2024-06-01 13:46:05,731 
+stderr: 
+2024-06-01 13:46:05,731 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/reset-rfs.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:46:10,489 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:46:10,489 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+inotify-tools is already the newest version (3.22.1.0-2).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+0
+
+2024-06-01 13:46:10,489 
+stderr: 
+2024-06-01 13:46:10,490 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/stop-cpu-monitor.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:46:12,492 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:46:12,492 
+stdout: 
+2024-06-01 13:46:12,493 
+stderr: 
+2024-06-01 13:46:12,493 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/stop-bandwidth-monitor.sh on sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:46:14,603 host: sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:46:14,603 
+stdout: 
+2024-06-01 13:46:14,603 
+stderr: 
+2024-06-01 13:46:15,604 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:46:18,080 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:46:18,080 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 13:46:18,080 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 13:46:18,080 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-netstat.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:46:20,525 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:46:20,525 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 13:46:20,525 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 13:46:20,525 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-rx-interrupts.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:46:22,337 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:46:22,338 
+stdout: 
+2024-06-01 13:46:22,338 
+stderr: 
+2024-06-01 13:46:22,338 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-buffers-default.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:46:24,351 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:46:24,351 
+stdout: net.core.rmem_max = 212992
+net.core.rmem_default = 212992
+net.core.wmem_max = 212992
+net.core.wmem_default = 212992
+
+2024-06-01 13:46:24,351 
+stderr: 
+2024-06-01 13:46:24,351 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/reset-rfs.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:46:29,428 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:46:29,428 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+inotify-tools is already the newest version (3.22.1.0-2).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+0
+
+2024-06-01 13:46:29,429 
+stderr: 
+2024-06-01 13:46:29,429 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/stop-cpu-monitor.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:46:31,189 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:46:31,189 
+stdout: 
+2024-06-01 13:46:31,189 
+stderr: 
+2024-06-01 13:46:31,189 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/stop-bandwidth-monitor.sh on sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:46:32,960 host: sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:46:32,960 
+stdout: 
+2024-06-01 13:46:32,960 
+stderr: 
+2024-06-01 13:46:32,960 Removing all variables from sm220u-10s10639.wisc.cloudlab.us
+2024-06-01 13:46:34,928 Removing all variables from sm220u-10s10631.wisc.cloudlab.us
+2024-06-01 13:46:36,996 Server
+2024-06-01 13:46:36,996 
+stdout: 
+2024-06-01 13:46:36,996 
+stderr: 
+2024-06-01 13:46:36,996 Copy sm220u-10s10639.wisc.cloudlab.us:/tmp/logs_server_swltn3x3 to /tmp
+2024-06-01 13:46:40,267 Copy sm220u-10s10639.wisc.cloudlab.us:/tmp/certs_f3xoi93e to /tmp
+2024-06-01 13:46:43,087 Copy sm220u-10s10631.wisc.cloudlab.us:/tmp/logs_sim_u1c39ag5 to /tmp
+2024-06-01 13:46:45,556 Copy sm220u-10s10631.wisc.cloudlab.us:/tmp/logs_client_huxlu1yq to /tmp
+2024-06-01 13:46:48,576 ssh sm220u-10s10639.wisc.cloudlab.us 'cat /tmp/download_jmmfcjza/server.log | grep ERROR '
+2024-06-01 13:46:50,528 ssh sm220u-10s10631.wisc.cloudlab.us 'cat /tmp/download_jmmfcjza/client.log | grep ERROR '
+2024-06-01 13:46:52,221 ssh sm220u-10s10631.wisc.cloudlab.us 'cat /tmp/logs_client_huxlu1yq/ifstat_monitor.txt'
+2024-06-01 13:46:54,112 Bandwidth usage (throughput) 4069.634 Mbps, with 1 concurrent clients.
+2024-06-01 13:46:54,112 ✓ Test successful

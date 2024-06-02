@@ -1,0 +1,65 @@
+{
+    "runner_commit_hash": "b3cf7fb67ce21083050c7bd3c13a3a74557a878a",
+    "runner_start_time_unix_timestamp": 1716469807.723108,
+    "runner_end_time_unix_timestamp": 1716470619.101787,
+    "log_dir": "/users/vingenzi/master_thesis_utilities/logs/logs_2024-05-23T15:10:07",
+    "implementations": [
+        "mcmpquic"
+    ],
+    "build_script": "build_optimised.sh",
+    "tests": {
+        "T": {
+            "name": "throughput",
+            "desc": "Measures connection throughput."
+        }
+    },
+    "quic_draft": 34,
+    "quic_version": "0x1",
+    "results": [],
+    "measurements": [
+        [
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 20,
+                "average": "16933.06 (\u00b1 498.25) Mbps",
+                "details": [
+                    16680.209428891296,
+                    17542.28591599576,
+                    16761.825969681708,
+                    18005.0264494503,
+                    16989.1514775148,
+                    16404.957452597635,
+                    16883.528221223794,
+                    16575.5785537221,
+                    17005.764786696927,
+                    16482.257413039162
+                ],
+                "nb_paths": 15,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 20,
+                "average": "16784.62 (\u00b1 591.13) Mbps",
+                "details": [
+                    17673.24292215003,
+                    16280.367058721991,
+                    16290.415311952462,
+                    17290.06683041648,
+                    16191.441733427246,
+                    16252.074566297923,
+                    17372.161733561046,
+                    16513.143886296028,
+                    17471.85313205135,
+                    16511.390589069582
+                ],
+                "nb_paths": 16,
+                "concurrent_clients": 1
+            }
+        ]
+    ]
+}

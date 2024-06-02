@@ -1,0 +1,4 @@
+[2024-06-02T00:35:31.032997074Z INFO  quiche_apps::client] connecting to 10.10.1.1:5505 from 10.10.1.2:5903 with scid 1f483d8d6b57695861c8b415b7aed16404aba7d9
+[2024-06-02T00:35:51.036277934Z INFO  quiche] Received fin for stream id 3
+[2024-06-02T00:35:51.036307019Z INFO  quiche_apps::client] receieved in 20.003178288s app_conn: AdaptedMcMPQUICConnClient { received: 8711004416, stream_ids: {3}, recv_fin_ids: {3}, expected_streams: 1, ending: true }
+[2024-06-02T00:35:51.046382882Z INFO  quiche_apps::client] connection closed, recv=6710279 sent=16992 lost=0 retrans=0 sent_bytes=1025582 recv_bytes=9056735991 lost_bytes=0 [local_addr=10.10.1.2:5903 peer_addr=10.10.1.1:5505 validation_state=Validated state=Active recv=6710279 sent=16992 lost=0 lost_spurious=0 retrans=0 rtt=167.564µs min_rtt=Some(92.052µs) rttvar=10.035µs rtt_update=8231 cwnd=13500 sent_bytes=1025582 recv_bytes=9056735991 lost_bytes=0 stream_retrans_bytes=0 pmtu=1350 delivery_rate=29715]

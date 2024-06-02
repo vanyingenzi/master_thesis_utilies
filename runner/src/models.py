@@ -6,7 +6,7 @@ from typing import List, Dict
 import yaml
 import re
 from enum import Enum
-from .testcases import TestResult, MB
+from .testcases import TestResult, MiB
 
 current_script_directory = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.normpath(os.path.join(os.path.join(current_script_directory, os.pardir), os.pardir))
@@ -89,7 +89,7 @@ class YamlConfig:
             repetitions=yaml_data['repetitions'],
             measurement_metrics=yaml_data['measurement_metrics'],
             nb_paths=yaml_data['nb_paths'],
-            filesize=yaml_data['filesize'] * MB if 'filesize' in yaml_data else None,
+            filesize=yaml_data['filesize'] * MiB if 'filesize' in yaml_data else None,
             duration=yaml_data['duration'] if 'duration' in yaml_data else None,
             client_prerunscript = cls.parse_postpre_runscript(yaml_data['client_prerunscript']),
             server_prerunscript = cls.parse_postpre_runscript(yaml_data['server_prerunscript']),

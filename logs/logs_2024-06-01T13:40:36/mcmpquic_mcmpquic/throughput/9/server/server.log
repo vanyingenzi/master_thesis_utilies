@@ -1,0 +1,5 @@
+[2024-06-01T12:02:32.267517681Z INFO  quiche_apps::multicore_server] [Listener] listening on 10.10.1.1:4433
+[2024-06-01T12:02:34.304626791Z INFO  quiche_apps::multicore_server] 10.10.1.1:4433 <-> 10.10.1.2:4581 created app conn
+[2024-06-01T12:02:54.308262078Z INFO  quiche_apps::multicore_server] path 10.10.1.1:4433 <-> 10.10.1.2:4581 done sending: app_conn: McMPQUICConnServer { to_send: None, sent: 10122624477, stream_ids: {3}, sent_fin_ids: {3}, end_time: Some(Instant { tv_sec: 1390, tv_nsec: 709463886 }) }
+[2024-06-01T12:02:54.338643883Z INFO  quiche_apps::multicore_server] connection collected [local_addr=10.10.1.1:4433 peer_addr=10.10.1.2:4581 validation_state=Validated state=Active recv=14935 sent=7798277 lost=0 lost_spurious=0 retrans=0 rtt=951.708µs min_rtt=Some(13.743µs) rttvar=997.171µs rtt_update=14929 cwnd=21082192 sent_bytes=10524839642 recv_bytes=833106 lost_bytes=0 stream_retrans_bytes=0 pmtu=1350 delivery_rate=574180]
+[2024-06-01T12:02:54.342350368Z INFO  quiche_apps::multicore_server] [Listener] listening on 10.10.1.1:4433

@@ -1,24 +1,24 @@
 {
     "server": {
-        "hostname": "amd183.utah.cloudlab.us",
+        "hostname": "sm220u-10s10639.wisc.cloudlab.us",
         "ips": [
             "10.10.1.1",
             "10.10.2.1"
         ],
         "interfaces": [
-            "enp65s0f0np0",
-            "enp65s0f1np1"
+            "ens2f0np0",
+            "ens2f1np1"
         ]
     },
     "client": {
-        "hostname": "amd204.utah.cloudlab.us",
+        "hostname": "sm220u-10s10631.wisc.cloudlab.us",
         "ips": [
             "10.10.1.2",
             "10.10.2.2"
         ],
         "interfaces": [
-            "enp65s0f0np0",
-            "enp65s0f1np1"
+            "ens2f0np0",
+            "ens2f1np1"
         ]
     }
 }

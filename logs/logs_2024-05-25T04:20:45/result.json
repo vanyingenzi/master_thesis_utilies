@@ -1,0 +1,128 @@
+{
+    "runner_commit_hash": "984ca7a1214407ea2797cdf4dcc18dfb271fa7aa",
+    "runner_start_time_unix_timestamp": 1716603645.343929,
+    "runner_end_time_unix_timestamp": 1716633342.589004,
+    "log_dir": "/users/vingenzi/master_thesis_utilities/logs/logs_2024-05-25T04:20:45",
+    "implementations": [
+        "mpquic",
+        "mcmpquic"
+    ],
+    "build_script": "build_optimised.sh",
+    "tests": {
+        "T": {
+            "name": "throughput",
+            "desc": "Measures connection throughput."
+        }
+    },
+    "quic_draft": 34,
+    "quic_version": "0x1",
+    "results": [],
+    "measurements": [
+        [
+            {
+                "name": "throughput",
+                "implementation": "mpquic",
+                "abbr": "T",
+                "duration": 10,
+                "average": "3373.50 (\u00b1 247.13) Mbps",
+                "details": [
+                    3548.252786695439,
+                    3198.7547918884816
+                ],
+                "nb_paths": 1,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mpquic",
+                "abbr": "T",
+                "duration": 10,
+                "average": "3581.87 (\u00b1 28.96) Mbps",
+                "details": [
+                    3561.385376849733,
+                    3602.347361943581
+                ],
+                "nb_paths": 4,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mpquic",
+                "abbr": "T",
+                "duration": 10,
+                "average": "3476.07 (\u00b1 18.91) Mbps",
+                "details": [
+                    3489.436955146767,
+                    3462.693405122263
+                ],
+                "nb_paths": 8,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mpquic",
+                "abbr": "T",
+                "duration": 10,
+                "average": "3162.39 (\u00b1 16.23) Mbps",
+                "details": [
+                    3173.86967649853,
+                    3150.9173445202773
+                ],
+                "nb_paths": 12,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mpquic",
+                "abbr": "T",
+                "duration": 10,
+                "average": "2979.80 (\u00b1 75.04) Mbps",
+                "details": [
+                    3032.860347997127,
+                    2926.740911357047
+                ],
+                "nb_paths": 16,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 10,
+                "average": "3160.94 (\u00b1 216.69) Mbps",
+                "details": [
+                    3007.7194412697695,
+                    3314.170227666694
+                ],
+                "nb_paths": 1,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 10,
+                "average": "10612.95 (\u00b1 1313.99) Mbps",
+                "details": [
+                    9683.820821360883,
+                    11542.089055078633
+                ],
+                "nb_paths": 4,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 10,
+                "average": "19306.36 (\u00b1 299.95) Mbps",
+                "details": [
+                    19518.454023145074,
+                    19094.26711068579
+                ],
+                "nb_paths": 8,
+                "concurrent_clients": 1
+            }
+        ]
+    ]
+}

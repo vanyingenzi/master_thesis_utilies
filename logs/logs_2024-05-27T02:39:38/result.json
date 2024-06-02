@@ -1,0 +1,109 @@
+{
+    "runner_commit_hash": "4b60d13b5303d0867ecbc68aa5f71db7ebf0852a",
+    "runner_start_time_unix_timestamp": 1716770378.200119,
+    "runner_end_time_unix_timestamp": 1716772168.110072,
+    "log_dir": "/users/vingenzi/master_thesis_utilities/logs/logs_2024-05-27T02:39:38",
+    "implementations": [
+        "mcmpquic"
+    ],
+    "build_script": "build_optimised.sh",
+    "tests": {
+        "T": {
+            "name": "throughput",
+            "desc": "Measures connection throughput."
+        }
+    },
+    "quic_draft": 34,
+    "quic_version": "0x1",
+    "config": "throughput_20s_rfs.yaml",
+    "testbed": "cloudlab.json",
+    "results": [],
+    "measurements": [
+        [
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 20,
+                "average": "19034.37 (\u00b1 1277.33) Mbps",
+                "details": [
+                    17469.022164606715,
+                    18216.513026968612,
+                    21095.80286968401,
+                    18929.163431670415,
+                    18595.389193504114,
+                    19454.40754452565,
+                    20914.085286075537,
+                    18184.467740252687,
+                    19862.489266859095,
+                    17622.332332727652
+                ],
+                "nb_paths": 13,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 20,
+                "average": "18805.65 (\u00b1 786.95) Mbps",
+                "details": [
+                    20021.192258376923,
+                    18657.746320350278,
+                    17924.457200374127,
+                    19092.884445810676,
+                    19275.096846602242,
+                    19623.853856877453,
+                    18686.40810024087,
+                    18757.599251471966,
+                    18729.176239281554,
+                    17288.090183335975
+                ],
+                "nb_paths": 14,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 20,
+                "average": "17230.38 (\u00b1 621.47) Mbps",
+                "details": [
+                    16354.953920254076,
+                    16212.856757217263,
+                    17013.257525959325,
+                    16955.34417917388,
+                    17236.39571876026,
+                    17213.509853031122,
+                    18103.081476779767,
+                    17754.54290345622,
+                    17818.592943013195,
+                    17641.270284764338
+                ],
+                "nb_paths": 15,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 20,
+                "average": "17347.72 (\u00b1 625.57) Mbps",
+                "details": [
+                    17392.210003418393,
+                    16571.638072392125,
+                    18108.80215392917,
+                    17407.757402455496,
+                    17039.01311609136,
+                    17183.348781674602,
+                    18555.82874408425,
+                    16563.670547141952,
+                    17065.23845402824,
+                    17589.649927914044
+                ],
+                "nb_paths": 16,
+                "concurrent_clients": 1
+            }
+        ]
+    ]
+}

@@ -1,0 +1,49 @@
+{
+    "runner_commit_hash": "984ca7a1214407ea2797cdf4dcc18dfb271fa7aa",
+    "runner_start_time_unix_timestamp": 1716636406.756361,
+    "runner_end_time_unix_timestamp": 1716641513.034567,
+    "log_dir": "/users/vingenzi/master_thesis_utilities/logs/logs_2024-05-25T13:26:46",
+    "implementations": [
+        "mcmpquic"
+    ],
+    "build_script": "build_optimised.sh",
+    "tests": {
+        "T": {
+            "name": "throughput",
+            "desc": "Measures connection throughput."
+        }
+    },
+    "quic_draft": 34,
+    "quic_version": "0x1",
+    "results": [],
+    "measurements": [
+        [
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 10,
+                "average": "17953.88 (\u00b1 1041.48) Mbps",
+                "details": [
+                    17217.447088657966,
+                    18690.318401074193
+                ],
+                "nb_paths": 12,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 10,
+                "average": "15888.96 (\u00b1 237.67) Mbps",
+                "details": [
+                    15720.904240417014,
+                    16057.015886250796
+                ],
+                "nb_paths": 16,
+                "concurrent_clients": 1
+            }
+        ]
+    ]
+}

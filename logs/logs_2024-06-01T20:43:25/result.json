@@ -1,0 +1,46 @@
+{
+    "runner_commit_hash": "bd340e7594cba1d87897a25c001649183fe2d384",
+    "runner_start_time_unix_timestamp": 1717267405.051473,
+    "runner_end_time_unix_timestamp": 1717269688.394016,
+    "log_dir": "/home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/logs/logs_2024-06-01T20:43:25",
+    "implementations": [
+        "mcmpquic"
+    ],
+    "build_script": "build_optimised.sh",
+    "tests": {
+        "T": {
+            "name": "throughput",
+            "desc": "Measures connection throughput."
+        }
+    },
+    "quic_draft": 34,
+    "quic_version": "0x1",
+    "config": "throughput_20s_rfs.yaml",
+    "testbed": "cloudlab.json",
+    "results": [],
+    "measurements": [
+        [
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 20,
+                "average": "26895.20 (\u00b1 1682.96) Mbps",
+                "details": [
+                    27726.668664074226,
+                    25305.355259253298,
+                    28560.89012210329,
+                    25803.073545856238,
+                    24772.5782630023,
+                    28491.518855326896,
+                    24846.318937968692,
+                    26230.787536863572,
+                    29219.144510145878,
+                    27995.69126543005
+                ],
+                "nb_paths": 14,
+                "concurrent_clients": 1
+            }
+        ]
+    ]
+}

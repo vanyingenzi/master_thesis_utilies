@@ -1,0 +1,11 @@
+[2024-05-23T10:39:57.059955246Z INFO  quiche_apps::multicore_server] [Listener] listening on 10.10.1.1:4433
+[2024-05-23T10:39:59.099221273Z INFO  quiche_apps::multicore_server] 10.10.1.1:4433 <-> 10.10.1.2:6092 created app conn
+[2024-05-23T10:39:59.107063276Z INFO  quiche_apps::multicore_server] Seen new path (10.10.2.1:4556, 10.10.2.2:5760)
+[2024-05-23T10:39:59.107525873Z INFO  quiche_apps::multicore_server] Path (10.10.2.1:4556, 10.10.2.2:5760) is now validated
+[2024-05-23T10:39:59.107547663Z INFO  quiche_apps::multicore_server] 10.10.2.1:4556 <-> 10.10.2.2:5760 created app conn
+[2024-05-23T10:40:19.099885435Z INFO  quiche_apps::multicore_server] path 10.10.1.1:4433 <-> 10.10.1.2:6092 done sending: app_conn: McMPQUICConnServer { to_send: None, sent: 8921438316, stream_ids: {3}, sent_fin_ids: {3}, end_time: Some(Instant { tv_sec: 11929, tv_nsec: 981092268 }) }
+[2024-05-23T10:40:19.108022691Z INFO  quiche_apps::multicore_server] path 10.10.2.1:4556 <-> 10.10.2.2:5760 done sending: app_conn: McMPQUICConnServer { to_send: None, sent: 7557845708, stream_ids: {7}, sent_fin_ids: {7}, end_time: Some(Instant { tv_sec: 11929, tv_nsec: 989421093 }) }
+[2024-05-23T10:40:19.128171080Z INFO  quiche_apps::multicore_server] path 10.10.2.1:4556 <-> 10.10.2.2:5760 finished, recv close from peer
+[2024-05-23T10:40:19.130187849Z INFO  quiche_apps::common] received message MulticorePathDoneInfo { local: 10.10.2.1:4556, peer: 10.10.2.2:5760, status: Success }
+[2024-05-23T10:40:19.130196946Z INFO  quiche_apps::multicore_server] connection collected [local_addr=10.10.1.1:4433 peer_addr=10.10.1.2:6092 validation_state=Validated state=Active recv=17411 sent=6872434 lost=0 lost_spurious=0 retrans=0 rtt=320.348µs min_rtt=Some(8.707µs) rttvar=293.302µs rtt_update=17405 cwnd=25298464 sent_bytes=9275606454 recv_bytes=1049595 lost_bytes=0 stream_retrans_bytes=0 pmtu=1350 delivery_rate=846090, local_addr=10.10.2.1:4556 peer_addr=10.10.2.2:5760 validation_state=Validated state=Active recv=59941 sent=5823996 lost=0 lost_spurious=0 retrans=0 rtt=182.731µs min_rtt=Some(26.122µs) rttvar=104.835µs rtt_update=59931 cwnd=26351892 sent_bytes=7858483666 recv_bytes=4104719 lost_bytes=0 stream_retrans_bytes=0 pmtu=1350 delivery_rate=436120034]
+[2024-05-23T10:40:19.133383917Z INFO  quiche_apps::multicore_server] [Listener] listening on 10.10.1.1:4433

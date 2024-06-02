@@ -1,0 +1,90 @@
+{
+    "runner_commit_hash": "bd340e7594cba1d87897a25c001649183fe2d384",
+    "runner_start_time_unix_timestamp": 1717280745.22474,
+    "runner_end_time_unix_timestamp": 1717296910.243922,
+    "log_dir": "/home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/logs/logs_2024-06-02T00:25:45",
+    "implementations": [
+        "mcmpquic"
+    ],
+    "build_script": "build_optimised.sh",
+    "tests": {
+        "T": {
+            "name": "throughput",
+            "desc": "Measures connection throughput."
+        }
+    },
+    "quic_draft": 34,
+    "quic_version": "0x1",
+    "config": "throughput_20s_record_client.yaml",
+    "testbed": "cloudlab.json",
+    "results": [],
+    "measurements": [
+        [
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 10,
+                "average": "3400.64 (\u00b1 323.60) Mbps",
+                "details": [
+                    3629.461092793139,
+                    3171.8166630030764
+                ],
+                "nb_paths": 1,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 10,
+                "average": "11460.31 (\u00b1 2136.04) Mbps",
+                "details": [
+                    12970.711857157077,
+                    9949.89919218132
+                ],
+                "nb_paths": 4,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 10,
+                "average": "14234.74 (\u00b1 758.35) Mbps",
+                "details": [
+                    14770.977672113075,
+                    13698.511512817988
+                ],
+                "nb_paths": 8,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 10,
+                "average": "11647.62 (\u00b1 904.79) Mbps",
+                "details": [
+                    11007.834631160013,
+                    12287.395890594318
+                ],
+                "nb_paths": 12,
+                "concurrent_clients": 1
+            },
+            {
+                "name": "throughput",
+                "implementation": "mcmpquic",
+                "abbr": "T",
+                "duration": 10,
+                "average": "7647.19 (\u00b1 1086.55) Mbps",
+                "details": [
+                    6878.879670956813,
+                    8415.493716571747
+                ],
+                "nb_paths": 16,
+                "concurrent_clients": 1
+            }
+        ]
+    ]
+}

@@ -1,0 +1,577 @@
+2024-06-01 19:56:11,938 Checking if port 6164 is in use on amd162.utah.cloudlab.us
+2024-06-01 19:56:14,093 host: amd162.utah.cloudlab.us
+2024-06-01 19:56:14,093 
+stdout: 
+2024-06-01 19:56:14,093 
+stderr: 
+2024-06-01 19:56:14,587 
+2024-06-01 19:56:14,587 Copy /tmp/logs_server_kxcx27se to amd148.utah.cloudlab.us:/tmp
+2024-06-01 19:56:17,471 The transfer return code : 0
+2024-06-01 19:56:17,471 Copy /tmp/www_98h7rah7 to amd148.utah.cloudlab.us:/tmp
+2024-06-01 19:56:20,810 The transfer return code : 0
+2024-06-01 19:56:20,810 Copy /tmp/certs_qo4znbh_ to amd148.utah.cloudlab.us:/tmp
+2024-06-01 19:56:23,609 The transfer return code : 0
+2024-06-01 19:56:23,609 Copy /tmp/logs_sim_z6x0a0qk to amd162.utah.cloudlab.us:/tmp
+2024-06-01 19:56:26,655 The transfer return code : 0
+2024-06-01 19:56:26,655 Copy /tmp/logs_client_g6a6k_47 to amd162.utah.cloudlab.us:/tmp
+2024-06-01 19:56:29,321 The transfer return code : 0
+2024-06-01 19:56:29,321 Copy /tmp/download_u1ydgw7p to amd162.utah.cloudlab.us:/tmp
+2024-06-01 19:56:32,005 The transfer return code : 0
+2024-06-01 19:56:32,005 Building shardmpquic on amd148.utah.cloudlab.us
+2024-06-01 19:56:32,005 Running command "cd ~/shardmpquic; ./build_optimised.sh" on amd148.utah.cloudlab.us
+2024-06-01 19:57:26,964 amd148.utah.cloudlab.us
+2024-06-01 19:57:26,964 stdout: 
+  stable-x86_64-unknown-linux-gnu unchanged - rustc 1.78.0 (9b00956e5 2024-04-29)
+
+
+Rust is installed now. Great!
+
+To get started you may need to restart your current shell.
+This would reload your PATH environment variable to include
+Cargo's bin directory ($HOME/.cargo/bin).
+
+To configure your current shell, you need to source
+the corresponding env file under $HOME/.cargo.
+
+This is usually done by running one of the following (note the leading DOT):
+. "$HOME/.cargo/env"            # For sh/bash/zsh/ash/dash/pdksh
+source "$HOME/.cargo/env.fish"  # For fish
+Submodule path 'quiche/deps/boringssl': checked out 'f1c75347daa2ea81a941e953f2263e0a4d970c8d'
+  adding: VERSION (stored 0%)
+  adding: setup-env.sh (stored 0%)
+  adding: run-client.sh (deflated 64%)
+  adding: run-server.sh (deflated 60%)
+  adding: shardmpquic-client (deflated 74%)
+  adding: shardmpquic-server (deflated 74%)
+
+2024-06-01 19:57:26,964 stderr: fatal: not a git repository (or any of the parent directories): .git
+info: downloading installer
+info: profile set to 'default'
+info: setting default host triple to x86_64-unknown-linux-gnu
+warning: Updating existing toolchain, profile choice will be ignored
+info: syncing channel updates for 'stable-x86_64-unknown-linux-gnu'
+info: default toolchain set to 'stable-x86_64-unknown-linux-gnu'
+Cloning into 'quiche'...
+Submodule 'boringssl' (https://github.com/google/boringssl.git) registered for path 'quiche/deps/boringssl'
+Cloning into '/users/vingenzi/shardmpquic/quiche/quiche/deps/boringssl'...
+Note: switching to '4ff7c86ba4a8967781bd22cc19048c5d7b3f25ec'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 4ff7c86b Fixed a bug with on_timeout
+    Updating crates.io index
+   Compiling proc-macro2 v1.0.84
+   Compiling unicode-ident v1.0.12
+   Compiling autocfg v1.3.0
+   Compiling libc v0.2.155
+   Compiling serde v1.0.203
+   Compiling cc v1.0.98
+   Compiling fnv v1.0.7
+   Compiling strsim v0.11.1
+   Compiling ident_case v1.0.1
+   Compiling log v0.4.21
+   Compiling equivalent v1.0.1
+   Compiling cfg-if v1.0.0
+   Compiling utf8parse v0.2.1
+   Compiling hashbrown v0.14.5
+   Compiling memchr v2.7.2
+   Compiling anstyle-query v1.0.3
+   Compiling rust_decimal v1.35.0
+   Compiling serde_json v1.0.117
+   Compiling anstyle-parse v0.2.4
+   Compiling is_terminal_polyfill v1.70.0
+   Compiling colorchoice v1.0.1
+   Compiling tinyvec_macros v0.1.1
+   Compiling regex-syntax v0.8.3
+   Compiling anstyle v1.0.7
+   Compiling tinyvec v1.6.0
+   Compiling env_filter v0.1.0
+   Compiling libm v0.2.8
+   Compiling ryu v1.0.18
+   Compiling anstream v0.6.14
+   Compiling itoa v1.0.11
+   Compiling memoffset v0.9.1
+   Compiling num-traits v0.2.19
+   Compiling slab v0.4.9
+   Compiling arrayvec v0.7.4
+   Compiling either v1.12.0
+   Compiling env_logger v0.11.3
+   Compiling aho-corasick v1.1.3
+   Compiling cmake v0.1.50
+   Compiling untrusted v0.7.1
+   Compiling matches v0.1.10
+   Compiling quick-error v1.2.3
+   Compiling ppv-lite86 v0.2.17
+   Compiling once_cell v1.19.0
+   Compiling quote v1.0.36
+   Compiling indexmap v2.2.6
+   Compiling data-encoding v2.6.0
+   Compiling syn v2.0.66
+   Compiling spin v0.5.2
+   Compiling unicode-bidi v0.3.15
+   Compiling humantime v1.3.0
+   Compiling unicode-normalization v0.1.23
+   Compiling intrusive-collections v0.9.6
+   Compiling cfg-if v0.1.10
+   Compiling lazy_static v1.4.0
+   Compiling percent-encoding v1.0.1
+   Compiling ring v0.16.20
+   Compiling getrandom v0.2.15
+   Compiling quiche v0.18.0 (/users/vingenzi/shardmpquic/quiche/quiche)
+   Compiling atty v0.2.14
+   Compiling sfv v0.9.4
+   Compiling rand_core v0.6.4
+   Compiling num_cpus v1.16.0
+   Compiling idna v0.1.5
+   Compiling rand_chacha v0.3.1
+   Compiling strsim v0.10.0
+   Compiling termcolor v1.4.1
+   Compiling regex-automata v0.4.6
+   Compiling bitflags v2.5.0
+   Compiling octets v0.2.0 (/users/vingenzi/shardmpquic/quiche/octets)
+   Compiling nix v0.27.1
+   Compiling url v1.7.2
+   Compiling rand v0.8.5
+   Compiling core_affinity v0.8.1
+   Compiling mio v0.8.11
+   Compiling gearhash v0.1.3
+   Compiling itertools v0.10.5
+   Compiling darling_core v0.20.9
+   Compiling regex v1.10.4
+   Compiling env_logger v0.6.2
+   Compiling serde_derive v1.0.203
+   Compiling darling_macro v0.20.9
+   Compiling test-log-macros v0.2.16
+   Compiling test-log v0.2.16
+   Compiling darling v0.20.9
+   Compiling serde_with_macros v3.8.1
+   Compiling serde_with v3.8.1
+   Compiling smallvec v1.13.2
+   Compiling docopt v1.1.1
+   Compiling qlog v0.9.0 (/users/vingenzi/shardmpquic/quiche/qlog)
+   Compiling quiche_apps v0.1.0 (/users/vingenzi/shardmpquic/quiche/apps)
+    Finished `release` profile [optimized + debuginfo] target(s) in 32.15s
+
+2024-06-01 19:57:26,964 Give execute permission to ~/shardmpquic/shardmpquic-server on amd148.utah.cloudlab.us
+2024-06-01 19:57:29,734 The command return code : 0
+2024-06-01 19:57:29,734 Building shardmpquic on amd162.utah.cloudlab.us
+2024-06-01 19:57:29,734 Running command "cd ~/shardmpquic; ./build_optimised.sh" on amd162.utah.cloudlab.us
+2024-06-01 19:58:23,932 amd162.utah.cloudlab.us
+2024-06-01 19:58:23,932 stdout: 
+  stable-x86_64-unknown-linux-gnu unchanged - rustc 1.78.0 (9b00956e5 2024-04-29)
+
+
+Rust is installed now. Great!
+
+To get started you may need to restart your current shell.
+This would reload your PATH environment variable to include
+Cargo's bin directory ($HOME/.cargo/bin).
+
+To configure your current shell, you need to source
+the corresponding env file under $HOME/.cargo.
+
+This is usually done by running one of the following (note the leading DOT):
+. "$HOME/.cargo/env"            # For sh/bash/zsh/ash/dash/pdksh
+source "$HOME/.cargo/env.fish"  # For fish
+Submodule path 'quiche/deps/boringssl': checked out 'f1c75347daa2ea81a941e953f2263e0a4d970c8d'
+  adding: VERSION (stored 0%)
+  adding: setup-env.sh (stored 0%)
+  adding: run-client.sh (deflated 64%)
+  adding: run-server.sh (deflated 60%)
+  adding: shardmpquic-client (deflated 74%)
+  adding: shardmpquic-server (deflated 74%)
+
+2024-06-01 19:58:23,932 stderr: fatal: not a git repository (or any of the parent directories): .git
+info: downloading installer
+info: profile set to 'default'
+info: setting default host triple to x86_64-unknown-linux-gnu
+warning: Updating existing toolchain, profile choice will be ignored
+info: syncing channel updates for 'stable-x86_64-unknown-linux-gnu'
+info: default toolchain set to 'stable-x86_64-unknown-linux-gnu'
+Cloning into 'quiche'...
+Submodule 'boringssl' (https://github.com/google/boringssl.git) registered for path 'quiche/deps/boringssl'
+Cloning into '/users/vingenzi/shardmpquic/quiche/quiche/deps/boringssl'...
+Note: switching to '4ff7c86ba4a8967781bd22cc19048c5d7b3f25ec'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 4ff7c86b Fixed a bug with on_timeout
+    Updating crates.io index
+   Compiling proc-macro2 v1.0.84
+   Compiling unicode-ident v1.0.12
+   Compiling libc v0.2.155
+   Compiling autocfg v1.3.0
+   Compiling serde v1.0.203
+   Compiling cc v1.0.98
+   Compiling fnv v1.0.7
+   Compiling ident_case v1.0.1
+   Compiling strsim v0.11.1
+   Compiling log v0.4.21
+   Compiling memchr v2.7.2
+   Compiling utf8parse v0.2.1
+   Compiling cfg-if v1.0.0
+   Compiling equivalent v1.0.1
+   Compiling hashbrown v0.14.5
+   Compiling serde_json v1.0.117
+   Compiling regex-syntax v0.8.3
+   Compiling is_terminal_polyfill v1.70.0
+   Compiling anstyle-parse v0.2.4
+   Compiling anstyle-query v1.0.3
+   Compiling colorchoice v1.0.1
+   Compiling rust_decimal v1.35.0
+   Compiling anstyle v1.0.7
+   Compiling tinyvec_macros v0.1.1
+   Compiling env_filter v0.1.0
+   Compiling tinyvec v1.6.0
+   Compiling ryu v1.0.18
+   Compiling itoa v1.0.11
+   Compiling anstream v0.6.14
+   Compiling libm v0.2.8
+   Compiling memoffset v0.9.1
+   Compiling num-traits v0.2.19
+   Compiling slab v0.4.9
+   Compiling arrayvec v0.7.4
+   Compiling unicode-bidi v0.3.15
+   Compiling aho-corasick v1.1.3
+   Compiling cmake v0.1.50
+   Compiling env_logger v0.11.3
+   Compiling either v1.12.0
+   Compiling ppv-lite86 v0.2.17
+   Compiling quote v1.0.36
+   Compiling indexmap v2.2.6
+   Compiling syn v2.0.66
+   Compiling spin v0.5.2
+   Compiling matches v0.1.10
+   Compiling once_cell v1.19.0
+   Compiling data-encoding v2.6.0
+   Compiling quick-error v1.2.3
+   Compiling untrusted v0.7.1
+   Compiling unicode-normalization v0.1.23
+   Compiling humantime v1.3.0
+   Compiling intrusive-collections v0.9.6
+   Compiling ring v0.16.20
+   Compiling quiche v0.18.0 (/users/vingenzi/shardmpquic/quiche/quiche)
+   Compiling getrandom v0.2.15
+   Compiling idna v0.1.5
+   Compiling atty v0.2.14
+   Compiling num_cpus v1.16.0
+   Compiling lazy_static v1.4.0
+   Compiling rand_core v0.6.4
+   Compiling sfv v0.9.4
+   Compiling strsim v0.10.0
+   Compiling cfg-if v0.1.10
+   Compiling rand_chacha v0.3.1
+   Compiling regex-automata v0.4.6
+   Compiling octets v0.2.0 (/users/vingenzi/shardmpquic/quiche/octets)
+   Compiling termcolor v1.4.1
+   Compiling bitflags v2.5.0
+   Compiling percent-encoding v1.0.1
+   Compiling nix v0.27.1
+   Compiling url v1.7.2
+   Compiling rand v0.8.5
+   Compiling gearhash v0.1.3
+   Compiling core_affinity v0.8.1
+   Compiling mio v0.8.11
+   Compiling itertools v0.10.5
+   Compiling darling_core v0.20.9
+   Compiling regex v1.10.4
+   Compiling env_logger v0.6.2
+   Compiling serde_derive v1.0.203
+   Compiling test-log-macros v0.2.16
+   Compiling test-log v0.2.16
+   Compiling darling_macro v0.20.9
+   Compiling darling v0.20.9
+   Compiling serde_with_macros v3.8.1
+   Compiling serde_with v3.8.1
+   Compiling smallvec v1.13.2
+   Compiling docopt v1.1.1
+   Compiling qlog v0.9.0 (/users/vingenzi/shardmpquic/quiche/qlog)
+   Compiling quiche_apps v0.1.0 (/users/vingenzi/shardmpquic/quiche/apps)
+    Finished `release` profile [optimized + debuginfo] target(s) in 31.90s
+
+2024-06-01 19:58:23,932 Give execute permission to ~/shardmpquic/shardmpquic-client on amd162.utah.cloudlab.us
+2024-06-01 19:58:26,461 The command return code : 0
+2024-06-01 19:58:26,461 Checking if /tmp/server/bin/activate exists on amd148.utah.cloudlab.us
+2024-06-01 19:58:28,479 Checking if /tmp/client/bin/activate exists on amd162.utah.cloudlab.us
+2024-06-01 19:58:30,548 Setting the variables:
+{'implementation': 'shardmpquic', 'interfaces': ['enp65s0f0np0', 'enp65s0f1np1'], 'hostname': 'amd148.utah.cloudlab.us', 'log_dir': '/tmp/logs_server_kxcx27se', 'www_dir': '/tmp/www_98h7rah7/', 'certs_dir': '/tmp/certs_qo4znbh_/', 'role': 'server', 'filesize': 0, 'duration': 20, 'listen_addr': '10.10.1.1:4433', 'extra_server_addrs': [], 'rmem_value': 100000000}
+on the host amd148.utah.cloudlab.us
+2024-06-01 19:58:30,548 Copy /tmp/interop-temp-data-0gbc_ql7 to amd148.utah.cloudlab.us:/tmp/interop-variables.json
+2024-06-01 19:58:33,672 Setting the variables:
+{'implementation': 'shardmpquic', 'interfaces': ['enp65s0f0np0', 'enp65s0f1np1'], 'hostname': 'amd162.utah.cloudlab.us', 'log_dir': '/tmp/logs_client_g6a6k_47', 'sim_log_dir': '/tmp/logs_sim_z6x0a0qk', 'download_dir': '/tmp/download_u1ydgw7p/', 'role': 'client', 'server_ip_port': '10.10.1.1:4433', 'connect_to': '10.10.1.1:4433', 'duration': 20, 'extra_server_addrs': [], 'client_addrs': ['10.10.1.2:6164'], 'rmem_value': 100000000}
+on the host amd162.utah.cloudlab.us
+2024-06-01 19:58:33,672 Copy /tmp/interop-temp-data-8hk627gt to amd162.utah.cloudlab.us:/tmp/interop-variables.json
+2024-06-01 19:58:36,592 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/off-ht.sh on amd148.utah.cloudlab.us
+2024-06-01 19:58:38,806 host: amd148.utah.cloudlab.us
+2024-06-01 19:58:38,807 
+stdout: off
+
+2024-06-01 19:58:38,807 
+stderr: 
+2024-06-01 19:58:38,807 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on amd148.utah.cloudlab.us
+2024-06-01 19:58:42,107 host: amd148.utah.cloudlab.us
+2024-06-01 19:58:42,107 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 19:58:42,107 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 19:58:42,107 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-netstat.sh on amd148.utah.cloudlab.us
+2024-06-01 19:58:44,779 host: amd148.utah.cloudlab.us
+2024-06-01 19:58:44,779 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 19:58:44,779 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 19:58:44,779 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-rx-interrupts.sh on amd148.utah.cloudlab.us
+2024-06-01 19:58:47,569 host: amd148.utah.cloudlab.us
+2024-06-01 19:58:47,569 
+stdout: 
+2024-06-01 19:58:47,569 
+stderr: 
+2024-06-01 19:58:47,570 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-rcvbuf.sh on amd148.utah.cloudlab.us
+2024-06-01 19:58:50,619 host: amd148.utah.cloudlab.us
+2024-06-01 19:58:50,619 
+stdout: net.core.rmem_max = 100000000
+net.core.rmem_default = 100000000
+net.core.wmem_max = 100000000
+net.core.wmem_default = 100000000
+
+2024-06-01 19:58:50,620 
+stderr: 
+2024-06-01 19:58:50,620 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/start-cpu-monitor.sh on amd148.utah.cloudlab.us
+2024-06-01 19:58:50,620 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-bandwidth-monitor.sh on amd148.utah.cloudlab.us
+2024-06-01 19:58:50,620 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/off-ht.sh on amd162.utah.cloudlab.us
+2024-06-01 19:58:53,593 host: amd162.utah.cloudlab.us
+2024-06-01 19:58:53,593 
+stdout: off
+
+2024-06-01 19:58:53,593 
+stderr: 
+2024-06-01 19:58:53,593 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on amd162.utah.cloudlab.us
+2024-06-01 19:58:56,788 host: amd162.utah.cloudlab.us
+2024-06-01 19:58:56,788 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 19:58:56,788 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 19:58:56,788 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-netstat.sh on amd162.utah.cloudlab.us
+2024-06-01 19:59:00,231 host: amd162.utah.cloudlab.us
+2024-06-01 19:59:00,231 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 19:59:00,231 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 19:59:00,231 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-rx-interrupts.sh on amd162.utah.cloudlab.us
+2024-06-01 19:59:03,162 host: amd162.utah.cloudlab.us
+2024-06-01 19:59:03,162 
+stdout: 
+2024-06-01 19:59:03,162 
+stderr: 
+2024-06-01 19:59:03,162 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-rcvbuf.sh on amd162.utah.cloudlab.us
+2024-06-01 19:59:05,945 host: amd162.utah.cloudlab.us
+2024-06-01 19:59:05,945 
+stdout: net.core.rmem_max = 100000000
+net.core.rmem_default = 100000000
+net.core.wmem_max = 100000000
+net.core.wmem_default = 100000000
+
+2024-06-01 19:59:05,945 
+stderr: 
+2024-06-01 19:59:05,945 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/start-cpu-monitor.sh on amd162.utah.cloudlab.us
+2024-06-01 19:59:05,946 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-bandwidth-monitor.sh on amd162.utah.cloudlab.us
+2024-06-01 19:59:05,946 Starting server:
+ ssh amd148.utah.cloudlab.us 'cd ~/shardmpquic; /tmp/server/bin/activate; SSLKEYLOGFILE=/tmp/logs_server_kxcx27se/keys.log  LOGS=/tmp/logs_server_kxcx27se TESTCASE=throughput WWW=/tmp/www_98h7rah7/ CERTS=/tmp/certs_qo4znbh_/ IP=10.10.1.1 PORT=4433 SERVERNAME=server ./run-server.sh'
+
+2024-06-01 19:59:07,949 Starting client:
+ ssh amd162.utah.cloudlab.us 'cd ~/shardmpquic; /tmp/client/bin/activate; SSLKEYLOGFILE=/tmp/logs_client_g6a6k_47/keys.log  LOGS=/tmp/logs_client_g6a6k_47 TESTCASE=throughput DOWNLOADS=/tmp/download_u1ydgw7p/ CLIENTSUFFIX= ./run-client.sh'
+
+2024-06-01 19:59:30,266 Client
+2024-06-01 19:59:30,266 
+stdout: 
+2024-06-01 19:59:30,266 
+stderr: 
+2024-06-01 19:59:30,266 Getting content of /tmp/logs_client_g6a6k_47/time.json from amd162.utah.cloudlab.us
+2024-06-01 19:59:32,706 start time: 2024-06-01 19:59:10.156076
+2024-06-01 19:59:32,707 end time: 2024-06-01 19:59:30.195875
+2024-06-01 19:59:32,707 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on amd162.utah.cloudlab.us
+2024-06-01 19:59:35,455 host: amd162.utah.cloudlab.us
+2024-06-01 19:59:35,455 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 19:59:35,472 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 19:59:35,472 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-netstat.sh on amd162.utah.cloudlab.us
+2024-06-01 19:59:38,100 host: amd162.utah.cloudlab.us
+2024-06-01 19:59:38,100 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 19:59:38,100 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 19:59:38,100 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-rx-interrupts.sh on amd162.utah.cloudlab.us
+2024-06-01 19:59:41,078 host: amd162.utah.cloudlab.us
+2024-06-01 19:59:41,078 
+stdout: 
+2024-06-01 19:59:41,079 
+stderr: 
+2024-06-01 19:59:41,079 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-buffers-default.sh on amd162.utah.cloudlab.us
+2024-06-01 19:59:43,380 host: amd162.utah.cloudlab.us
+2024-06-01 19:59:43,380 
+stdout: net.core.rmem_max = 212992
+net.core.rmem_default = 212992
+net.core.wmem_max = 212992
+net.core.wmem_default = 212992
+
+2024-06-01 19:59:43,380 
+stderr: 
+2024-06-01 19:59:43,380 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/stop-cpu-monitor.sh on amd162.utah.cloudlab.us
+2024-06-01 19:59:45,898 host: amd162.utah.cloudlab.us
+2024-06-01 19:59:45,899 
+stdout: 
+2024-06-01 19:59:45,899 
+stderr: 
+2024-06-01 19:59:45,899 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/stop-bandwidth-monitor.sh on amd162.utah.cloudlab.us
+2024-06-01 19:59:48,262 host: amd162.utah.cloudlab.us
+2024-06-01 19:59:48,263 
+stdout: 
+2024-06-01 19:59:48,263 
+stderr: 
+2024-06-01 19:59:49,264 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-ethtool.sh on amd148.utah.cloudlab.us
+2024-06-01 19:59:51,790 host: amd148.utah.cloudlab.us
+2024-06-01 19:59:51,790 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+ethtool is already the newest version (1:5.16-1ubuntu0.1).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 19:59:51,790 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 19:59:51,790 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-netstat.sh on amd148.utah.cloudlab.us
+2024-06-01 19:59:54,565 host: amd148.utah.cloudlab.us
+2024-06-01 19:59:54,565 
+stdout: Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60+git20181103.0eebece-1ubuntu5).
+0 upgraded, 0 newly installed, 0 to remove and 158 not upgraded.
+
+2024-06-01 19:59:54,565 
+stderr: 
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+2024-06-01 19:59:54,565 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/run-rx-interrupts.sh on amd148.utah.cloudlab.us
+2024-06-01 19:59:56,877 host: amd148.utah.cloudlab.us
+2024-06-01 19:59:56,877 
+stdout: 
+2024-06-01 19:59:56,877 
+stderr: 
+2024-06-01 19:59:56,877 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/set-buffers-default.sh on amd148.utah.cloudlab.us
+2024-06-01 19:59:59,175 host: amd148.utah.cloudlab.us
+2024-06-01 19:59:59,175 
+stdout: net.core.rmem_max = 212992
+net.core.rmem_default = 212992
+net.core.wmem_max = 212992
+net.core.wmem_default = 212992
+
+2024-06-01 19:59:59,175 
+stderr: 
+2024-06-01 19:59:59,176 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/stop-cpu-monitor.sh on amd148.utah.cloudlab.us
+2024-06-01 20:00:02,394 host: amd148.utah.cloudlab.us
+2024-06-01 20:00:02,394 
+stdout: 
+2024-06-01 20:00:02,394 
+stderr: 
+2024-06-01 20:00:02,394 Running /home/vany/Desktop/school/2023_2024/thesis/master_thesis_utilies/pre-post-scripts/stop-bandwidth-monitor.sh on amd148.utah.cloudlab.us
+2024-06-01 20:00:04,638 host: amd148.utah.cloudlab.us
+2024-06-01 20:00:04,638 
+stdout: 
+2024-06-01 20:00:04,638 
+stderr: 
+2024-06-01 20:00:04,639 Removing all variables from amd148.utah.cloudlab.us
+2024-06-01 20:00:06,657 Removing all variables from amd162.utah.cloudlab.us
+2024-06-01 20:00:08,928 Server
+2024-06-01 20:00:08,928 
+stdout: 
+2024-06-01 20:00:08,928 
+stderr: 
+2024-06-01 20:00:08,928 Copy amd148.utah.cloudlab.us:/tmp/logs_server_kxcx27se to /tmp
+2024-06-01 20:00:13,057 Copy amd148.utah.cloudlab.us:/tmp/certs_qo4znbh_ to /tmp
+2024-06-01 20:00:16,532 Copy amd162.utah.cloudlab.us:/tmp/logs_sim_z6x0a0qk to /tmp
+2024-06-01 20:00:19,921 Copy amd162.utah.cloudlab.us:/tmp/logs_client_g6a6k_47 to /tmp
+2024-06-01 20:00:24,255 ssh amd148.utah.cloudlab.us 'cat /tmp/download_u1ydgw7p/server.log | grep ERROR '
+2024-06-01 20:00:26,393 ssh amd162.utah.cloudlab.us 'cat /tmp/download_u1ydgw7p/client.log | grep ERROR '
+2024-06-01 20:00:28,506 ssh amd162.utah.cloudlab.us 'cat /tmp/logs_client_g6a6k_47/ifstat_monitor.txt'
+2024-06-01 20:00:30,870 Bandwidth usage (throughput) 3617.232 Mbps, with 1 concurrent clients.
+2024-06-01 20:00:30,870 ✓ Test successful
