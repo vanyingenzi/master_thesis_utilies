@@ -1,4 +1,4 @@
-# Master Thesis Utilies
+# Master Thesis Utilities
 
 This repository contains scripts used in my master thesis. This repository structure is inspired by the QUIC Interop runner. However I chose t`o have a custom repository in order to fully match my needs. 
 
